@@ -1,6 +1,7 @@
 project:
   type: website
   output-dir: docs
+
 website:
   title: "Lulu_marketing_analytics_project"
   navbar:
