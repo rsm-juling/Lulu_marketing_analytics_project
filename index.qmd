@@ -1,0 +1,15 @@
+---
+title: "Lulu Ling"
+image: "證件照.jpg"
+about: 
+    template: jolla
+    links: 
+    - icon: envelope
+      href: mailto:juling@ucsd.edu
+    - icon: linkedin
+      href: www.linkedin.com/in/lululing
+---
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
