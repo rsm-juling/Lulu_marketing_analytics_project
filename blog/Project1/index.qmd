@@ -27,15 +27,17 @@ This data comes from a large-scale natural field experiment conducted by a liber
 
 Do different donation reminder designs affect people’s actual donation behavior?
 
-Treatment Conditions<br>
-- Paired ratios: $1:$1, $2:$1, $3:$1, control<br>
-- Maximum amount of matching: $25,000 / $50,000 / $100,000 / control<br>
-- Ask amount: based on 1.0 times, 1.25 times, or 1.5 times the donor’s highest past donation<br>
+Treatment Conditions
 
-Sample size and groups<br>
-- Total sample size: 50,083 donors<br>
-- Control group: 16,687 people (33%)<br>
-- Treatment group: 33,396 people (67%)<br>
+- Paired ratios: $1:$1, $2:$1, $3:$1, control
+- Maximum amount of matching: $25,000 / $50,000 / $100,000 / control
+- Ask amount: based on 1.0 times, 1.25 times, or 1.5 times the donor’s highest past donation<
+
+Sample size and groups
+
+- Total sample size: 50,083 donors
+- Control group: 16,687 people (33%)
+- Treatment group: 33,396 people (67%)
 
 The fundraising letter received contains instructions for matching donations and is randomly assigned to different matching ratio/maximum amount/suggested amount combinations<br>
 
