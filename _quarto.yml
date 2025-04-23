@@ -3,12 +3,14 @@ project:
   output-dir: docs
 
 website:
-  title: "Lulu_marketing_analytics_project"
+  title: "Lulu's Marketing Analytics Project"
   navbar:
     left:
       - href: index.qmd
         text: About
       - Resume.qmd
+      - href: blog.qmd
+        text: Projects
 
 format:
   html:

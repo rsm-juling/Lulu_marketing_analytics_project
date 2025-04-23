@@ -1,15 +1,14 @@
 ---
 title: "Lulu Ling"
-image: "證件照.jpg"
+image: "DSCF5585.JPEG"
 about: 
     template: jolla
     links: 
     - icon: envelope
       href: mailto:juling@ucsd.edu
     - icon: linkedin
-      href: www.linkedin.com/in/lululing
+      href: https://www.linkedin.com/in/lululing
+    - icon: github
+      href: https://github.com/rsm-juling
 ---
-
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Hi!! I am Lulu Ling. This is my marketing analytics project. 
