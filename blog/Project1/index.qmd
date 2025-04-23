@@ -1,6 +1,6 @@
 ---
 title: "A Replication of Karlan and List (2007)"
-author: "Your Name"
+author: "Lulu Ling"
 date: today
 callout-appearance: minimal # this hides the blue "i" icon on .callout-notes
 ---
