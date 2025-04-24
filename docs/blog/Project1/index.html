@@ -237,14 +237,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>The fundraising letter received contains instructions for matching donations and is randomly assigned to different matching ratio/maximum amount/suggested amount combinations<br></p>
 <p>Loading dataset</p>
-<div id="16afe0f7" class="cell" data-execution_count="1">
+<div id="156592da" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_stata(<span class="st">'/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project1/karlan_list_2007.dta'</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="202">
+<div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
 
@@ -649,7 +649,7 @@ Variable Definitions
 <li>couple: Couple</li>
 </ul>
 <p>Split the data into treatment and control groups</p>
-<div id="024e1275" class="cell" data-execution_count="2">
+<div id="617c7788" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>treatment_data <span class="op">=</span> data[data[<span class="st">'treatment'</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
@@ -657,7 +657,7 @@ Variable Definitions
 </details>
 </div>
 <p>T-test for mrm2, ltmedmra, couple</p>
-<div id="b16f4ead" class="cell" data-execution_count="3">
+<div id="a92a4d8c" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">'mrm2'</span>, <span class="st">'ltmedmra'</span>, <span class="st">'couple'</span>]</span>
@@ -686,7 +686,7 @@ Variable Definitions
 </details>
 </div>
 <p>Linear regression for mrm2, ltmedmra, couple</p>
-<div id="a59308b4" class="cell" data-execution_count="4">
+<div id="c8519c3c" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -706,7 +706,7 @@ Variable Definitions
 </details>
 </div>
 <p>The result of t-test and linear regression for mrm2, ltmedmra, couple</p>
-<div id="4d1c8acb" class="cell" data-execution_count="5">
+<div id="3e30101d" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>combined_t_stats_df <span class="op">=</span> pd.DataFrame({</span>
@@ -716,7 +716,7 @@ Variable Definitions
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>combined_t_stats_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="206">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -794,7 +794,7 @@ Variable Definitions
 <h3 class="anchored" data-anchor-id="charitable-contribution-made">Charitable Contribution Made</h3>
 <p>First, I analyze whether matched donations lead to an increased response rate of making a donation.</p>
 <p>Bar plot of the proportion of peole donated between treatment and controal group.</p>
-<div id="5ed115aa" class="cell" data-execution_count="6">
+<div id="249913b9" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -817,7 +817,7 @@ Variable Definitions
 </div>
 <p>The purpose of the following analysis is to compare the differences between the experimental group and the control group in terms of whether or not they donated. I will first use a t-test to preliminarily check whether there is a significant difference in the donation rates of the two groups, and then use a simple linear regression model with donation behavior as the dependent variable and the experimental treatment as the independent variable to further verify whether the results are consistent. These results will help us determine whether paired donation reminders can effectively enhance donation behavior and explore donors’ behavioral responses and potential psychological motivations. In addition, the data will be compared with Table 2A in the paper to confirm the consistency of the analysis direction with the original research.</p>
 <p>T test: compare whether there is a significant difference in the donation rate between the treatment and control groups</p>
-<div id="d81cee2e" class="cell" data-execution_count="7">
+<div id="74f21376" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
@@ -849,7 +849,7 @@ Variable Definitions
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>gave_t_test_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="208">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -880,7 +880,7 @@ Variable Definitions
 </div>
 <p>We first conducted an independent sample t-test on the binary variable gave. The results showed that the t-value and the p-value indicating that the difference in donation rates between the treatment group and the control group was statistically significant at a 95% confidence level. This suggests that simply including the phrase “your donation will be matched” in your fundraising email can significantly increase donation rates.</p>
 <p>Linear regression: Using OLS to test the effect of treatment on donation behavior</p>
-<div id="08c0c697" class="cell" data-execution_count="8">
+<div id="e0980822" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gave_model <span class="op">=</span> sm.OLS(data[<span class="st">'gave'</span>], data[[<span class="st">'intercept'</span>, <span class="st">'treatment'</span>]], missing<span class="op">=</span><span class="st">'drop'</span>).fit()</span>
@@ -891,7 +891,7 @@ Variable Definitions
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>gave_model_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="209">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -922,7 +922,7 @@ Variable Definitions
 </div>
 <p>To verify this, we used simple linear regression with gave as the dependent variable and treatment as the independent variable. The results showed that the t-value and p-value were almost consistent with the t-test results, proving that the two methods are consistent when analyzing this type of binary outcome variable.</p>
 <p>The proportion of respsonse rate in control gorup and treatment group</p>
-<div id="dc481444" class="cell" data-execution_count="9">
+<div id="670c4098" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>proportions_df <span class="op">=</span> pd.DataFrame({</span>
@@ -931,7 +931,7 @@ Variable Definitions
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>proportions_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="210">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -964,7 +964,7 @@ Variable Definitions
 <p>Overall, this analysis supports the original authors’ conclusion: even without changing the amount, providing matching information can effectively increase the likelihood of donations, which has important implications for practical fundraising strategies.</p>
 <p>Next, I will conduct a Probit regression analysis to test the impact of “whether or not to receive a matching donation reminder” (treatment) on the outcome of “whether or not to donate” (gave, a variable of 0 or 1). This model can help you estimate the effect of the matching message on the probability of donating and can be used to verify whether your results are consistent with the analysis results in column 1 of Table 3 of the paper. This step is to confirm whether you have successfully reproduced the main conclusions of the original study.</p>
 <p>Probit Regression: Estimating the Effect of Pairing Prompts on the Probability of Donating</p>
-<div id="3380330c" class="cell" data-execution_count="10">
+<div id="5c368ef0" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>probit_model <span class="op">=</span> sm.Probit(data[<span class="st">'gave'</span>], data[[<span class="st">'intercept'</span>, <span class="st">'treatment'</span>]])</span>
@@ -985,7 +985,7 @@ Variable Definitions
          Current function value: 0.100443
          Iterations 7</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="211">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
@@ -1018,7 +1018,7 @@ Variable Definitions
 </div>
 </div>
 <p>Marginal effect analysis: explaining the actual effect of treatment on the probability of donating</p>
-<div id="33e2b6c3" class="cell" data-execution_count="11">
+<div id="04b77c24" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>marginal_effects <span class="op">=</span> probit_results.get_margeff()</span>
@@ -1036,7 +1036,7 @@ Variable Definitions
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>marginal_summary.<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="212">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -1077,7 +1077,7 @@ Variable Definitions
 <p>Next, I assess the effectiveness of different sizes of matched donations on the response rate.</p>
 <p>Through t-test, we examine whether different matching ratios affect people’s donation behavior. Specifically, you will compare whether there are statistically significant differences in the donation rates of subjects under the 1:1, 2:1, and 3:1 pairing conditions. This will help you assess whether a higher or lower matching ratio has an additional impact on donation willingness.</p>
 <p>T-tests for match ratio effects on donation</p>
-<div id="bb4b4acb" class="cell" data-execution_count="12">
+<div id="faca4c3c" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>r1 <span class="op">=</span> treatment_data[treatment_data[<span class="st">'ratio'</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
@@ -1118,7 +1118,7 @@ Variable Definitions
 <span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>t_test_results_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="213">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
@@ -1154,7 +1154,7 @@ Variable Definitions
 <p>The analysis results of the t-test support the author’s observations on page 8 of the paper. The authors note that while the pairing prompt itself increased donation rates, further increasing the pairing ratio (from 1:1 to 2:1 or 3:1) in the pairing prompt group did not lead to additional effects. The t-test you conducted also clearly reflects this point: the difference in donation rates between different matching ratios is not statistically significant, and the p-values ​​are all far higher than the traditional significance level, especially the difference between 2:1 and 3:1 is almost zero. This shows that in actual donation behavior, people are more sensitive to whether there is a match rather than the size of the matching ratio.</p>
 <p>Regression analysis was used to assess the effects of different pairing ratios (1:1, 2:1, 3:1) on donation behavior. The specific approach is to establish a linear regression model, with gave (whether to donate) as the dependent variable and three dummy variables representing the pairing ratios (ratio1, ratio2, ratio3) as independent variables. This allows us to simultaneously compare the effects of each pairing condition on the donation rate and analyze the regression coefficient of each variable and its statistical significance. Using this model, you will be able to determine whether a particular pairing ratio is particularly effective and whether the results are explanatory and stable.</p>
 <p>Regression analysis for match ratio effects</p>
-<div id="1bac5ab0" class="cell" data-execution_count="13">
+<div id="78cf1702" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'ratio1'</span>] <span class="op">=</span> (data[<span class="st">'ratio'</span>] <span class="op">==</span> <span class="dv">1</span>).astype(<span class="bu">int</span>)</span>
@@ -1164,9 +1164,8 @@ Variable Definitions
 </div>
 <p>According to the regression results, we observed that different pairing ratios do have an impact on donation behavior, but the strength of the effect varies. The donation rate for ratio1 is about 0.29 percentage points higher, which is positive but only slightly statistically significant. The effects of the paired groups of ratio2 and ratio3 are more obvious, with the donation rates being approximately 0.48 and 0.49 percentage points higher than the benchmark group, respectively, and are significant at the 1% significance level.</p>
 <p>This means that as long as there is matching information, even ratio 1 may increase people’s willingness to donate, and increasing the matching ratio to ratio 2 or ratio 3 will further strengthen this incentive. However, the effects of ratio2 and ratio3 are similar and almost the same, indicating that the marginal benefit of increasing the pairing ratio tends to be flat or saturated. This is consistent with the authors’ observation in the paper that higher pairing ratios do not necessarily produce additional significant behavioral changes.</p>
-<p><em>todo: Calculate the response rate difference between the 1:1 and 2:1 match ratios and the 2:1 and 3:1 ratios. Do this directly from the data, and do it by computing the differences in the fitted coefficients of the previous regression. what do you conclude regarding the effectiveness of different sizes of matched donations?</em></p>
 <p>Response rate differences between different matching ratio</p>
-<div id="5b043c87" class="cell" data-execution_count="14">
+<div id="e0b3cf6b" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>resp_rate_1 <span class="op">=</span> r1[<span class="st">'gave'</span>].mean()</span>
@@ -1191,7 +1190,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 <p>In this subsection, I analyze the effect of the size of matched donation on the size of the charitable contribution.</p>
 <p>I will use a t-test to exclude missing values ​​from the two groups and then compare whether there is a statistically significant difference in the average donation amounts of the two groups. This is a statistical method commonly used to compare whether two groups of means are different. A simple linear regression model was established, with the donation amount as the dependent variable and the treatment status as the explanatory variable, to examine whether there was a significant difference in the donation amount between the experimental group and the control group before controlling other variables.</p>
 <p>T-test for donation amount</p>
-<div id="6ecf67da" class="cell" data-execution_count="15">
+<div id="da5b3bf0" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>treatment_amount <span class="op">=</span> treatment_data[<span class="st">'amount'</span>].dropna()</span>
@@ -1223,7 +1222,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 <span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>t_test_amount_manual_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="216">
+<div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
 
@@ -1253,7 +1252,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 </div>
 </div>
 <p>Bivariate linear regression for donation amount</p>
-<div id="1bea88c9" class="cell" data-execution_count="16">
+<div id="5f32eb66" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>amount_model <span class="op">=</span> sm.OLS(data[<span class="st">'amount'</span>], data[[<span class="st">'intercept'</span>, <span class="st">'treatment'</span>]], missing<span class="op">=</span><span class="st">'drop'</span>).fit()</span>
@@ -1264,7 +1263,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>amount_model_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="217">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -1297,7 +1296,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 <p>Overall, the matching prompt has a clear impact on whether to donate, while the impact of amount is weaker. From a behavioral perspective, the matching message is more like a “motivation switch” that prompts people to take action rather than a reinforcement tool that influences the amount of donations. This also means that in terms of fundraising strategy, matching donations are more suitable as an incentive to guide donation behavior rather than a means to increase the single amount.</p>
 <p>Next, we will conduct a regression analysis on those who actually donated to assess whether the paired prompt (treatment) affects the amount they donated. First, the program will filter out all observations with donation amounts greater than 0 from the data, and then build a simple linear regression model with the donation amount as the dependent variable and whether or not the matching prompt was received as the independent variable.</p>
 <p>Conditional donation amount regression analysis: evaluating the impact and explanatory power of matching prompts only for actual donors</p>
-<div id="4bb26627" class="cell" data-execution_count="17">
+<div id="3241f6f6" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>donors <span class="op">=</span> data[data[<span class="st">'amount'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
@@ -1313,7 +1312,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>treatment_coef_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="218">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
 
@@ -1340,7 +1339,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 <p>In this regression analysis of those who have already donated, the treatment coefficient is -1.6684, it means that the average donation amount of the treatment group is about 1.67 yuan lower than that of the control group., however, this result is not statistically significant because the p-value is only 0.561, indicating that the matching prompt has no stable effect on the amount donated by those who have already decided to donate. It should be noted that this regression result cannot be interpreted as a causal effect of treatment on the amount of donations, because the analysis is limited to people who actually donated. This is a conditional subsample and not a random assignment, so there is a risk of selection bias. Taken together, our findings suggest that matching donation prompts are more likely to influence the behavior of whether to donate rather than the amount of donation.</p>
 <p>Compare the distribution of donation amounts among those who actually donated in the treatment group and the control group. First, the program will screen out the subjects in the two groups whose donation amount is greater than 0, and then calculate the average donation amount of each group.</p>
 <p>Compare the distribution of donations between treatment and control groups (limited to donors)</p>
-<div id="86de9218" class="cell" data-execution_count="18">
+<div id="c29a0097" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>treatment_donors <span class="op">=</span> treatment_data[treatment_data[<span class="st">'amount'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
@@ -1386,7 +1385,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 <h3 class="anchored" data-anchor-id="law-of-large-numbers">Law of Large Numbers</h3>
 <p>The Law of Large Numbers is demonstrated through a simulation. 100,000 records are simulated from the control group (donation rate 1.8%) and 10,000 records are simulated from the treatment group (donation rate 2.2%). Then, the same number of samples are randomly selected from the control data to pair with the treatment data. The difference between the treatment and control donation results is calculated for each</p>
 <p>Simulation of the Law of Large Numbers: Cumulative Average Difference in Donation Rates</p>
-<div id="a0dfd1a9" class="cell" data-execution_count="19">
+<div id="536bac7f" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1424,7 +1423,7 @@ Response rate difference 2:1 vs 3:1: 0.0001</code></pre>
 <section id="central-limit-theorem" class="level3">
 <h3 class="anchored" data-anchor-id="central-limit-theorem">Central Limit Theorem</h3>
 <p>Next, we will show the distribution of the average difference in donation rates between the treatment group and the control group under different sample sizes (50, 200, 500, 1000). For each sample size, 1000 random draws were made, taking an equal number of samples from the simulated distributions for both treatment and control, calculating the mean differences between the two groups, and plotting these differences in a histogram.</p>
-<div id="c096ed49" class="cell" data-execution_count="20">
+<div id="4470db6c" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>

@@ -402,7 +402,6 @@ According to the regression results, we observed that different pairing ratios d
 
 This means that as long as there is matching information, even ratio 1 may increase people's willingness to donate, and increasing the matching ratio to ratio 2 or ratio 3 will further strengthen this incentive. However, the effects of ratio2 and ratio3 are similar and almost the same, indicating that the marginal benefit of increasing the pairing ratio tends to be flat or saturated. This is consistent with the authors' observation in the paper that higher pairing ratios do not necessarily produce additional significant behavioral changes.
 
-_todo: Calculate the response rate difference between the 1:1 and 2:1 match ratios and the 2:1 and 3:1 ratios.  Do this directly from the data, and do it by computing the differences in the fitted coefficients of the previous regression. what do you conclude regarding the effectiveness of different sizes of matched donations?_
 
 Response rate differences between different matching ratio
 ```{python}
