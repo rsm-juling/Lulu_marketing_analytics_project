@@ -24,6 +24,9 @@ blueprinty = pd.read_csv('blueprinty.csv')
 blueprinty.head(5)
 ```
 
+#### Exploring the Relationship Between Blueprinty Usage and Patent Output
+This section conducts preliminary observations through EDA, with the aim of comparing the differences in patent output between companies using Blueprinty software and non-users. As can be seen from the chart, the proportion of Blueprinty users in the high patent number range is relatively high, and the overall patent performance is also more outstanding. Comparison of the average number of patents further shows that Blueprinty customers perform significantly better than non-customers. These preliminary results suggest that Blueprinty software may have a positive impact on patent applications, providing reasonable motivation and direction for the subsequent establishment of more rigorous statistical models.
+
 ```{python}
 # | code-fold: true
 # | code-summary: "Average number of patents  by customer status"
@@ -49,12 +52,15 @@ plt.xticks([0, 1], ["No", "Yes"])
 plt.tight_layout()
 plt.show()
 ```
-Observation:
 
 - The average number of patents by Blueprinty users is significantly higher than that of non-users. 
 - Suggests that companies using Blueprinty software may be more successful in obtaining patents.
 
 Blueprinty customers are not selected at random. It may be important to account for systematic differences in the age and regional location of customers vs non-customers.
+
+#### Examining Systematic Differences Between Blueprinty Customers and Non-Customers
+Next, we will continue to use ED to further confirm whether there are systematic differences in firm characteristics between Blueprinty customers and non-customers, which is crucial for the subsequent establishment of causal inference models (such as regression models).
+
 ```{python}
 # | code-fold: true
 # | code-summary: "Average number of patents  by customer status"
@@ -78,7 +84,6 @@ plt.legend(title="Blueprinty Customer", labels=["No", "Yes"])
 plt.tight_layout()
 plt.show()
 ```
-Observation:
 
 - Blueprinty users (green) and non-users (purple) have slightly different overall age distributions. 
 - The distribution of non-users is slightly peaked towards younger companies; the distribution of users is slightly flatter and still has some density at higher ages.
@@ -89,7 +94,7 @@ This further illustrates that the company age may affect whether to become a use
 
 Since our outcome variable of interest can only be small integer values per a set unit of time, we can use a Poisson density to model the number of patents awarded to each engineering firm over the last 5 years. We start by estimating a simple Poisson model via Maximum Likelihood.
 
-The mathmatical likelihood for_ $Y \sim \text{Poisson}(\lambda)$. Note that $f(Y|\lambda) = e^{-\lambda}\lambda^Y/Y!$.
+#### Mathematical Derivation of the Poisson Likelihood Function
 ```{python}
 # | code-fold: true
 # | code-summary: "Likehood"
@@ -97,21 +102,25 @@ from IPython.display import display, Math
 
 display(Math(r"L(\lambda) = \prod_{i=1}^n \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!} = e^{-n\lambda} \cdot \lambda^{\sum Y_i} \cdot \frac{1}{\prod Y_i!}"))
 ```
-
-The likelihood for the Poisson model. This is a function of lambda and Y. For example:_
-
-```
-poisson_loglikelihood <- function(lambda, Y){
-   ...
-}
-```
 ```{python}
 # | code-fold: true
-# | code-summary: "Likehood for Possion model"
+# | code-summary: "log_Likehood"
+from IPython.display import display, Math
 
+display(Math(
+    r"\log L(\lambda) = \sum_{i=1}^n \left( Y_i \log \lambda - \lambda - \log Y_i! \right)"
+))
 ```
 
-_todo: Use your function to plot lambda on the horizontal axis and the likelihood (or log-likelihood) on the vertical axis for a range of lambdas (use the observed number of patents as the input for Y)._
+#### Code for poisson_loglikelihood Function
+```{python}
+def poisson_loglikelihood(lmbda, Y):
+    return np.sum(Y * np.log(lmbda) - lmbda - np.log(factorial(Y)))
+```
+
+#### Visualizing the Poisson Log-Likelihood Curve to Identify the MLE
+Using the previously defined log-likelihood function, we can visualize the change in log-likelihood for different values ​​of λ (lambda) and find the maximum likelihood estimate (MLE) through a graph.
+
 ```{python}
 # | code-fold: true
 # | code-summary: "log-likehood v.s. Lanbda(Possion model)"
@@ -143,8 +152,7 @@ plt.show()
 - Vertical axis (log-likelihood): log-likelihood value of each λ under actual data (number of patents)
 The curve has a typical "peak shape", which means that there is a certain λ that maximizes the log-likelihood. The location of the peak is the maximum likelihood estimate (MLE).
 
-
-_todo: If you're feeling mathematical, take the first derivative of your likelihood or log-likelihood, set it equal to zero and solve for lambda. You will find lambda_mle is Ybar, which "feels right" because the mean of a Poisson distribution is lambda._
+#### Deriving the Maximum Likelihood Estimator for λ in the Poisson Model
 ```{python}
 # | code-fold: true
 # | code-summary: "log-likehood v.s. Lanbda(Possion model)"
@@ -171,7 +179,8 @@ display(Math(r"0 = -n + \frac{\sum Y_i}{\lambda} \Rightarrow \hat{\lambda}_{\tex
 
 display(Math(r"\boxed{\hat{\lambda}_{\text{MLE}} = " + sp.latex(solution) + r"}"))
 ```
-_todo: Find the MLE by optimizing your likelihood function with optim() in R or sp.optimize() in Python._
+#### Numerical Optimization to Estimate λ via Maximum Likelihood
+Use numerical optimization methods to find the maximum likelihood estimate (MLE) of λ in the Poisson model.
 ```{python}
 # | code-fold: true
 # | code-summary: "Optimization of likehood by MLE"
@@ -197,13 +206,11 @@ mle_df
 
 Next, we extend our simple Poisson model to a Poisson Regression Model such that $Y_i = \text{Poisson}(\lambda_i)$ where $\lambda_i = \exp(X_i'\beta)$. The interpretation is that the success rate of patent awards is not constant across all firms ($\lambda$) but rather is a function of firm characteristics $X_i$. Specifically, we will use the covariates age, age squared, region, and whether the firm is a customer of Blueprinty.
 
-_todo: Update your likelihood or log-likelihood function with an additional argument to take in a covariate matrix X. Also change the parameter of the model from lambda to the beta vector. In this model, lambda must be a positive number, so we choose the inverse link function g_inv() to be exp() so that_ $\lambda_i = e^{X_i'\beta}$. _For example:_
 
-```
-poisson_regression_likelihood <- function(beta, Y, X){
-   ...
-}
-```
+#### Implementing the Log-Likelihood Function for the Poisson Regression Model
+The original Poisson model likelihood function is expanded into a log-likelihood function of a Poisson regression model, where λ is no longer a fixed parameter but is determined by the explanatory variable X and the parameter vector \beta
+
+
 ```{python}
 import numpy as np
 
@@ -228,48 +235,44 @@ def poisson_regression_loglikelihood(beta, Y, X):
     
     return log_likelihood
 ```
-_todo: Use your function along with R's optim() or Python's sp.optimize() to find the MLE vector and the Hessian of the Poisson model with covariates. Specifically, the first column of X should be all 1's to enable a constant term in the model, and the subsequent columns should be age, age squared, binary variables for all but one of the regions, and the binary customer variable. Use the Hessian to find standard errors of the beta parameter estimates and present a table of coefficients and standard errors._
+
+#### Estimating Poisson Regression Coefficients Using MLE and the Hessian Matrix
+Perform maximum likelihood estimation (MLE) on the Poisson regression model and use the inverse matrix of the Hessian matrix to calculate the standard errors of the parameters (Standard Errors)
+
 ```{python}
 # | code-fold: true
 # | code-summary: "Poisson Regression Coefficients"
-# Create variables
+
 blueprinty["age_std"] = (blueprinty["age"] - blueprinty["age"].mean()) / blueprinty["age"].std()
 blueprinty["age_squared_std"] = blueprinty["age_std"] ** 2
 
-# 建立 region dummy 變數（去掉 baseline 類別，例如 Midwest）
 region_dummies = pd.get_dummies(blueprinty["region"], drop_first=True)
 
-# 建立設計矩陣 X（含截距、標準化變數與 dummy）
 X = pd.concat([
     pd.Series(1, index=blueprinty.index, name="intercept"),
     blueprinty[["age_std", "age_squared_std", "iscustomer"]],
     region_dummies
 ], axis=1)
 
-X_mat = X.astype(float).values  # Ensure all values are numeric and convert to numpy array
+X_mat = X.astype(float).values  
 Y = blueprinty["patents"].values
 n, k = X_mat.shape
 
-# 定義 Poisson log-likelihood 函數（同前）
 def poisson_regression_loglikelihood(beta, Y, X):
     lin_pred = X @ beta
     lambda_i = np.exp(lin_pred)
     return np.sum(Y * np.log(lambda_i) - lambda_i - np.log(factorial(Y)))
 
-# 負的 log-likelihood（for minimization）
 def neg_log_likelihood(beta):
     return -poisson_regression_loglikelihood(beta, Y, X_mat)
 
-# 最小化（使用 BFGS 以便取得 Hessian）
 beta_init = np.zeros(k)
 result = minimize(neg_log_likelihood, x0=beta_init, method='BFGS')
 
-# 取得估計值與標準誤
 beta_hat = result.x
-hessian_inv = result.hess_inv  # 近似的逆 Hessian
+hessian_inv = result.hess_inv  
 se_beta = np.sqrt(np.diag(hessian_inv))
 
-# 建立結果表格
 mle_table = pd.DataFrame({
     "Variable": X.columns,
     "Estimate": beta_hat,
@@ -278,47 +281,91 @@ mle_table = pd.DataFrame({
 mle_table
 ```
 
-_todo: Check your results using R's glm() function or Python sm.GLM() function._
+#### Estimating the Effect of Blueprinty Usage on Patent Counts via Poisson Regression
+We use a Poisson regression model (GLM with Poisson family) to quantify and test whether the Blueprinty software usage status (iscustomer) significantly affects the number of patents obtained by the company, while also controlling for other variables that may affect patent performance, such as company age and region.
 ```{python}
 # | code-fold: true
 # | code-summary: "Poisson Regression Coefficients GLM Function"
 import statsmodels.api as sm
 
-# 建立新的資料集，將 age 做標準化並建立 age_squared
 blueprinty["age_std"] = (blueprinty["age"] - blueprinty["age"].mean()) / blueprinty["age"].std()
 blueprinty["age_squared_std"] = blueprinty["age_std"] ** 2
 
-# 建立地區虛擬變數（drop_first 代表設定 baseline）
 region_dummies = pd.get_dummies(blueprinty["region"], drop_first=True)
 
-# 合併設計矩陣
 X_sm = pd.concat([
     blueprinty[["age_std", "age_squared_std", "iscustomer"]],
     region_dummies
 ], axis=1)
 
-# 確保所有數據為數值型
 X_sm = X_sm.astype(float)
 
-# 加入截距項
 X_sm = sm.add_constant(X_sm)
 
-# 定義應變數
 Y = blueprinty["patents"]
 
-# 建立 Poisson 回歸模型
 model = sm.GLM(Y, X_sm, family=sm.families.Poisson())
 result = model.fit()
 
-# 顯示結果摘要
-result.summary()
+summary_df = result.summary2().tables[1].reset_index()
+summary_df = summary_df.rename(columns={
+    "index": "Variable",
+    "Coef.": "coef",
+    "Std.Err.": "std err",
+    "P>|z|": "P>|z|",
+    "[0.025": "[0.025",
+    "0.975]": "0.975]"
+})
+
+summary_df
 ```
+#### Interpretation of Results
+We use a Poisson regression model to analyze the relationship between Blueprinty software usage and the firm’s patent application success. The model controls for firm age (and its square) and regional differences, and uses the number of patents as an explanatory variable to perform maximum likelihood estimation (MLE).
 
-_todo: Interpret the results._ 
+The results show:
 
-_todo: What do you conclude about the effect of Blueprinty's software on patent success? Because the beta coefficients are not directly interpretable, it may help to create two fake datasets: X_0 and X_1 where X_0 is the X data but with iscustomer=0 for every observation and X_1 is the X data but with iscustomer=1 for every observation. Then, use X_0 and your fitted model to get the vector of predicted number of patents (y_pred_0) for every firm in the dataset, and use X_1 to get Y_pred_1 for every firm. Then subtract y_pred_1 minus y_pred_0 and take the average of that vector of differences._
+- Companies using Blueprinty have significantly more patents on average than non-users. 
+- The expected number of patents for Blueprinty users is about 1.23 times that of non-users, representing an average improvement of about 23%. 
+- There is an inverted U-shaped relationship between company age and patent performance, i.e., as age increases, the number of patents first increases and then decreases. 
+- The regional variable did not reach statistical significance, indicating that the region where the company is located has no significant impact on patent performance after controlling for other factors.
 
+#### Estimating the Causal Effect of Blueprinty Usage on Patent Outcomes via Counterfactual Prediction
 
+```{python}
+# | code-fold: true
+# | code-summary: "Causal Effect of Blueprinty Usage on Patent Outcomes via Counterfactual Predictionn"
+blueprinty["iscustomer"] = blueprinty["iscustomer"].astype(int)
+
+blueprinty["age_std"] = (blueprinty["age"] - blueprinty["age"].mean()) / blueprinty["age"].std()
+blueprinty["age_squared_std"] = blueprinty["age_std"] ** 2
+region_dummies = pd.get_dummies(blueprinty["region"], drop_first=True)
+
+X_sm = pd.concat([
+    blueprinty[["age_std", "age_squared_std", "iscustomer"]],
+    region_dummies
+], axis=1).astype(float)
+X_sm = sm.add_constant(X_sm)
+Y = blueprinty["patents"]
+
+model = sm.GLM(Y, X_sm, family=sm.families.Poisson())
+result = model.fit()
+
+X_counterfactual_0 = X_sm.copy()
+X_counterfactual_1 = X_sm.copy()
+X_counterfactual_0["iscustomer"] = 0
+X_counterfactual_1["iscustomer"] = 1
+
+y_pred_0 = result.predict(X_counterfactual_0)
+y_pred_1 = result.predict(X_counterfactual_1)
+diff = y_pred_1 - y_pred_0
+mean = diff.mean()
+average_effect = pd.DataFrame({
+    "Effect Type": ["Average Treatment Effect (ATE)"],
+    "Estimated Effect (Δŷ)": [mean]
+})
+average_effect
+```
+If all companies became Blueprinty customers, each company could expect to receive, on average, approximately 0.79 more patents. This means that using Blueprinty's software has a substantial, positive effect on patent application success, based on the Poisson model you built, after controlling for firm age and region. This estimate is calculated using a counterfactual simulation method, which converts log(λ) into actual predicted differences and is highly interpretable.
 
 
 ## AirBnB Case Study
@@ -353,34 +400,113 @@ import pandas as pd
 airbnb = pd.read_csv('airbnb.csv')
 airbnb.head(5)
 ```
-_todo: Assume the number of reviews is a good proxy for the number of bookings. Perform some exploratory data analysis to get a feel for the data, handle or drop observations with missing values on relevant variables, build one or more models (e.g., a poisson regression model for the number of bookings as proxied by the number of reviews), and interpret model coefficients to describe variation in the number of reviews as a function of the variables provided._```
+
+### EDA
+
+#### Missing Value Check and Handling
 ```{python}
 # | code-fold: true
-# | code-summary: "EDA"
+# | code-summary: "Missing Value"
+# Create a DataFrame from the missing_values Series
+missing_values = airbnb.isnull().sum()
+missing_values_df = missing_values.reset_index()
+missing_values_df.columns = ['Column', 'Missing Values']
+relevant_columns = ['number_of_reviews', 'price', 'room_type', 'bedrooms', 'bathrooms', 'instant_bookable']
+airbnb_cleaned = airbnb[relevant_columns].dropna()
+missing_values_df
+```
+We have removed all observation columns with missing values ​​to ensure the accuracy of the model.
+
+#### Variable Distribution
+
+1. Review Volume and Price Distribution
+```{python}
+# | code-fold: true
+# | code-summary: "Distribution plot"
 import pandas as pd
 import numpy as np
 import seaborn as sns
-
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
-# Step 1: Exploratory Data Analysis (EDA)
-# Visualize the distribution of the number of reviews
-sns.histplot(airbnb['number_of_reviews'], bins=30, kde=False)
-plt.title('Distribution of Number of Reviews')
-plt.xlabel('Number of Reviews')
-plt.ylabel('Frequency')
+summary_stats = airbnb.describe()
+
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+sns.histplot(airbnb["number_of_reviews"], bins=50, kde=False)
+plt.title("Distribution of Number of Reviews")
+plt.xlabel("Number of Reviews")
+
+plt.subplot(1, 2, 2)
+sns.histplot(airbnb["price"], bins=50, kde=False)
+plt.title("Distribution of Price")
+plt.xlabel("Price")
+
+plt.tight_layout()
 plt.show()
 ```
 
+- Number of reviews (number_of_reviews): skewed distribution, most listings have low numbers of reviews, but some have abnormally high values ​​(common for popular listings)
+- Price: right-skewed distribution, some properties are very expensive, need to consider conversion (such as log) in subsequent modeling
+
+2. Log Transformations Distribution
 ```{python}
 # | code-fold: true
-# | code-summary: "Drop out missing value"
-relevant_columns = ['number_of_reviews', 'price', 'room_type', 'bedrooms', 'bathrooms', 'instant_bookable']
-airbnb_cleaned = airbnb[relevant_columns].dropna()
+# | code-summary: "Distribution plot of price log"
+airbnb["log_price"] = np.log1p(airbnb["price"])
+airbnb["log_reviews"] = np.log1p(airbnb["number_of_reviews"])
+
+plt.figure(figsize=(12, 5))
+plt.subplot(1, 2, 1)
+sns.histplot(airbnb["log_reviews"], bins=50)
+plt.title("Log(Number of Reviews + 1) Distribution")
+
+plt.subplot(1, 2, 2)
+sns.histplot(airbnb["log_price"], bins=50)
+plt.title("Log(Price + 1) Distribution")
+plt.tight_layout()
+plt.show()
 ```
+After log(price + 1) and log(number_of_reviews + 1) transformation, the distribution obviously tends to be normal, which is conducive to subsequent modeling.
+
+####  Categorical Variable Distributions
+```{python}
+# | code-fold: true
+# | code-summary: "Distribution plot of price log"
+plt.figure(figsize=(12, 5))
+plt.subplot(1, 2, 1)
+sns.countplot(data=airbnb, x="room_type")
+plt.title("Room Type Distribution")
+
+plt.subplot(1, 2, 2)
+sns.countplot(data=airbnb, x="instant_bookable")
+plt.title("Instant Bookable Distribution")
+plt.tight_layout()
+plt.show()
+```
+- room_type: Private room and Entire home/apt are the two most common types, and Shared room is very rare
+- instant_bookable: Most listings do not support instant booking, which means this variable may have explanatory power in the model
+
+#### Correlation Exploration
+Use a scatter plot to check whether number_of_reviews is correlated with review-based variables. This helps validate whether reviews are a reasonable proxy for bookings.
+
+```{python}
+# | code-fold: true
+# | code-summary: "number_of_reviews correlation with review-based variables"
+plt.figure(figsize=(6, 5))
+sns.scatterplot(data=airbnb, x="number_of_reviews", y="review_scores_value", alpha=0.3)
+plt.title("Number of Reviews vs. Review Score (Value)")
+plt.xlabel("Number of Reviews")
+plt.ylabel("Review Score - Value")
+plt.tight_layout()
+plt.show()
+```
+- From the scatter plot of number_of_reviews vs. review_scores_value, there is a positive correlation trend to a certain extent.
+- Shows that the number of reviews is somewhat correlated with user satisfaction, supporting the use of the number of reviews as a proxy variable for the number of orders.
 
 
+### Poisson Regression Model
 ```{python}
 # | code-fold: true
 # | code-summary: "Build a Poisson Regression Model"
@@ -415,7 +541,61 @@ poisson_results = poisson_model.fit()
 poisson_results.summary()
 ```
 
+```{python}
+# | code-fold: true
+# | code-summary: "Visualize the relationship between price and number of reviews"
+cols_needed = [
+    "price", "number_of_reviews", "instant_bookable", "room_type",
+    "review_scores_cleanliness", "review_scores_location",
+    "review_scores_value", "bathrooms", "bedrooms"
+]
+airbnb_cleaned = airbnb.dropna(subset=cols_needed).copy()
 
+airbnb_cleaned["log_price"] = np.log1p(airbnb_cleaned["price"])
+
+airbnb_cleaned["instant_bookable"] = airbnb_cleaned["instant_bookable"].fillna("f")
+airbnb_cleaned["instant_bookable"] = airbnb_cleaned["instant_bookable"].map({"t": 1, "f": 0}).astype(int)
+
+room_dummies = pd.get_dummies(airbnb_cleaned["room_type"], drop_first=True)
+
+X = pd.concat([
+    airbnb_cleaned[[
+        "log_price", "instant_bookable",
+        "review_scores_cleanliness", "review_scores_location",
+        "review_scores_value", "bathrooms", "bedrooms"
+    ]],
+    room_dummies
+], axis=1).astype(float)
+X = sm.add_constant(X)
+
+Y = airbnb_cleaned["number_of_reviews"]
+
+model = sm.GLM(Y, X, family=sm.families.Poisson())
+result = model.fit()
+
+summary_df = result.summary2().tables[1].reset_index()
+summary_df.columns = ["Variable", "coef", "std err", "z", "P>|z|", "[0.025", "0.975]"]
+
+summary_df["exp(coef)"] = np.exp(summary_df["coef"])
+
+def significance_stars(p):
+    if p < 0.001:
+        return "***"
+    elif p < 0.01:
+        return "**"
+    elif p < 0.05:
+        return "*"
+    else:
+        return ""
+
+summary_df["Significance"] = summary_df["P>|z|"].apply(significance_stars)
+
+final_output_df = summary_df[[
+    "Variable", "coef", "std err", "exp(coef)", "P>|z|", "Significance", "[0.025", "0.975]"
+]]
+final_output_df
+```
+#### Modele Coefficient Interpretation
 ```{python}
 # | code-fold: true
 # | code-summary: "Visualize the relationship between price and number of reviews"
@@ -425,6 +605,28 @@ plt.xlabel('Price')
 plt.ylabel('Number of Reviews')
 plt.show()
 ```
+### Model Interpretation
+In this analysis, we used a Poisson regression model to predict the number of Airbnb reviews, treating review count as a proxy for bookings. The model included predictors such as price, instant bookability, review scores, and property features. Because Poisson regression coefficients are in log form, we exponentiate them (exp(β)) to interpret their impact as multiplicative effects on the expected number of reviews.
 
+Key findings from the model are as follows:
 
+- Price (log-transformed)<br>
+The coefficient for log(price) is 0.135, with exp(β) = 1.14. This indicates that a one-unit increase in log price is associated with a 14% increase in expected review count, suggesting that higher-priced listings may gain more visibility or attract more interest.
+- Instant Bookable<br>
+The coefficient is 0.341, with exp(β) = 1.41. Listings that support instant booking are expected to receive 41% more reviews than those that do not, highlighting the importance of booking convenience in driving customer engagement.
+- Review Scores: Cleanliness<br>
+With a coefficient of 0.109 and exp(β) = 1.11, each one-point increase in cleanliness score corresponds to an 11% increase in expected review count, underscoring how important cleanliness is in guest satisfaction and feedback.
+- Review Scores: Location<br>
+The coefficient is -0.098, with exp(β) = 0.91, meaning that a higher location score is unexpectedly associated with fewer reviews. This may suggest that guests are less inclined to leave feedback when location expectations are already met, or it may reflect an unobserved confounder.
 
+Overall, the model provides interpretable and statistically significant insights into the factors influencing review counts. These results support the idea that certain listing features—especially instant bookability and cleanliness—play a meaningful role in increasing engagement, and they can inform host strategy and platform design going forward.
+
+### Conclusion
+
+This analysis demonstrates how listing characteristics on Airbnb relate to the number of reviews, which we use as a proxy for booking activity. Through a series of exploratory data analysis steps and a Poisson regression model, we identified key factors that significantly influence review count.
+
+Among these, instant bookability, listing price, and cleanliness score emerge as the strongest predictors. Listings that allow instant booking are associated with a 41% increase in expected review count, highlighting the role of convenience in driving user engagement. Similarly, listings with higher prices and better cleanliness scores tend to receive more reviews, suggesting that both perceived quality and visibility may contribute to user response.
+
+Interestingly, location score shows a negative relationship with review count. While counterintuitive, this may reflect a behavioral trend where guests are less likely to leave feedback when their expectations are met—or it could indicate unobserved variables influencing this dynamic.
+
+Taken together, the results confirm that certain listing features meaningfully shape guest behavior and can influence a listing’s success on the platform. These findings can guide hosts in optimizing their property features and booking settings, and may also inform Airbnb’s platform design and recommendation algorithms to enhance both host and guest experience.
