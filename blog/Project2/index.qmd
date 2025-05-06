@@ -210,23 +210,28 @@ Next, we extend our simple Poisson model to a Poisson Regression Model such that
 #### Implementing the Log-Likelihood Function for the Poisson Regression Model
 The original Poisson model likelihood function is expanded into a log-likelihood function of a Poisson regression model, where λ is no longer a fixed parameter but is determined by the explanatory variable X and the parameter vector \beta
 
+```{python}
+# | code-fold: true
+# | code-summary: "Log-Likelihood Function for the Poisson Regression Model"
+
+import numpy as np
+from IPython.display import display, Math
+
+likelihood = r"L(\lambda) = \prod_{i=1}^n \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}"
+lambda_def = r"\lambda_i = \exp(X_i^\top \beta)"
+log_likelihood = r"\log L(\beta) = \sum_{i=1}^n \left[Y_i \log(\lambda_i) - \lambda_i - \log(Y_i!)\right]"
+log_likelihood_expanded = r"\log L(\beta) = \sum_{i=1}^n \left[Y_i X_i^\top \beta - \exp(X_i^\top \beta) - \log(Y_i!)\right]"
+
+display(Math(likelihood))
+display(Math(lambda_def))
+display(Math(log_likelihood))
+display(Math(log_likelihood_expanded))
+```
 
 ```{python}
 import numpy as np
 
 def poisson_regression_loglikelihood(beta, Y, X):
-    """
-    Compute the log-likelihood for a Poisson regression model.
-
-    Parameters:
-    beta (numpy.ndarray): Coefficient vector (shape: p, where p is the number of covariates).
-    Y (numpy.ndarray): Response variable (shape: n, where n is the number of observations).
-    X (numpy.ndarray): Covariate matrix (shape: n x p).
-
-    Returns:
-    float: Log-likelihood value.
-    """
-
     linear_predictor = X @ beta
     
     lambda_i = np.exp(linear_predictor)
@@ -250,7 +255,7 @@ region_dummies = pd.get_dummies(blueprinty["region"], drop_first=True)
 
 X = pd.concat([
     pd.Series(1, index=blueprinty.index, name="intercept"),
-    blueprinty[["age_std", "age_squared_std", "iscustomer"]],
+    blueprinty[["age", "age_squared_std", "iscustomer"]],
     region_dummies
 ], axis=1)
 
@@ -294,7 +299,7 @@ blueprinty["age_squared_std"] = blueprinty["age_std"] ** 2
 region_dummies = pd.get_dummies(blueprinty["region"], drop_first=True)
 
 X_sm = pd.concat([
-    blueprinty[["age_std", "age_squared_std", "iscustomer"]],
+    blueprinty[["age", "age_squared_std", "iscustomer"]],
     region_dummies
 ], axis=1)
 
@@ -341,7 +346,7 @@ blueprinty["age_squared_std"] = blueprinty["age_std"] ** 2
 region_dummies = pd.get_dummies(blueprinty["region"], drop_first=True)
 
 X_sm = pd.concat([
-    blueprinty[["age_std", "age_squared_std", "iscustomer"]],
+    blueprinty[["age", "age_squared_std", "iscustomer"]],
     region_dummies
 ], axis=1).astype(float)
 X_sm = sm.add_constant(X_sm)
@@ -507,92 +512,45 @@ plt.show()
 
 
 ### Poisson Regression Model
-```{python}
-# | code-fold: true
-# | code-summary: "Build a Poisson Regression Model"
-# Convert categorical variables to dummy variables
-airbnb_cleaned = pd.get_dummies(airbnb_cleaned, columns=['room_type', 'instant_bookable'], drop_first=True)
 
-# Step 3: Build a Poisson Regression Model
-# Define response variable (Y) and predictors (X)
-Y = airbnb_cleaned['number_of_reviews']
-X = airbnb_cleaned.drop(columns=['number_of_reviews'])
-
-# Ensure all columns in X are numeric
-X = X.apply(pd.to_numeric, errors='coerce')
-
-# Convert boolean columns to integers
-for col in X.select_dtypes(include=['bool']).columns:
-	X[col] = X[col].astype(int)
-
-# Drop rows with any NaN values after conversion
-X = X.dropna()
-
-# Check for any remaining non-numeric data
-if not all(X.dtypes.apply(lambda dtype: np.issubdtype(dtype, np.number))):
-	raise ValueError("Non-numeric data found in predictors. Please check the input data.")
-
-# Add intercept
-X = sm.add_constant(X)
-
-# Fit the Poisson regression model
-poisson_model = sm.GLM(Y, X, family=sm.families.Poisson())
-poisson_results = poisson_model.fit()
-poisson_results.summary()
-```
 
 ```{python}
 # | code-fold: true
 # | code-summary: "Visualize the relationship between price and number of reviews"
-cols_needed = [
-    "price", "number_of_reviews", "instant_bookable", "room_type",
-    "review_scores_cleanliness", "review_scores_location",
-    "review_scores_value", "bathrooms", "bedrooms"
-]
-airbnb_cleaned = airbnb.dropna(subset=cols_needed).copy()
 
-airbnb_cleaned["log_price"] = np.log1p(airbnb_cleaned["price"])
-
-airbnb_cleaned["instant_bookable"] = airbnb_cleaned["instant_bookable"].fillna("f")
-airbnb_cleaned["instant_bookable"] = airbnb_cleaned["instant_bookable"].map({"t": 1, "f": 0}).astype(int)
-
-room_dummies = pd.get_dummies(airbnb_cleaned["room_type"], drop_first=True)
-
-X = pd.concat([
-    airbnb_cleaned[[
-        "log_price", "instant_bookable",
+cols = ["price", "number_of_reviews", "instant_bookable", "room_type",
         "review_scores_cleanliness", "review_scores_location",
-        "review_scores_value", "bathrooms", "bedrooms"
-    ]],
-    room_dummies
-], axis=1).astype(float)
+        "review_scores_value", "bathrooms", "bedrooms"]
+df = airbnb.dropna(subset=cols).copy()
+df["log_price"] = np.log1p(df["price"])
+df["instant_bookable"] = df["instant_bookable"].map({"t": 1, "f": 0}).astype(int)
+df = pd.get_dummies(df, columns=["room_type"], drop_first=True)
+
+feature_cols = ["log_price", "instant_bookable",
+    "review_scores_cleanliness", "review_scores_location",
+    "review_scores_value", "bathrooms", "bedrooms"] + \
+    [col for col in df.columns if col.startswith("room_type_")]
+X = df[feature_cols].astype(float)
 X = sm.add_constant(X)
 
-Y = airbnb_cleaned["number_of_reviews"]
+Y = df["number_of_reviews"]
+
 
 model = sm.GLM(Y, X, family=sm.families.Poisson())
 result = model.fit()
 
-summary_df = result.summary2().tables[1].reset_index()
-summary_df.columns = ["Variable", "coef", "std err", "z", "P>|z|", "[0.025", "0.975]"]
-
-summary_df["exp(coef)"] = np.exp(summary_df["coef"])
-
-def significance_stars(p):
-    if p < 0.001:
-        return "***"
-    elif p < 0.01:
-        return "**"
-    elif p < 0.05:
-        return "*"
-    else:
-        return ""
-
-summary_df["Significance"] = summary_df["P>|z|"].apply(significance_stars)
+summary_df = result.summary2().tables[1].copy()
+summary_df["exp(coef)"] = np.exp(summary_df["Coef."])
+summary_df["Significance"] = summary_df["P>|z|"].apply(
+    lambda p: "***" if p < 0.001 else "**" if p < 0.01 else "*" if p < 0.05 else "")
+summary_df = summary_df.rename(columns={
+    "Coef.": "coef", "Std.Err.": "std err", "P>|z|": "P>|z|",
+    "[0.025": "[0.025", "0.975]": "0.975]"
+}).reset_index()
 
 final_output_df = summary_df[[
-    "Variable", "coef", "std err", "exp(coef)", "P>|z|", "Significance", "[0.025", "0.975]"
-]]
+    "index", "coef", "std err", "exp(coef)", "P>|z|", "Significance", "[0.025", "0.975]"
+]].rename(columns={"index": "Variable"})
 final_output_df
 ```
 #### Modele Coefficient Interpretation
