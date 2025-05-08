@@ -518,23 +518,28 @@ plt.show()
 # | code-fold: true
 # | code-summary: "Visualize the relationship between price and number of reviews"
 
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+
 cols = ["price", "number_of_reviews", "instant_bookable", "room_type",
         "review_scores_cleanliness", "review_scores_location",
-        "review_scores_value", "bathrooms", "bedrooms"]
+        "review_scores_value", "bathrooms", "bedrooms", "days"]
 df = airbnb.dropna(subset=cols).copy()
-df["log_price"] = np.log1p(df["price"])
-df["instant_bookable"] = df["instant_bookable"].map({"t": 1, "f": 0}).astype(int)
+
+df["log_price"] = np.log1p(df["price"])  
+df["instant_bookable"] = df["instant_bookable"].map({"t": 1, "f": 0}).astype(int)  
+
 df = pd.get_dummies(df, columns=["room_type"], drop_first=True)
 
-feature_cols = ["log_price", "instant_bookable",
-    "review_scores_cleanliness", "review_scores_location",
-    "review_scores_value", "bathrooms", "bedrooms"] + \
-    [col for col in df.columns if col.startswith("room_type_")]
+feature_cols = ["log_price", "days", "bathrooms", "bedrooms",
+                "review_scores_cleanliness", "review_scores_location",
+                "review_scores_value", "instant_bookable"] + \
+               [col for col in df.columns if col.startswith("room_type_")]
 X = df[feature_cols].astype(float)
 X = sm.add_constant(X)
 
 Y = df["number_of_reviews"]
-
 
 model = sm.GLM(Y, X, family=sm.families.Poisson())
 result = model.fit()
@@ -551,7 +556,8 @@ summary_df = summary_df.rename(columns={
 final_output_df = summary_df[[
     "index", "coef", "std err", "exp(coef)", "P>|z|", "Significance", "[0.025", "0.975]"
 ]].rename(columns={"index": "Variable"})
-final_output_df
+
+final_output_df.round(3).head(10)
 ```
 #### Modele Coefficient Interpretation
 ```{python}

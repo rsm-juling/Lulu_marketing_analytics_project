@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Lulu Ling">
-<meta name="dcterms.date" content="2025-05-05">
+<meta name="dcterms.date" content="2025-05-07">
 
 <title>Poisson Regression Examples – Lulu’s Marketing Analytics Project</title>
 <style>
@@ -224,7 +224,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 5, 2025</p>
+      <p class="date">May 7, 2025</p>
     </div>
   </div>
   
@@ -245,14 +245,14 @@ window.Quarto = {
 </section>
 <section id="data" class="level3">
 <h3 class="anchored" data-anchor-id="data">Data</h3>
-<div id="0bf927a1" class="cell" data-execution_count="1">
+<div id="fb5020a9" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Reading blueprinty’s data</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>blueprinty <span class="op">=</span> pd.read_csv(<span class="st">'blueprinty.csv'</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>blueprinty.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="44">
+<div class="cell-output cell-output-display" data-execution_count="45">
 <div>
 
 
@@ -311,7 +311,7 @@ window.Quarto = {
 <section id="exploring-the-relationship-between-blueprinty-usage-and-patent-output" class="level4">
 <h4 class="anchored" data-anchor-id="exploring-the-relationship-between-blueprinty-usage-and-patent-output">Exploring the Relationship Between Blueprinty Usage and Patent Output</h4>
 <p>This section conducts preliminary observations through EDA, with the aim of comparing the differences in patent output between companies using Blueprinty software and non-users. As can be seen from the chart, the proportion of Blueprinty users in the high patent number range is relatively high, and the overall patent performance is also more outstanding. Comparison of the average number of patents further shows that Blueprinty customers perform significantly better than non-customers. These preliminary results suggest that Blueprinty software may have a positive impact on patent applications, providing reasonable motivation and direction for the subsequent establishment of more rigorous statistical models.</p>
-<div id="18e37dcc" class="cell" data-execution_count="2">
+<div id="ab9102a1" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Average number of patents by customer status</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -353,7 +353,7 @@ window.Quarto = {
 <section id="examining-systematic-differences-between-blueprinty-customers-and-non-customers" class="level4">
 <h4 class="anchored" data-anchor-id="examining-systematic-differences-between-blueprinty-customers-and-non-customers">Examining Systematic Differences Between Blueprinty Customers and Non-Customers</h4>
 <p>Next, we will continue to use ED to further confirm whether there are systematic differences in firm characteristics between Blueprinty customers and non-customers, which is crucial for the subsequent establishment of causal inference models (such as regression models).</p>
-<div id="6ff6762d" class="cell" data-execution_count="3">
+<div id="9c097c7e" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Average number of patents by customer status</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
@@ -396,7 +396,7 @@ window.Quarto = {
 <p>Since our outcome variable of interest can only be small integer values per a set unit of time, we can use a Poisson density to model the number of patents awarded to each engineering firm over the last 5 years. We start by estimating a simple Poisson model via Maximum Likelihood.</p>
 <section id="mathematical-derivation-of-the-poisson-likelihood-function" class="level4">
 <h4 class="anchored" data-anchor-id="mathematical-derivation-of-the-poisson-likelihood-function">Mathematical Derivation of the Poisson Likelihood Function</h4>
-<div id="b9c3eb7c" class="cell" data-execution_count="4">
+<div id="430227f1" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Likehood</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Math</span>
@@ -407,7 +407,7 @@ window.Quarto = {
 <p><span class="math inline">\(\displaystyle L(\lambda) = \prod_{i=1}^n \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!} = e^{-n\lambda} \cdot \lambda^{\sum Y_i} \cdot \frac{1}{\prod Y_i!}\)</span></p>
 </div>
 </div>
-<div id="05f62688" class="cell" data-execution_count="5">
+<div id="14834e53" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>log_Likehood</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Math</span>
@@ -423,7 +423,7 @@ window.Quarto = {
 </section>
 <section id="code-for-poisson_loglikelihood-function" class="level4">
 <h4 class="anchored" data-anchor-id="code-for-poisson_loglikelihood-function">Code for poisson_loglikelihood Function</h4>
-<div id="c574004d" class="cell" data-execution_count="6">
+<div id="a74f03f9" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_loglikelihood(lmbda, Y):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(Y <span class="op">*</span> np.log(lmbda) <span class="op">-</span> lmbda <span class="op">-</span> np.log(factorial(Y)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -431,7 +431,7 @@ window.Quarto = {
 <section id="visualizing-the-poisson-log-likelihood-curve-to-identify-the-mle" class="level4">
 <h4 class="anchored" data-anchor-id="visualizing-the-poisson-log-likelihood-curve-to-identify-the-mle">Visualizing the Poisson Log-Likelihood Curve to Identify the MLE</h4>
 <p>Using the previously defined log-likelihood function, we can visualize the change in log-likelihood for different values ​​of λ (lambda) and find the maximum likelihood estimate (MLE) through a graph.</p>
-<div id="2fd16d85" class="cell" data-execution_count="7">
+<div id="ad07d1a3" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>log-likehood v.s. Lanbda(Possion model)</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -472,7 +472,7 @@ window.Quarto = {
 </section>
 <section id="deriving-the-maximum-likelihood-estimator-for-λ-in-the-poisson-model" class="level4">
 <h4 class="anchored" data-anchor-id="deriving-the-maximum-likelihood-estimator-for-λ-in-the-poisson-model">Deriving the Maximum Likelihood Estimator for λ in the Poisson Model</h4>
-<div id="0d96fa74" class="cell" data-execution_count="8">
+<div id="deca7da1" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>log-likehood v.s. Lanbda(Possion model)</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
@@ -524,7 +524,7 @@ window.Quarto = {
 <section id="numerical-optimization-to-estimate-λ-via-maximum-likelihood" class="level4">
 <h4 class="anchored" data-anchor-id="numerical-optimization-to-estimate-λ-via-maximum-likelihood">Numerical Optimization to Estimate λ via Maximum Likelihood</h4>
 <p>Use numerical optimization methods to find the maximum likelihood estimate (MLE) of λ in the Poisson model.</p>
-<div id="ce299ebd" class="cell" data-execution_count="9">
+<div id="d3f7be44" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Optimization of likehood by MLE</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -544,7 +544,7 @@ window.Quarto = {
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>mle_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="52">
+<div class="cell-output cell-output-display" data-execution_count="53">
 <div>
 
 
@@ -576,7 +576,7 @@ window.Quarto = {
 <section id="implementing-the-log-likelihood-function-for-the-poisson-regression-model" class="level4">
 <h4 class="anchored" data-anchor-id="implementing-the-log-likelihood-function-for-the-poisson-regression-model">Implementing the Log-Likelihood Function for the Poisson Regression Model</h4>
 <p>The original Poisson model likelihood function is expanded into a log-likelihood function of a Poisson regression model, where λ is no longer a fixed parameter but is determined by the explanatory variable X and the parameter vector </p>
-<div id="6f4f4f19" class="cell" data-execution_count="10">
+<div id="cb7ce406" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Log-Likelihood Function for the Poisson Regression Model</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -605,7 +605,7 @@ window.Quarto = {
 <p><span class="math inline">\(\displaystyle \log L(\beta) = \sum_{i=1}^n \left[Y_i X_i^\top \beta - \exp(X_i^\top \beta) - \log(Y_i!)\right]\)</span></p>
 </div>
 </div>
-<div id="50b6ba2f" class="cell" data-execution_count="11">
+<div id="a9c6c9cb" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_regression_loglikelihood(beta, Y, X):</span>
@@ -621,7 +621,7 @@ window.Quarto = {
 <section id="estimating-poisson-regression-coefficients-using-mle-and-the-hessian-matrix" class="level4">
 <h4 class="anchored" data-anchor-id="estimating-poisson-regression-coefficients-using-mle-and-the-hessian-matrix">Estimating Poisson Regression Coefficients Using MLE and the Hessian Matrix</h4>
 <p>Perform maximum likelihood estimation (MLE) on the Poisson regression model and use the inverse matrix of the Hessian matrix to calculate the standard errors of the parameters (Standard Errors)</p>
-<div id="f983638f" class="cell" data-execution_count="12">
+<div id="8a64c022" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Poisson Regression Coefficients</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>blueprinty[<span class="st">"age_std"</span>] <span class="op">=</span> (blueprinty[<span class="st">"age"</span>] <span class="op">-</span> blueprinty[<span class="st">"age"</span>].mean()) <span class="op">/</span> blueprinty[<span class="st">"age"</span>].std()</span>
@@ -661,7 +661,7 @@ window.Quarto = {
 <span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>mle_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="55">
+<div class="cell-output cell-output-display" data-execution_count="56">
 <div>
 
 
@@ -733,7 +733,7 @@ window.Quarto = {
 <section id="estimating-the-effect-of-blueprinty-usage-on-patent-counts-via-poisson-regression" class="level4">
 <h4 class="anchored" data-anchor-id="estimating-the-effect-of-blueprinty-usage-on-patent-counts-via-poisson-regression">Estimating the Effect of Blueprinty Usage on Patent Counts via Poisson Regression</h4>
 <p>We use a Poisson regression model (GLM with Poisson family) to quantify and test whether the Blueprinty software usage status (iscustomer) significantly affects the number of patents obtained by the company, while also controlling for other variables that may affect patent performance, such as company age and region.</p>
-<div id="f2e66a11" class="cell" data-execution_count="13">
+<div id="597503f9" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Poisson Regression Coefficients GLM Function</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -769,7 +769,7 @@ window.Quarto = {
 <span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>summary_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="56">
+<div class="cell-output cell-output-display" data-execution_count="57">
 <div>
 
 
@@ -887,7 +887,7 @@ window.Quarto = {
 </section>
 <section id="estimating-the-causal-effect-of-blueprinty-usage-on-patent-outcomes-via-counterfactual-prediction" class="level4">
 <h4 class="anchored" data-anchor-id="estimating-the-causal-effect-of-blueprinty-usage-on-patent-outcomes-via-counterfactual-prediction">Estimating the Causal Effect of Blueprinty Usage on Patent Outcomes via Counterfactual Prediction</h4>
-<div id="6734f3ec" class="cell" data-execution_count="14">
+<div id="bddf740b" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Causal Effect of Blueprinty Usage on Patent Outcomes via Counterfactual Predictionn</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>blueprinty[<span class="st">"iscustomer"</span>] <span class="op">=</span> blueprinty[<span class="st">"iscustomer"</span>].astype(<span class="bu">int</span>)</span>
@@ -921,7 +921,7 @@ window.Quarto = {
 <span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>average_effect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="57">
+<div class="cell-output cell-output-display" data-execution_count="58">
 <div>
 
 
@@ -982,14 +982,14 @@ Variable Definitions
 </div>
 </div>
 </div>
-<div id="daa2a3e0" class="cell" data-execution_count="15">
+<div id="41620ddb" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Reading airbnb’s dataset</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>airbnb <span class="op">=</span> pd.read_csv(<span class="st">'airbnb.csv'</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>airbnb.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="58">
+<div class="cell-output cell-output-display" data-execution_count="59">
 <div>
 
 
@@ -1110,7 +1110,7 @@ Variable Definitions
 <h3 class="anchored" data-anchor-id="eda">EDA</h3>
 <section id="missing-value-check-and-handling" class="level4">
 <h4 class="anchored" data-anchor-id="missing-value-check-and-handling">Missing Value Check and Handling</h4>
-<div id="c0477b10" class="cell" data-execution_count="16">
+<div id="5da20dd3" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Missing Value</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame from the missing_values Series</span></span>
@@ -1121,7 +1121,7 @@ Variable Definitions
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>airbnb_cleaned <span class="op">=</span> airbnb[relevant_columns].dropna()</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>missing_values_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="59">
+<div class="cell-output cell-output-display" data-execution_count="60">
 <div>
 
 
@@ -1217,7 +1217,7 @@ Variable Definitions
 <ol type="1">
 <li>Review Volume and Price Distribution</li>
 </ol>
-<div id="5e3f5a0e" class="cell" data-execution_count="17">
+<div id="7d739e82" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Distribution plot</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1258,7 +1258,7 @@ Variable Definitions
 <ol start="2" type="1">
 <li>Log Transformations Distribution</li>
 </ol>
-<div id="c35376b4" class="cell" data-execution_count="18">
+<div id="8815e51e" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Distribution plot of price log</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>airbnb[<span class="st">"log_price"</span>] <span class="op">=</span> np.log1p(airbnb[<span class="st">"price"</span>])</span>
@@ -1287,7 +1287,7 @@ Variable Definitions
 </section>
 <section id="categorical-variable-distributions" class="level4">
 <h4 class="anchored" data-anchor-id="categorical-variable-distributions">Categorical Variable Distributions</h4>
-<div id="6b7ec3dd" class="cell" data-execution_count="19">
+<div id="4a0cc4ee" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Distribution plot of price log</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
@@ -1317,7 +1317,7 @@ Variable Definitions
 <section id="correlation-exploration" class="level4">
 <h4 class="anchored" data-anchor-id="correlation-exploration">Correlation Exploration</h4>
 <p>Use a scatter plot to check whether number_of_reviews is correlated with review-based variables. This helps validate whether reviews are a reasonable proxy for bookings.</p>
-<div id="2cb87b0a" class="cell" data-execution_count="20">
+<div id="8558c609" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>number_of_reviews correlation with review-based variables</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
@@ -1344,45 +1344,51 @@ Variable Definitions
 </section>
 <section id="poisson-regression-model" class="level3">
 <h3 class="anchored" data-anchor-id="poisson-regression-model">Poisson Regression Model</h3>
-<div id="9dd6f230" class="cell" data-execution_count="21">
+<div id="64b87af1" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Visualize the relationship between price and number of reviews</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"price"</span>, <span class="st">"number_of_reviews"</span>, <span class="st">"instant_bookable"</span>, <span class="st">"room_type"</span>,</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>        <span class="st">"review_scores_cleanliness"</span>, <span class="st">"review_scores_location"</span>,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"review_scores_value"</span>, <span class="st">"bathrooms"</span>, <span class="st">"bedrooms"</span>]</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> airbnb.dropna(subset<span class="op">=</span>cols).copy()</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"log_price"</span>] <span class="op">=</span> np.log1p(df[<span class="st">"price"</span>])</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"instant_bookable"</span>] <span class="op">=</span> df[<span class="st">"instant_bookable"</span>].<span class="bu">map</span>({<span class="st">"t"</span>: <span class="dv">1</span>, <span class="st">"f"</span>: <span class="dv">0</span>}).astype(<span class="bu">int</span>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>[<span class="st">"room_type"</span>], drop_first<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="op">=</span> [<span class="st">"log_price"</span>, <span class="st">"instant_bookable"</span>,</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"review_scores_cleanliness"</span>, <span class="st">"review_scores_location"</span>,</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"review_scores_value"</span>, <span class="st">"bathrooms"</span>, <span class="st">"bedrooms"</span>] <span class="op">+</span> <span class="op">\</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    [col <span class="cf">for</span> col <span class="kw">in</span> df.columns <span class="cf">if</span> col.startswith(<span class="st">"room_type_"</span>)]</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[feature_cols].astype(<span class="bu">float</span>)</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> sm.add_constant(X)</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> df[<span class="st">"number_of_reviews"</span>]</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.GLM(Y, X, family<span class="op">=</span>sm.families.Poisson())</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> model.fit()</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"price"</span>, <span class="st">"number_of_reviews"</span>, <span class="st">"instant_bookable"</span>, <span class="st">"room_type"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"review_scores_cleanliness"</span>, <span class="st">"review_scores_location"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"review_scores_value"</span>, <span class="st">"bathrooms"</span>, <span class="st">"bedrooms"</span>, <span class="st">"days"</span>]</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> airbnb.dropna(subset<span class="op">=</span>cols).copy()</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"log_price"</span>] <span class="op">=</span> np.log1p(df[<span class="st">"price"</span>])  </span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"instant_bookable"</span>] <span class="op">=</span> df[<span class="st">"instant_bookable"</span>].<span class="bu">map</span>({<span class="st">"t"</span>: <span class="dv">1</span>, <span class="st">"f"</span>: <span class="dv">0</span>}).astype(<span class="bu">int</span>)  </span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>[<span class="st">"room_type"</span>], drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="op">=</span> [<span class="st">"log_price"</span>, <span class="st">"days"</span>, <span class="st">"bathrooms"</span>, <span class="st">"bedrooms"</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"review_scores_cleanliness"</span>, <span class="st">"review_scores_location"</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"review_scores_value"</span>, <span class="st">"instant_bookable"</span>] <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>               [col <span class="cf">for</span> col <span class="kw">in</span> df.columns <span class="cf">if</span> col.startswith(<span class="st">"room_type_"</span>)]</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[feature_cols].astype(<span class="bu">float</span>)</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> sm.add_constant(X)</span>
 <span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> result.summary2().tables[<span class="dv">1</span>].copy()</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>summary_df[<span class="st">"exp(coef)"</span>] <span class="op">=</span> np.exp(summary_df[<span class="st">"Coef."</span>])</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>summary_df[<span class="st">"Significance"</span>] <span class="op">=</span> summary_df[<span class="st">"P&gt;|z|"</span>].<span class="bu">apply</span>(</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> p: <span class="st">"***"</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.001</span> <span class="cf">else</span> <span class="st">"**"</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="cf">else</span> <span class="st">"*"</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">""</span>)</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> summary_df.rename(columns<span class="op">=</span>{</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coef."</span>: <span class="st">"coef"</span>, <span class="st">"Std.Err."</span>: <span class="st">"std err"</span>, <span class="st">"P&gt;|z|"</span>: <span class="st">"P&gt;|z|"</span>,</span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"[0.025"</span>: <span class="st">"[0.025"</span>, <span class="st">"0.975]"</span>: <span class="st">"0.975]"</span></span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>final_output_df <span class="op">=</span> summary_df[[</span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"index"</span>, <span class="st">"coef"</span>, <span class="st">"std err"</span>, <span class="st">"exp(coef)"</span>, <span class="st">"P&gt;|z|"</span>, <span class="st">"Significance"</span>, <span class="st">"[0.025"</span>, <span class="st">"0.975]"</span></span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>]].rename(columns<span class="op">=</span>{<span class="st">"index"</span>: <span class="st">"Variable"</span>})</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>final_output_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> df[<span class="st">"number_of_reviews"</span>]</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.GLM(Y, X, family<span class="op">=</span>sm.families.Poisson())</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> model.fit()</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> result.summary2().tables[<span class="dv">1</span>].copy()</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>summary_df[<span class="st">"exp(coef)"</span>] <span class="op">=</span> np.exp(summary_df[<span class="st">"Coef."</span>])</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>summary_df[<span class="st">"Significance"</span>] <span class="op">=</span> summary_df[<span class="st">"P&gt;|z|"</span>].<span class="bu">apply</span>(</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> p: <span class="st">"***"</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.001</span> <span class="cf">else</span> <span class="st">"**"</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="cf">else</span> <span class="st">"*"</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> summary_df.rename(columns<span class="op">=</span>{</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coef."</span>: <span class="st">"coef"</span>, <span class="st">"Std.Err."</span>: <span class="st">"std err"</span>, <span class="st">"P&gt;|z|"</span>: <span class="st">"P&gt;|z|"</span>,</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"[0.025"</span>: <span class="st">"[0.025"</span>, <span class="st">"0.975]"</span>: <span class="st">"0.975]"</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>final_output_df <span class="op">=</span> summary_df[[</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"index"</span>, <span class="st">"coef"</span>, <span class="st">"std err"</span>, <span class="st">"exp(coef)"</span>, <span class="st">"P&gt;|z|"</span>, <span class="st">"Significance"</span>, <span class="st">"[0.025"</span>, <span class="st">"0.975]"</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>]].rename(columns<span class="op">=</span>{<span class="st">"index"</span>: <span class="st">"Variable"</span>})</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>final_output_df.<span class="bu">round</span>(<span class="dv">3</span>).head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="64">
+<div class="cell-output cell-output-display" data-execution_count="65">
 <div>
 
 
@@ -1404,112 +1410,112 @@ Variable Definitions
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>const</td>
-<td>3.072482</td>
-<td>0.019235</td>
-<td>21.595426</td>
-<td>0.000000e+00</td>
+<td>3.013</td>
+<td>0.019</td>
+<td>20.354</td>
+<td>0.0</td>
 <td>***</td>
-<td>3.034782</td>
-<td>3.110181</td>
+<td>2.975</td>
+<td>3.051</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>log_price</td>
-<td>0.134756</td>
-<td>0.002906</td>
-<td>1.144257</td>
-<td>0.000000e+00</td>
+<td>0.131</td>
+<td>0.003</td>
+<td>1.140</td>
+<td>0.0</td>
 <td>***</td>
-<td>0.129060</td>
-<td>0.140452</td>
+<td>0.125</td>
+<td>0.137</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>instant_bookable</td>
-<td>0.340773</td>
-<td>0.002891</td>
-<td>1.406033</td>
-<td>0.000000e+00</td>
+<td>days</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0.0</td>
 <td>***</td>
-<td>0.335106</td>
-<td>0.346440</td>
+<td>0.000</td>
+<td>0.000</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>review_scores_cleanliness</td>
-<td>0.108785</td>
-<td>0.001496</td>
-<td>1.114922</td>
-<td>0.000000e+00</td>
+<td>bathrooms</td>
+<td>-0.145</td>
+<td>0.004</td>
+<td>0.865</td>
+<td>0.0</td>
 <td>***</td>
-<td>0.105852</td>
-<td>0.111717</td>
+<td>-0.153</td>
+<td>-0.138</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>review_scores_location</td>
-<td>-0.097545</td>
-<td>0.001649</td>
-<td>0.907061</td>
-<td>0.000000e+00</td>
+<td>bedrooms</td>
+<td>0.047</td>
+<td>0.002</td>
+<td>1.048</td>
+<td>0.0</td>
 <td>***</td>
-<td>-0.100778</td>
-<td>-0.094312</td>
+<td>0.043</td>
+<td>0.051</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">5</td>
-<td>review_scores_value</td>
-<td>-0.079720</td>
-<td>0.001820</td>
-<td>0.923375</td>
-<td>0.000000e+00</td>
+<td>review_scores_cleanliness</td>
+<td>0.109</td>
+<td>0.001</td>
+<td>1.115</td>
+<td>0.0</td>
 <td>***</td>
-<td>-0.083286</td>
-<td>-0.076153</td>
+<td>0.106</td>
+<td>0.112</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">6</td>
-<td>bathrooms</td>
-<td>-0.151992</td>
-<td>0.003743</td>
-<td>0.858995</td>
-<td>0.000000e+00</td>
+<td>review_scores_location</td>
+<td>-0.097</td>
+<td>0.002</td>
+<td>0.907</td>
+<td>0.0</td>
 <td>***</td>
-<td>-0.159328</td>
-<td>-0.144656</td>
+<td>-0.101</td>
+<td>-0.094</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">7</td>
-<td>bedrooms</td>
-<td>0.046769</td>
-<td>0.002038</td>
-<td>1.047880</td>
-<td>1.589797e-116</td>
+<td>review_scores_value</td>
+<td>-0.080</td>
+<td>0.002</td>
+<td>0.924</td>
+<td>0.0</td>
 <td>***</td>
-<td>0.042774</td>
-<td>0.050764</td>
+<td>-0.083</td>
+<td>-0.076</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
-<td>room_type_Private room</td>
-<td>0.085031</td>
-<td>0.003376</td>
-<td>1.088751</td>
-<td>5.366417e-140</td>
+<td>instant_bookable</td>
+<td>0.352</td>
+<td>0.003</td>
+<td>1.422</td>
+<td>0.0</td>
 <td>***</td>
-<td>0.078415</td>
-<td>0.091648</td>
+<td>0.346</td>
+<td>0.358</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
-<td>room_type_Shared room</td>
-<td>-0.106716</td>
-<td>0.009101</td>
-<td>0.898781</td>
-<td>9.431533e-32</td>
+<td>room_type_Private room</td>
+<td>0.087</td>
+<td>0.003</td>
+<td>1.090</td>
+<td>0.0</td>
 <td>***</td>
-<td>-0.124554</td>
-<td>-0.088878</td>
+<td>0.080</td>
+<td>0.093</td>
 </tr>
 </tbody>
 </table>
@@ -1519,7 +1525,7 @@ Variable Definitions
 </div>
 <section id="modele-coefficient-interpretation" class="level4">
 <h4 class="anchored" data-anchor-id="modele-coefficient-interpretation">Modele Coefficient Interpretation</h4>
-<div id="1e535372" class="cell" data-execution_count="22">
+<div id="26fbeb98" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Visualize the relationship between price and number of reviews</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>airbnb_cleaned, x<span class="op">=</span><span class="st">'price'</span>, y<span class="op">=</span><span class="st">'number_of_reviews'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
