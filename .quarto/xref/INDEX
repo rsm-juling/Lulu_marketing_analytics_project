@@ -34,5 +34,12 @@
   },
   "blog/Project3/hw2_questions.qmd": {
     "hw2_questions.html": "d1cd3593"
+  },
+  "blog/Project3/index.qmd": {
+    "index.tex": "b763f7f5",
+    "index.html": "e56186aa"
+  },
+  "blog/Project4/index.qmd": {
+    "index.html": "420d943e"
   }
 }
