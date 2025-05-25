@@ -4,6 +4,114 @@ author: "Lulu Ling"
 date: today
 callout-appearance: minimal
 ---
+## 1. Likelihood for the Multi-nomial Logit (MNL) Model
+
+Suppose we have $i=1,\ldots,n$ consumers who each select exactly one product $j$ from a set of $J$ products. The outcome variable is the identity of the product chosen $y_i \in \{1, \ldots, J\}$ or equivalently a vector of $J-1$ zeros and $1$ one, where the $1$ indicates the selected product. For example, if the third product was chosen out of 3 products, then either $y=3$ or $y=(0,0,1)$ depending on how we want to represent it. Suppose also that we have a vector of data on each product $x_j$ (eg, brand, price, etc.). 
+
+We model the consumer's decision as the selection of the product that provides the most utility, and we'll specify the utility function as a linear function of the product characteristics:
+
+$$ U_{ij} = x_j'\beta + \epsilon_{ij} $$
+
+where $\epsilon_{ij}$ is an i.i.d. extreme value error term. 
+
+The choice of the i.i.d. extreme value error term leads to a closed-form expression for the probability that consumer $i$ chooses product $j$:
+
+$$ \mathbb{P}_i(j) = \frac{e^{x_j'\beta}}{\sum_{k=1}^Je^{x_k'\beta}} $$
+
+For example, if there are 3 products, the probability that consumer $i$ chooses product 3 is:
+
+$$ \mathbb{P}_i(3) = \frac{e^{x_3'\beta}}{e^{x_1'\beta} + e^{x_2'\beta} + e^{x_3'\beta}} $$
+
+A clever way to write the individual likelihood function for consumer $i$ is the product of the $J$ probabilities, each raised to the power of an indicator variable ($\delta_{ij}$) that indicates the chosen product:
+
+$$ L_i(\beta) = \prod_{j=1}^J \mathbb{P}_i(j)^{\delta_{ij}} = \mathbb{P}_i(1)^{\delta_{i1}} \times \ldots \times \mathbb{P}_i(J)^{\delta_{iJ}}$$
+
+Notice that if the consumer selected product $j=3$, then $\delta_{i3}=1$ while $\delta_{i1}=\delta_{i2}=0$ and the likelihood is:
+
+$$ L_i(\beta) = \mathbb{P}_i(1)^0 \times \mathbb{P}_i(2)^0 \times \mathbb{P}_i(3)^1 = \mathbb{P}_i(3) = \frac{e^{x_3'\beta}}{\sum_{k=1}^3e^{x_k'\beta}} $$
+
+The joint likelihood (across all consumers) is the product of the $n$ individual likelihoods:
+
+$$ L_n(\beta) = \prod_{i=1}^n L_i(\beta) = \prod_{i=1}^n \prod_{j=1}^J \mathbb{P}_i(j)^{\delta_{ij}} $$
+
+And the joint log-likelihood function is:
+
+$$ \ell_n(\beta) = \sum_{i=1}^n \sum_{j=1}^J \delta_{ij} \log(\mathbb{P}_i(j)) $$
+
+## 2. Simulate Conjoint Data
+
+We will simulate data from a conjoint experiment about video content streaming services. We elect to simulate 100 respondents, each completing 10 choice tasks, where they choose from three alternatives per task. For simplicity, there is not a "no choice" option; each simulated respondent must select one of the 3 alternatives. 
+
+Each alternative is a hypothetical streaming offer consistent of three attributes: (1) brand is either Netflix, Amazon Prime, or Hulu; (2) ads can either be part of the experience, or it can be ad-free, and (3) price per month ranges from \$4 to \$32 in increments of \$4.
+
+The part-worths (ie, preference weights or beta parameters) for the attribute levels will be 1.0 for Netflix, 0.5 for Amazon Prime (with 0 for Hulu as the reference brand); -0.8 for included adverstisements (0 for ad-free); and -0.1*price so that utility to consumer $i$ for hypothethical streaming service $j$ is 
+
+$$
+u_{ij} = (1 \times Netflix_j) + (0.5 \times Prime_j) + (-0.8*Ads_j) - 0.1\times Price_j + \varepsilon_{ij}
+$$
+
+where the variables are binary indicators and $\varepsilon$ is Type 1 Extreme Value (ie, Gumble) distributed.
+
+The following code provides the simulation of the conjoint data.
+
+
+```{python}
+# | code-fold: true
+# | code-summary: "Simulate Conjoint Data"
+# set seed for reproducibility
+import numpy as np
+import pandas as pd
+
+# Set seed for reproducibility
+np.random.seed(123)
+
+# Define attributes
+brands = ["N", "P", "H"]  # Netflix, Prime, Hulu
+ads = ["Yes", "No"]
+prices = np.arange(8, 33, 4)
+
+# Generate all possible profiles
+profiles = pd.DataFrame([
+    {"brand": b, "ad": a, "price": p}
+    for b in brands for a in ads for p in prices
+])
+m = len(profiles)
+
+# Assign part-worth utilities (true parameters)
+brand_utils = {"N": 1.0, "P": 0.5, "H": 0}
+ad_utils = {"Yes": -0.8, "No": 0.0}
+price_util = lambda p: -0.1 * p
+
+# Simulation settings
+n_peeps = 100
+n_tasks = 10
+n_alts = 3
+
+# Function to simulate one respondent’s data
+def sim_one(id):
+    dat_list = []
+    for t in range(1, n_tasks + 1):
+        sampled = profiles.sample(n=n_alts).copy()
+        sampled["resp"] = id
+        sampled["task"] = t
+        sampled["v"] = (
+            sampled["brand"].map(brand_utils) +
+            sampled["ad"].map(ad_utils) +
+            sampled["price"].apply(price_util)
+        ).round(10)
+        sampled["e"] = -np.log(-np.log(np.random.rand(n_alts)))  # Gumbel noise
+        sampled["u"] = sampled["v"] + sampled["e"]
+        sampled["choice"] = (sampled["u"] == sampled["u"].max()).astype(int)
+        dat_list.append(sampled)
+    return pd.concat(dat_list)
+
+# Simulate data for all respondents
+conjoint_data = pd.concat([sim_one(i) for i in range(1, n_peeps + 1)], ignore_index=True)
+
+# Keep only observable columns
+conjoint_data = conjoint_data[["resp", "task", "brand", "ad", "price", "choice"]]
+conjoint_data.head()
+```
 
 ## 3. Preparing the Data for Estimation
 
@@ -14,7 +122,6 @@ The "hard part" of the MNL likelihood function is organizing the data, as we nee
 # | code-summary: "Reading conjoint_data"
 import pandas as pd
 data=pd.read_csv("conjoint_data.csv")
-data.head()
 ```
 
 :::: {.callout-note collapse="true"}
@@ -25,7 +132,7 @@ data.head()
 | `resp`               | respondent number                                                   |
 | `task`               | the number of selected tasks                                        |                   
 | `choice`             | whether it is selected (1=selected, 0=not selected)                 |
-| `brand`              | Is theree an advertisement (Yes / No)                               |
+| `brand`              | Hulu, Netflix, Prime                                                |
 | `price`              | price of the set                                                    |
 ::::
 
@@ -39,17 +146,16 @@ Organize this information into a format that can be used in the MNL model, inclu
 ```{python}
 # | code-fold: true
 # | code-summary: "Reshape the data"
-X = pd.get_dummies(data[["brand", "ad"]], drop_first=True)
-
-X["price"] = data["price"]
-X["resp"] = data["resp"]
-X["task"] = data["task"]
-X["choice"] = data["choice"]
-
-X = X[["resp", "task", "brand_N", "brand_P", "ad_Yes", "price", "choice"]]
+X = pd.get_dummies(data, columns=['brand', 'ad'], drop_first=True)
+X = X.sort_values(['resp', 'task']).copy()
+X['alternative'] = X.groupby(['resp', 'task']).cumcount()
+X = X.set_index(['resp', 'task', 'alternative'])
 X.head()
 ```
 ## 4. Estimation via Maximum Likelihood
+To estimate the parameters of the Multinomial Logit (MNL) model, we use the Maximum Likelihood Estimation (MLE) method. The likelihood is constructed based on the probability that each individual chooses the alternative with the highest utility. Given the assumption that the unobserved error term follows a type I extreme value distribution, the MNL model leads to a closed-form expression for choice probabilities.
+
+The log-likelihood function sums the log probabilities of the chosen alternatives across all individuals and choice sets. The code below implements this log-likelihood in Python, reshaping the data into respondent-task-choice format, computing the choice probabilities, and returning the negative log-likelihood to be used in optimization.
 
 ```{python}
 # | code-fold: true
@@ -68,32 +174,28 @@ display(Math(delta_explanation))
 ```
 
 ```{python}
-import numpy as np
-
-def mnl_log_likelihood(beta, X, y):
+X_np = X[["brand_N", "brand_P", "ad_Yes", "price"]].to_numpy()
+y_np = X["choice"].to_numpy()
+def mnl_log_likelihood(beta, X, y, n_choices=3):
     """
-    beta: 參數向量 (K,)
-    X:     設計矩陣，形狀為 (n_obs, K)
-    y:     choice 向量，形狀為 (n_obs,) 為 0/1 結果
+    beta: parameter vector (K,)
+    X: (n_obs, K) design matrix
+    y: (n_obs,) choice vector (0/1)
+    n_choices: number of alternatives per task
     """
-    # reshape：每組 3 個選項一組（假設每個 respondent-task 有 3 選項）
-    n_choices = 3
-    X_reshaped = X.reshape(-1, n_choices, X.shape[1])
+    n_obs, n_features = X.shape
+    X_reshaped = X.reshape(-1, n_choices, n_features)
     y_reshaped = y.reshape(-1, n_choices)
 
-    # 效用與機率
     utilities = X_reshaped @ beta
-    exp_util = np.exp(utilities)
-    probs = exp_util / exp_util.sum(axis=1, keepdims=True)
+    exp_utilities = np.exp(utilities)
+    probs = exp_utilities / exp_utilities.sum(axis=1, keepdims=True)
 
-    # 將選中的那一項的機率取出，然後取 log 相加
-    chosen_probs = (probs * y_reshaped).sum(axis=1)
-    log_lik = np.sum(np.log(chosen_probs))
+    chosen_probs = np.sum(probs * y_reshaped, axis=1)
+    log_likelihood = np.sum(np.log(chosen_probs + 1e-15)) 
 
-    return -log_lik
+    return -log_likelihood 
 ```
-
-_todo: Use `optim()` in R or `scipy.optimize()` in Python to find the MLEs for the 4 parameters ($\beta_\text{netflix}$, $\beta_\text{prime}$, $\beta_\text{ads}$, $\beta_\text{price}$), as well as their standard errors (from the Hessian). For each parameter construct a 95% confidence interval._
 
 Parameter estimation of the multinomial logit (MNL) model:
 
@@ -135,13 +237,19 @@ summary = pd.DataFrame({
 })
 summary
 ```
+The maximum likelihood estimates for the Multinomial Logit model parameters provide clear and interpretable insights into consumer preferences in the simulated conjoint experiment.
 
+- The positive coefficients for Netflix (0.94) and Prime (0.50) indicate that, relative to the reference brand Hulu, consumers prefer both Netflix and Prime, with Netflix being the most preferred.
+- The coefficient for Ads (-0.73) is strongly negative, confirming that advertisements significantly reduce the attractiveness of a streaming service.
+- The Price coefficient (-0.099) is also negative and highly significant, suggesting that higher prices lead to lower utility, as expected.
+
+All four parameters are statistically significant, with their 95% confidence intervals excluding zero. These results are consistent with economic theory and the part-worth utilities used in the data generation process, reinforcing the reliability of the MNL model under maximum likelihood estimation.
 
 ## 5. Estimation via Bayesian Methods
 
-_todo: code up a metropolis-hasting MCMC sampler of the posterior distribution. Take 11,000 steps and throw away the first 1,000, retaining the subsequent 10,000._
+To perform Bayesian inference for the parameters of the Multinomial Logit (MNL) model, we implement a Metropolis-Hastings Markov Chain Monte Carlo (MCMC) algorithm. The goal is to sample from the posterior distribution of the parameter vector \beta, combining both the likelihood from the MNL model and the prior beliefs on $\beta$.
 
-Metropolis-Hastings is one of the most common Markov chain Monte Carlo (MCMC) algorithms, often used for parameter estimation under difficult-to-analyze posterior distributions.
+The algorithm proposes a new candidate $\beta^*$ from a multivariate normal distribution and decides whether to accept it based on the relative posterior probabilities. We run the sampler for 11,000 iterations and discard the first 1,000 as burn-in.
 ```{python}
 # | code-fold: true
 # | code-summary: "Metropolis-hasting MCMC sampler of the posterior distribution"
@@ -168,9 +276,8 @@ display(Math(mh_step_3))
 display(Math(mh_step_4))
 display(Math(mh_step_5))
 ```
+
 ```{python}
-# | code-fold: true
-# | code-summary: "Metropolis-hasting MCMC sampler of the posterior distribution"
 def mnl_log_posterior(beta, X, y):
 
     return -mnl_log_likelihood(beta, X, y)
@@ -210,6 +317,7 @@ mcmc_samples = samples[1000:]
 
 print(f"Acceptance rate: {acc_rate:.3f}")
 ```
+The reported acceptance rate provides a diagnostic of the sampler’s efficiency. In this case, an acceptance rate of 21.7% suggests reasonable exploration of the posterior space.
 
 The trace plot of the algorithm and the histogram of the posterior distribution.
 ```{python}
@@ -238,7 +346,9 @@ plt.tight_layout()
 plt.show()
 ```
 
-_todo: report the 4 posterior means, standard deviations, and 95% credible intervals and compare them to your results from the Maximum Likelihood approach._
+To evaluate the performance of the Metropolis-Hastings MCMC sampler and compare it to classical estimation methods, we report the posterior summaries of the four parameters in the Multinomial Logit (MNL) model. These include the posterior mean, standard deviation, and 95% credible intervals derived from the MCMC samples after burn-in. We then compare these to the point estimates, standard errors, and confidence intervals obtained via Maximum Likelihood Estimation (MLE).
+
+This side-by-side comparison allows us to assess the consistency of the two approaches and evaluate the uncertainty associated with each method.
 
 ```{python}
 # | code-fold: true
@@ -262,21 +372,118 @@ bayes_summary = pd.DataFrame({
 
 bayes_summary
 ```
+The posterior estimates obtained from the MCMC sampler closely match those derived from the MLE approach across all four parameters (Netflix, Prime, Ads, and Price). Specifically:
+
+- The posterior means fall well within the 95% confidence intervals of the MLE estimates, indicating that the Bayesian and frequentist approaches lead to similar conclusions.
+- The standard deviations and credible intervals from the posterior distributions are slightly wider than those from the MLE, which is expected due to the incorporation of prior uncertainty.
+- All parameters show consistent signs and magnitudes, supporting the validity and robustness of the original utility assumptions used in the simulation.
+
+These results provide strong evidence that the Metropolis-Hastings sampler is functioning correctly and that Bayesian inference provides a coherent and reliable alternative to classical estimation in discrete choice modeling.
 
 
 ## 6. Discussion
 
-_todo: Suppose you did not simulate the data. What do you observe about the parameter estimates? What does $\beta_\text{Netflix} > \beta_\text{Prime}$ mean? Does it make sense that $\beta_\text{price}$ is negative?_
+Suppose we had not simulated the data and were instead analyzing real-world consumer choices. In this case, the estimated parameters of the Multinomial Logit (MNL) model should be interpreted as reflecting actual consumer preferences.
 
-_todo: At a high level, discuss what change you would need to make in order to simulate data from --- and estimate the parameters of --- a multi-level (aka random-parameter or hierarchical) model. This is the model we use to analyze "real world" conjoint data._
+#### Insights from the Estimated Coefficients
+- Brand Preferences:
+The result that \beta_{\text{Netflix}} > \beta_{\text{Prime}} suggests that, holding all else equal, consumers derive greater utility from Netflix compared to Amazon Prime. This implies a stronger brand preference for Netflix, potentially due to factors such as better perceived content quality, reputation, or user experience.
+- Ad Aversion:
+The negative coefficient on advertisements indicates that the inclusion of ads significantly reduces consumer utility. Consumers are more likely to choose ad-free options, confirming common behavioral expectations in subscription-based streaming markets.
+- Price Sensitivity:
+The fact that \beta_{\text{price}} is negative is entirely consistent with economic theory. Higher prices are expected to reduce the probability of selection, as they represent a cost to the consumer. The magnitude of the price coefficient reflects the estimated strength of that sensitivity.
 
+Overall, these estimates are logically coherent and align with what we would expect from consumer choice behavior in a real market setting. The model successfully captures key trade-offs that consumers make, including brand loyalty, aversion to advertisements, and price sensitivity. This supports the usefulness of MNL models—and conjoint analysis more broadly—as tools for analyzing and predicting consumer preferences.
 
+#### Hierarchical Multinomial Logit Model (H-MNL)
+In real-world conjoint analysis, it is often unrealistic to assume that all consumers share the same preferences. To account for individual-level heterogeneity, we can extend the standard Multinomial Logit (MNL) model to a hierarchical (multi-level) version, where each respondent has their own set of utility parameters.
 
+1. Model Description
+In the hierarchical model, instead of assuming a single shared parameter vector $\beta$, we assume each individual $i$ has their own $\beta_i$, drawn from a population distribution:
 
+$$
+\beta_i \sim \mathcal{N}(\mu, \Sigma)
+$$
 
+This modifies the utility specification as:
 
+$$
+U_{ij} = x_{ij}^\top \beta_i + \varepsilon_{ij}
+$$
 
+Where:
 
+- $x_{ij}$: attribute vector for alternative $j$ in task $i$
+- $\beta_i$: individual-level preference vector
+- $\varepsilon_{ij}$: i.i.d. extreme value error term
+
+2. Data Simulation:
+```{python}
+# Simulation settings
+np.random.seed(123)
+n_peeps = 100
+n_tasks = 10
+n_alts = 3
+
+# Attribute levels
+brands = ["N", "P", "H"]
+ads = ["Yes", "No"]
+prices = np.arange(8, 33, 4)
+
+# True population mean and variance for betas
+mu = np.array([1.0, 0.5, -0.8, -0.1])
+Sigma = np.diag([0.2, 0.2, 0.2, 0.01])
+
+# Build full profile set
+profiles = pd.DataFrame([
+    {"brand": b, "ad": a, "price": p}
+    for b in brands for a in ads for p in prices
+])
+
+brand_utils = {"N": [1, 0], "P": [0, 1], "H": [0, 0]}
+ad_utils = {"Yes": 1, "No": 0}
+
+# Simulate one respondent's data
+def simulate_respondent(id):
+    beta_i = np.random.multivariate_normal(mu, Sigma)
+    rows = []
+    for task in range(1, n_tasks + 1):
+        sample = profiles.sample(n=n_alts).reset_index(drop=True)
+        X = []
+        for _, row in sample.iterrows():
+            x_vec = brand_utils[row.brand] + [ad_utils[row.ad], row.price]
+            X.append(x_vec)
+        X = np.array(X)
+        v = X @ beta_i
+        e = -np.log(-np.log(np.random.rand(n_alts)))
+        u = v + e
+        choice = np.argmax(u)
+        for j in range(n_alts):
+            rows.append({"resp": id, "task": task, "alt": j, "brand": sample.loc[j, "brand"],
+                         "ad": sample.loc[j, "ad"], "price": sample.loc[j, "price"],
+                         "choice": int(j == choice), "x1": X[j, 0], "x2": X[j, 1], "x3": X[j, 2], "x4": X[j, 3]})
+    return pd.DataFrame(rows)
+results = pd.concat([simulate_respondent(i) for i in range(1, n_peeps+1)], ignore_index=True)
+results.head()
+```
+
+3. Estimation Approach
+
+To estimate the hierarchical MNL model, we would use Bayesian methods (e.g., with PyMC or Stan) to sample from the posterior distribution of:
+- Each individual $\beta_i$
+- The population-level parameters $\mu$, $\Sigma$
+
+This allows us to learn both the individual preference variation and the overall distribution of preferences across consumers.
+
+4. Conclusion
+
+Hierarchical models allow us to better reflect real-world consumer behavior by capturing individual heterogeneity. Compared to standard MNL, which assumes homogeneity across all respondents, the hierarchical approach can uncover deeper insights and lead to more accurate predictions in conjoint analysis.
+
+$$
+\beta_i \sim \mathcal{N}(\mu, \Sigma)
+$$
+
+we can account for varying preferences, and estimate not only what the “average” consumer prefers, but also how much individuals differ from one another.
 
 
 
