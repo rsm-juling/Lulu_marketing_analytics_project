@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.5">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lulu Ling">
+<meta name="dcterms.date" content="2025-06-05">
+
+<title>Key Drivers Analysis – Lulu’s Marketing Analytics Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ff4371ef257df69894857e99c6ad0d06.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-864d09a486993568dc8461093c99f470.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Lulu’s Marketing Analytics Project</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../Resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#unsupervised-learning" id="toc-unsupervised-learning" class="nav-link active" data-scroll-target="#unsupervised-learning">1. Unsupervised Learning</a>
+  <ul class="collapse">
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering">1.1 K-means Clustering</a></li>
+  <li><a href="#latent-class-multinomial-logit-lc-mnl" id="toc-latent-class-multinomial-logit-lc-mnl" class="nav-link" data-scroll-target="#latent-class-multinomial-logit-lc-mnl">1.2 Latent-Class Multinomial Logit (LC-MNL)</a></li>
+  </ul></li>
+  <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning">2. Supervised Learning</a>
+  <ul class="collapse">
+  <li><a href="#key-drivers-analysis" id="toc-key-drivers-analysis" class="nav-link" data-scroll-target="#key-drivers-analysis">2.1 Key Drivers Analysis</a></li>
+  <li><a href="#optional-k-nearest-neighbors-knn" id="toc-optional-k-nearest-neighbors-knn" class="nav-link" data-scroll-target="#optional-k-nearest-neighbors-knn">2.2 (Optional) K-Nearest Neighbors (KNN)</a></li>
+  </ul></li>
+  <li><a href="#final-reflections" id="toc-final-reflections" class="nav-link" data-scroll-target="#final-reflections">3. Final Reflections</a>
+  <ul class="collapse">
+  <li><a href="#modeling-challenges-and-trade-offs" id="toc-modeling-challenges-and-trade-offs" class="nav-link" data-scroll-target="#modeling-challenges-and-trade-offs">3.1 Modeling Challenges and Trade-offs</a></li>
+  <li><a href="#potential-extensions" id="toc-potential-extensions" class="nav-link" data-scroll-target="#potential-extensions">3.2 Potential Extensions</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Key Drivers Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lulu Ling </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 5, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="unsupervised-learning" class="level2">
+<h2 class="anchored" data-anchor-id="unsupervised-learning">1. Unsupervised Learning</h2>
+<section id="k-means-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="k-means-clustering">1.1 K-means Clustering</h3>
+<section id="method-explanation" class="level4">
+<h4 class="anchored" data-anchor-id="method-explanation">Method Explanation</h4>
+<p>K-means is an unsupervised learning algorithm that aims to divide samples into K groups based on feature similarity. Its goal is to minimize the Within-Cluster Sum of Squares (WCSS), that is, to minimize the distance between each sample point and the center of the group to which it belongs.</p>
+<p><span class="math display">\[\min_{\{C_k\}{k=1}^K} \sum{k=1}^{K} \sum_{x_i \in C_k} \|x_i - \mu_k\|^2\]</span></p>
+<ul>
+<li><span class="math inline">\(C_k\)</span>: sample set of the kth group</li>
+<li><span class="math inline">\(\mu_k\)</span>: centroid of the kth group</li>
+</ul>
+<p>The K-means algorithm includes the following steps:</p>
+<ol type="1">
+<li>Randomly initialize K group centers</li>
+<li>Assign each sample to the nearest group center</li>
+<li>Update the center of each group to the average of all its member points</li>
+<li>Repeat steps 2~3 until the group center is stable or the iteration limit is reached</li>
+</ol>
+</section>
+<section id="implementation" class="level4">
+<h4 class="anchored" data-anchor-id="implementation">Implementation</h4>
+<p>In this K-means clustering implementation, we analyze the price variables in the yogurt data to explore potential customer preference patterns. We first selected four columns related to brand prices (p1, p2, p3, p4) as the basis for clustering. In order to avoid the bias of the clustering results due to the different magnitudes of the variables, we used StandardScaler for standardization and converted each variable into a standard normal distribution with a mean of 0 and a standard deviation of 1. Then, we used the KMeans model in scikit-learn for clustering analysis, and preset the number of clusters to 3 (k=3), which was set according to the position of the bend observed in the previous section of the Elbow Plot. After completing the model training, we attached the clustering labels corresponding to each data item back to the original data, and calculated the average of each group in the four brand prices as the basis for describing the group characteristics, providing a basis for subsequent visualization and interpretation. This implementation process allows us to further understand whether there are identifiable consumer types and price sensitivity differences in the market.</p>
+<div id="dc487872" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>yogurt_data overview</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>yogurt<span class="op">=</span>pd.read_csv(<span class="st">"/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project4/yogurt_data.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>yogurt.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">y1</th>
+<th data-quarto-table-cell-role="th">y2</th>
+<th data-quarto-table-cell-role="th">y3</th>
+<th data-quarto-table-cell-role="th">y4</th>
+<th data-quarto-table-cell-role="th">f1</th>
+<th data-quarto-table-cell-role="th">f2</th>
+<th data-quarto-table-cell-role="th">f3</th>
+<th data-quarto-table-cell-role="th">f4</th>
+<th data-quarto-table-cell-role="th">p1</th>
+<th data-quarto-table-cell-role="th">p2</th>
+<th data-quarto-table-cell-role="th">p3</th>
+<th data-quarto-table-cell-role="th">p4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0.108</td>
+<td>0.081</td>
+<td>0.061</td>
+<td>0.079</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.064</td>
+<td>0.075</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.061</td>
+<td>0.086</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.061</td>
+<td>0.086</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0.125</td>
+<td>0.098</td>
+<td>0.049</td>
+<td>0.079</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ol type="1">
+<li>Select features: extract variables p1, p2, p3, p4 (prices of different brands)</li>
+</ol>
+<div id="90922b6d" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Feature Selection</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> yogurt[features].copy()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>X.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">p1</th>
+<th data-quarto-table-cell-role="th">p2</th>
+<th data-quarto-table-cell-role="th">p3</th>
+<th data-quarto-table-cell-role="th">p4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.108</td>
+<td>0.081</td>
+<td>0.061</td>
+<td>0.079</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.064</td>
+<td>0.075</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.061</td>
+<td>0.086</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.061</td>
+<td>0.086</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.125</td>
+<td>0.098</td>
+<td>0.049</td>
+<td>0.079</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Standardized data: Since different variables may have different magnitudes, StandardScaler is used to convert the variables into a standard distribution with a mean of 0 and a standard deviation of 1.</li>
+</ol>
+<div id="934bb883" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Data Standardization</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> scaler.fit_transform(X)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>X_scaled_df <span class="op">=</span> pd.DataFrame(X_scaled, columns<span class="op">=</span>features)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>X_scaled_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">p1</th>
+<th data-quarto-table-cell-role="th">p2</th>
+<th data-quarto-table-cell-role="th">p3</th>
+<th data-quarto-table-cell-role="th">p4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.085131</td>
+<td>-0.048139</td>
+<td>0.916297</td>
+<td>-0.065789</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.085131</td>
+<td>1.491023</td>
+<td>1.288867</td>
+<td>-0.584416</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.085131</td>
+<td>1.491023</td>
+<td>0.916297</td>
+<td>0.841808</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.085131</td>
+<td>1.491023</td>
+<td>0.916297</td>
+<td>0.841808</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.911049</td>
+<td>1.491023</td>
+<td>-0.573983</td>
+<td>-0.065789</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Execute K-means: Use the KMeans model in scikit-learn to apply clustering and specify the number of clusters K=3</li>
+</ol>
+<div id="13014975" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>K-means Execution</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>kmeans_model <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">42</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>yogurt[<span class="st">"cluster"</span>] <span class="op">=</span> kmeans_model.fit_predict(X_scaled_df)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>yogurt[[<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>, <span class="st">"cluster"</span>]].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">p1</th>
+<th data-quarto-table-cell-role="th">p2</th>
+<th data-quarto-table-cell-role="th">p3</th>
+<th data-quarto-table-cell-role="th">p4</th>
+<th data-quarto-table-cell-role="th">cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.108</td>
+<td>0.081</td>
+<td>0.061</td>
+<td>0.079</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.064</td>
+<td>0.075</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.061</td>
+<td>0.086</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.108</td>
+<td>0.098</td>
+<td>0.061</td>
+<td>0.086</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.125</td>
+<td>0.098</td>
+<td>0.049</td>
+<td>0.079</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Results and Visualization</li>
+</ol>
+<p>Visualization of K-means clustering after reducing the four price variables to two principal components using PCA</p>
+<ul>
+<li>Different colors represent three potential consumer groups identified by the algorithm (Cluster 0, 1, 2)</li>
+<li>The figure shows that the distribution and clustering of data in the principal component space are clearly separated by boundaries</li>
+<li>Indicates that the algorithm successfully divides the data into representative types based on the price structure</li>
+</ul>
+<div id="7c02aaa5" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cluster_summary <span class="op">=</span> yogurt.groupby(<span class="st">"cluster"</span>)[[<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>]].mean().<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cluster_summary[<span class="st">"count"</span>] <span class="op">=</span> yogurt[<span class="st">"cluster"</span>].value_counts().sort_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="1b97f760" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>K-means Cluster Price Summary</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X_pca <span class="op">=</span> pca.fit_transform(X_scaled_df)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>pca_df <span class="op">=</span> pd.DataFrame(X_pca, columns<span class="op">=</span>[<span class="st">"PC1"</span>, <span class="st">"PC2"</span>])</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>pca_df[<span class="st">"cluster"</span>] <span class="op">=</span> yogurt[<span class="st">"cluster"</span>]</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>pca_df, x<span class="op">=</span><span class="st">"PC1"</span>, y<span class="op">=</span><span class="st">"PC2"</span>, hue<span class="op">=</span><span class="st">"cluster"</span>, palette<span class="op">=</span><span class="st">"Set2"</span>, s<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"K-means Clustering Results (PCA Visualization)"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Principal Component 1"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Principal Component 2"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">"Cluster"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw4_questions_files/figure-html/cell-7-output-1.png" width="757" height="564" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As can be seen from the figure, the boundaries between the three groups are relatively obvious, indicating that the clustering effect is good. The distribution of the groups has a certain degree of differentiation, indicating that the model successfully identifies potential consumer types based on the price structure:</p>
+<ul>
+<li>Cluster 0 has a relatively concentrated data point, which may represent a group with a higher price acceptance.</li>
+<li>Cluster 1 presents another consumption behavior feature in the principal component space, which may be a group that is sensitive to specific brands.</li>
+<li>Cluster 2 is relatively dispersed, but clustered in another area, showing an alternative preference profile, or a more price-sensitive consumer.</li>
+</ul>
+</section>
+<section id="summary" class="level4">
+<h4 class="anchored" data-anchor-id="summary">Summary</h4>
+<p>Based on the K-means clustering results and the average of price features, we can preliminarily summarize three consumer groups:</p>
+<ul>
+<li>Cluster 0 is the group with the largest number of samples. The average price of each brand is relatively high, which may represent consumers with high price acceptance or brand loyalty.</li>
+<li>Cluster 1 shows a relatively medium price structure, which is slightly lower in p2 price. It may prefer a certain brand but still have a certain sensitivity to price.</li>
+<li>Cluster 2 is the group with the smallest number of samples. Its average p1 price is obviously lower. It shows a more sensitive price structure overall. It may be a “price-oriented” customer.</li>
+</ul>
+<p>Overall, through the comparison of K-means clustering and price features, we successfully identified three different consumer patterns that may exist in the market, which provides a data-driven basis for subsequent individual marketing strategies or product pricing.</p>
+</section>
+</section>
+<section id="latent-class-multinomial-logit-lc-mnl" class="level3">
+<h3 class="anchored" data-anchor-id="latent-class-multinomial-logit-lc-mnl">1.2 Latent-Class Multinomial Logit (LC-MNL)</h3>
+<section id="method-explanation-1" class="level4">
+<h4 class="anchored" data-anchor-id="method-explanation-1">Method Explanation</h4>
+<p>The Latent-Class Multinomial Logit (LC-MNL) model is an unsupervised learning method that combines clustering and choice modeling. It is particularly suitable for choice data with heterogeneity, such as conjoint experiments or real purchase decision data.</p>
+<p>The core idea of ​​LC-MNL is that there are different types of consumers in the market, and these types are unobserved latent classes. Each latent class has its own set of utility coefficients, indicating its different preferences for product attributes. The model simultaneously estimates: - Utility parameters of each class <span class="math inline">\(\beta_c\)</span> - Proportion (probability) of each class <span class="math inline">\(\pi_c\)</span></p>
+<p>In general, the overall probability of a consumer i choosing option j in a task is: <span class="math display">\[P_{ij} = \sum_{c=1}^C \pi_c \cdot \frac{e^{x_{ij}^\top \beta_c}}{\sum_{k=1}^J e^{x_{ik}^\top \beta_c}}\]</span></p>
+<ul>
+<li><span class="math inline">\(C\)</span>: the preset number of potential categories (can be specified manually, such as C=2 or C=3)</li>
+<li><span class="math inline">\(\pi_c\)</span>: the probability that a consumer belongs to the cth category (satisfying <span class="math inline">\(\sum \pi_c\)</span> = 1)</li>
+<li><span class="math inline">\(\beta_c\)</span>: the utility coefficient of the cth category</li>
+</ul>
+<p>LC-MNL estimation usually uses the EM algorithm (Expectation-Maximization): - Step E (Expectation): Calculate the posterior probability of each data item for each category (i.e.&nbsp;the probability of which category the item belongs to) - Step M (Maximization): Re-estimate the MNL model parameters and category probability for each category based on these probabilities</p>
+<p>This method can capture both “selection behavior” and “potential consumer groups” at the same time, providing companies with more targeted strategic recommendations.</p>
+</section>
+<section id="data-simulation" class="level4">
+<h4 class="anchored" data-anchor-id="data-simulation">Data Simulation</h4>
+<p>To verify the effectiveness of the Latent-Class MNL model, we simulate a selection data with latent heterogeneity. Assume that there are two potential consumer categories (C = 2) in the market, and consumers in each category have different preferences for product attributes.</p>
+<ol type="1">
+<li>Set the utility parameters of two latent classes <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span>.Each class has different brand, advertising and price preferences</li>
+</ol>
+<div id="1cd21f93" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Parameters Setting</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>n_respondents <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>n_tasks <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>n_alternatives <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>classes <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>brands <span class="op">=</span> [<span class="st">"N"</span>, <span class="st">"P"</span>, <span class="st">"H"</span>]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>ads <span class="op">=</span> [<span class="st">"Yes"</span>, <span class="st">"No"</span>]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>prices <span class="op">=</span> np.arange(<span class="dv">8</span>, <span class="dv">33</span>, <span class="dv">4</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>profiles <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"brand"</span>: b, <span class="st">"ad"</span>: a, <span class="st">"price"</span>: p}</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> brands <span class="cf">for</span> a <span class="kw">in</span> ads <span class="cf">for</span> p <span class="kw">in</span> prices</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>profiles.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">brand</th>
+<th data-quarto-table-cell-role="th">ad</th>
+<th data-quarto-table-cell-role="th">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>N</td>
+<td>Yes</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>N</td>
+<td>Yes</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>N</td>
+<td>Yes</td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>N</td>
+<td>Yes</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>N</td>
+<td>Yes</td>
+<td>24</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Assign each consumer to a random category.Assign according to category probability <span class="math inline">\(\pi\)</span> = [0.6, 0.4]</li>
+</ol>
+<div id="75d661b4" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Category Assignment</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>class_probs <span class="op">=</span> [<span class="fl">0.6</span>, <span class="fl">0.4</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>betas <span class="op">=</span> {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: np.array([<span class="fl">1.0</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.8</span>, <span class="op">-</span><span class="fl">0.1</span>]),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: np.array([<span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.4</span>, <span class="op">-</span><span class="fl">0.2</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>brand_map <span class="op">=</span> {<span class="st">"N"</span>: [<span class="dv">1</span>, <span class="dv">0</span>], <span class="st">"P"</span>: [<span class="dv">0</span>, <span class="dv">1</span>], <span class="st">"H"</span>: [<span class="dv">0</span>, <span class="dv">0</span>]}</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ad_map <span class="op">=</span> {<span class="st">"Yes"</span>: <span class="dv">1</span>, <span class="st">"No"</span>: <span class="dv">0</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ol start="3" type="1">
+<li>Simulate multiple choice tasks for each respondent.Provide 3 alternatives in each task and choose according to MNL probability</li>
+</ol>
+<div id="33e58cb1" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Simulation</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate_lc_respondent(rid):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    cls <span class="op">=</span> np.random.choice([<span class="dv">0</span>, <span class="dv">1</span>], p<span class="op">=</span>class_probs)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> betas[cls]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> []</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_tasks <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        alts <span class="op">=</span> profiles.sample(n<span class="op">=</span>n_alternatives).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> []</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _, row <span class="kw">in</span> alts.iterrows():</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            x_vec <span class="op">=</span> brand_map[row.brand] <span class="op">+</span> [ad_map[row.ad], row.price]</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>            X.append(x_vec)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        utilities <span class="op">=</span> X <span class="op">@</span> beta</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        exp_utilities <span class="op">=</span> np.exp(utilities)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        probs <span class="op">=</span> exp_utilities <span class="op">/</span> exp_utilities.<span class="bu">sum</span>()</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        choice <span class="op">=</span> np.random.choice([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], p<span class="op">=</span>probs)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_alternatives):</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>            rows.append({</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                <span class="st">"resp"</span>: rid, <span class="st">"task"</span>: t, <span class="st">"alt"</span>: j, <span class="st">"class"</span>: cls,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">"brand"</span>: alts.loc[j, <span class="st">"brand"</span>], <span class="st">"ad"</span>: alts.loc[j, <span class="st">"ad"</span>],</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>                <span class="st">"price"</span>: alts.loc[j, <span class="st">"price"</span>], <span class="st">"choice"</span>: <span class="bu">int</span>(j <span class="op">==</span> choice),</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>                <span class="st">"x1"</span>: X[j, <span class="dv">0</span>], <span class="st">"x2"</span>: X[j, <span class="dv">1</span>], <span class="st">"x3"</span>: X[j, <span class="dv">2</span>], <span class="st">"x4"</span>: X[j, <span class="dv">3</span>]</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(rows)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>lc_data <span class="op">=</span> pd.concat([simulate_lc_respondent(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_respondents <span class="op">+</span> <span class="dv">1</span>)], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>lc_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="57">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">resp</th>
+<th data-quarto-table-cell-role="th">task</th>
+<th data-quarto-table-cell-role="th">alt</th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">brand</th>
+<th data-quarto-table-cell-role="th">ad</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">choice</th>
+<th data-quarto-table-cell-role="th">x1</th>
+<th data-quarto-table-cell-role="th">x2</th>
+<th data-quarto-table-cell-role="th">x3</th>
+<th data-quarto-table-cell-role="th">x4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>H</td>
+<td>No</td>
+<td>16</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>P</td>
+<td>No</td>
+<td>20</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+<td>P</td>
+<td>No</td>
+<td>24</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>N</td>
+<td>Yes</td>
+<td>16</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>16</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>N</td>
+<td>Yes</td>
+<td>8</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>This simulated data lc_data contains: - The true hidden category of each respondent (class) - The design matrix X for each choice - The actual choice result (choice)</p>
+</section>
+<section id="em-algorithm-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="em-algorithm-implementation">EM Algorithm Implementation</h4>
+<p>To estimate the LC-MNL data lc_data simulated in the previous section, we use the Expectation-Maximization (EM) algorithm to learn the utility parameters and market structure of the latent classes. This method can simultaneously infer the latent class to which the consumer belongs from the choice behavior and estimate the independent Multinomial Logit model parameters for each class.</p>
+<p>In lc_data, each consumer (resp) completed 8 selection tasks (task), each task had 3 options (alt), and each option had 4 attributes (2 brand dummy, 1 advertisement, and 1 price), stored in variables x1 to x4. We hope to infer the parameter structure of two latent classes (C=2) based on these data.</p>
+<ol type="1">
+<li>Initialization We first retrieve the design matrix and selection results, and initialize the class probabilities π and the utility parameters β for each class.</li>
+</ol>
+<div id="6fc707c4" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Initialization</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>X_cols <span class="op">=</span> [<span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span>, <span class="st">"x4"</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> lc_data[X_cols].to_numpy()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> lc_data[<span class="st">"choice"</span>].to_numpy()</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>respondents <span class="op">=</span> lc_data[<span class="st">"resp"</span>].unique()</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>n_classes <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>n_alts <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>n_tasks <span class="op">=</span> lc_data[<span class="st">"task"</span>].nunique()</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>n_params <span class="op">=</span> X.shape[<span class="dv">1</span>]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>pi <span class="op">=</span> np.array([<span class="fl">0.5</span>, <span class="fl">0.5</span>])</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>betas <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.1</span>, size<span class="op">=</span>(n_classes, n_params))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>X_reshaped <span class="op">=</span> X.reshape(<span class="bu">len</span>(respondents), n_tasks, n_alts, n_params)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>y_reshaped <span class="op">=</span> y.reshape(<span class="bu">len</span>(respondents), n_tasks, n_alts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ol start="2" type="1">
+<li>E-step Calculate the probability of each respondent choosing each category, and calculate the membership probability based on the Bayes Rule.</li>
+</ol>
+<div id="5ac2d3c8" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> individual_log_likelihood(beta, X_i, y_i):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> X_i <span class="op">@</span> beta</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    exp_logits <span class="op">=</span> np.exp(logits)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    probs <span class="op">=</span> exp_logits <span class="op">/</span> exp_logits.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    chosen_probs <span class="op">=</span> np.<span class="bu">sum</span>(probs <span class="op">*</span> y_i, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(np.log(chosen_probs <span class="op">+</span> <span class="fl">1e-12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>M-step Re-estimate β and π for each class using the posterior probability of the E-step as weight.</li>
+</ol>
+<div id="95825e37" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_em(X, y, betas, pi, n_iter<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    gamma <span class="op">=</span> np.zeros((<span class="bu">len</span>(respondents), n_classes))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># E-step</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, r <span class="kw">in</span> <span class="bu">enumerate</span>(respondents):</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">range</span>(n_classes):</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                ll <span class="op">=</span> individual_log_likelihood(betas[c], X_reshaped[i], y_reshaped[i])</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                gamma[i, c] <span class="op">=</span> np.log(pi[c] <span class="op">+</span> <span class="fl">1e-12</span>) <span class="op">+</span> ll</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            gamma[i] <span class="op">=</span> np.exp(gamma[i] <span class="op">-</span> np.<span class="bu">max</span>(gamma[i]))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            gamma[i] <span class="op">/=</span> gamma[i].<span class="bu">sum</span>()</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># M-step</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        pi <span class="op">=</span> gamma.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">range</span>(n_classes):</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            <span class="kw">def</span> neg_ll(beta_c):</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="op">-</span><span class="bu">sum</span>(gamma[i, c] <span class="op">*</span> individual_log_likelihood(beta_c, X_reshaped[i], y_reshaped[i])</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(respondents)))</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>            res <span class="op">=</span> minimize(neg_ll, betas[c], method<span class="op">=</span><span class="st">"BFGS"</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>            betas[c] <span class="op">=</span> res.x</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> betas, pi, gamma</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>final_betas, final_pi, posterior_gamma <span class="op">=</span> run_em(X, y, betas, pi, n_iter<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="1">
+<li>Results</li>
+</ol>
+<div id="56988baa" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Results</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"π ="</span>, final_pi)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"β for class 0 ="</span>, final_betas[<span class="dv">0</span>])</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"β for class 1 ="</span>, final_betas[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>π = [0.45395497 0.54604503]
+β for class 0 = [ 1.17302994  0.4320787  -0.83664379 -0.08758917]
+β for class 1 = [ 0.41984315  0.2968194  -0.44266876 -0.18228615]</code></pre>
+</div>
+</div>
+<p>The model successfully converged after 10 iterations, and the estimated results are as follows:</p>
+<ul>
+<li>Category 0’s preferences are strongly biased towards brands (especially brand_N) and are highly averse to advertising</li>
+<li>Category 1’s price coefficient is significantly more negative, indicating that this group is more concerned about price changes</li>
+</ul>
+<div id="a79cab02" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Visualization</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted_classes <span class="op">=</span> np.argmax(posterior_gamma, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>respondent_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"resp"</span>: respondents,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"predicted_class"</span>: predicted_classes,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"true_class"</span>: lc_data.groupby(<span class="st">"resp"</span>)[<span class="st">"class"</span>].first().values</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="op">=</span> pd.crosstab(respondent_df[<span class="st">"true_class"</span>], respondent_df[<span class="st">"predicted_class"</span>],</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                          rownames<span class="op">=</span>[<span class="st">"True Class"</span>], colnames<span class="op">=</span>[<span class="st">"Predicted Class"</span>])</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>sns.heatmap(conf_matrix, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Posterior Class Assignment vs. True Class"</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw4_questions_files/figure-html/cell-15-output-1.png" width="534" height="468" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This confusion matrix heat map shows the correspondence between the predicted class (Predicted Class) of each respondent according to the EM algorithm and the true class (True Class) set in the original simulation.</p>
+<ul>
+<li>The numbers on the diagonal of the figure represent the number of “correctly classified” samples (e.g., the true class is 0 and the predicted class is 0)</li>
+<li>The off-diagonal lines represent the observations that were misassigned</li>
+<li>This figure shows that the model has good classification ability and can effectively identify latent classes based on choice behavior</li>
+</ul>
+<p>This visualization verifies that the LC-MNL model can not only estimate the class structure, but also correctly assign individuals, which strengthens its practicality in market segmentation analysis. #### Class Membership and Parameter Estimates This section is an in-depth analysis of the results of the EM algorithm, examining and interpreting two core outputs:</p>
+<ul>
+<li>The utility parameter estimates (β) corresponding to each latent class</li>
+<li>The posterior probability that each respondent belongs to each class (class membership probabilities)</li>
+</ul>
+<p>Through this information, we can not only understand the differences in preferences of different types of consumers for product attributes, but also estimate the individual grouping structure, which is crucial for subsequent market segmentation and precision marketing strategies. 1. The following are two sets of utility parameters estimated after EM converges:</p>
+<div id="3c46a4f6" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>EM Results</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Parameter"</span>: [<span class="st">"brand_N"</span>, <span class="st">"brand_P"</span>, <span class="st">"ad_Yes"</span>, <span class="st">"price"</span>],</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Class 0"</span>: [<span class="st">"≈ +1.17"</span>, <span class="st">"≈ +0.43"</span>, <span class="st">"≈ -0.84"</span>, <span class="st">"≈ -0.09"</span>],</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Class 1"</span>: [<span class="st">"≈ +0.42"</span>, <span class="st">"≈ +0.30"</span>, <span class="st">"≈ -0.44"</span>, <span class="st">"≈ -0.18"</span>],</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>summary_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="63">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Parameter</th>
+<th data-quarto-table-cell-role="th">Class 0</th>
+<th data-quarto-table-cell-role="th">Class 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>brand_N</td>
+<td>≈ +1.17</td>
+<td>≈ +0.42</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>brand_P</td>
+<td>≈ +0.43</td>
+<td>≈ +0.30</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>ad_Yes</td>
+<td>≈ -0.84</td>
+<td>≈ -0.44</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>price</td>
+<td>≈ -0.09</td>
+<td>≈ -0.18</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Posterior Membership Probabilities Each respondent is assigned a set of posterior probabilities (derived from the γ value in EM) reflecting the degree of confidence that he or she belongs to each category.</li>
+</ol>
+<div id="5a17b076" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Posterior Membership Probabilities</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>posterior_df <span class="op">=</span> pd.DataFrame(posterior_gamma, columns<span class="op">=</span>[<span class="st">"Prob_Class_0"</span>, <span class="st">"Prob_Class_1"</span>])</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>posterior_df[<span class="st">"resp"</span>] <span class="op">=</span> respondents</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>posterior_df[<span class="st">"Predicted_Class"</span>] <span class="op">=</span> np.argmax(posterior_gamma, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>posterior_df <span class="op">=</span> posterior_df.set_index(<span class="st">"resp"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>posterior_df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Prob_Class_0</th>
+<th data-quarto-table-cell-role="th">Prob_Class_1</th>
+<th data-quarto-table-cell-role="th">Predicted_Class</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">resp</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.238276</td>
+<td>0.761724</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.464355</td>
+<td>0.535645</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.106853</td>
+<td>0.893147</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.109515</td>
+<td>0.890485</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0.860531</td>
+<td>0.139469</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>0.070244</td>
+<td>0.929756</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>0.227436</td>
+<td>0.772564</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">8</td>
+<td>0.176492</td>
+<td>0.823508</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9</td>
+<td>0.098262</td>
+<td>0.901738</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10</td>
+<td>0.131487</td>
+<td>0.868513</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ul>
+<li>If Prob_Class_0 ≈ 0.98 for a person, it means that this person is very likely to belong to class 0</li>
+<li>If it is close to 0.5 / 0.5, it means that the model is not sure about its classification</li>
+</ul>
+</section>
+<section id="summary-1" class="level4">
+<h4 class="anchored" data-anchor-id="summary-1">Summary</h4>
+<p>The LC-MNL model not only provides us with the selection logic of each potential group, but also accurately infers the market type to which the individual belongs. In this case, brand preference and price sensitivity constitute the two core difference groups in the market, showing that LC-MNL can effectively capture market heterogeneity and is a more strategic tool than traditional MNL.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="supervised-learning" class="level2">
+<h2 class="anchored" data-anchor-id="supervised-learning">2. Supervised Learning</h2>
+<section id="key-drivers-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="key-drivers-analysis">2.1 Key Drivers Analysis</h3>
+<section id="method-overview" class="level4">
+<h4 class="anchored" data-anchor-id="method-overview">Method Overview</h4>
+</section>
+<section id="variable-importance-measures" class="level4">
+<h4 class="anchored" data-anchor-id="variable-importance-measures">Variable Importance Measures</h4>
+<ul>
+<li>Pearson Correlation</li>
+<li>Standardized Coefficients</li>
+<li>Usefulness</li>
+<li>Shapley Values</li>
+<li>Johnson’s Relative Weights</li>
+<li>Random Forest Gini Decrease</li>
+</ul>
+</section>
+<section id="comparison-table" class="level4">
+<h4 class="anchored" data-anchor-id="comparison-table">Comparison Table</h4>
+</section>
+<section id="interpretation-and-summary" class="level4">
+<h4 class="anchored" data-anchor-id="interpretation-and-summary">Interpretation and Summary</h4>
+</section>
+</section>
+<section id="optional-k-nearest-neighbors-knn" class="level3">
+<h3 class="anchored" data-anchor-id="optional-k-nearest-neighbors-knn">2.2 (Optional) K-Nearest Neighbors (KNN)</h3>
+<section id="custom-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="custom-implementation">Custom Implementation</h4>
+</section>
+<section id="accuracy-and-evaluation" class="level4">
+<h4 class="anchored" data-anchor-id="accuracy-and-evaluation">Accuracy and Evaluation</h4>
+</section>
+<section id="visualization-and-summary" class="level4">
+<h4 class="anchored" data-anchor-id="visualization-and-summary">Visualization and Summary</h4>
+<hr>
+</section>
+</section>
+</section>
+<section id="final-reflections" class="level2">
+<h2 class="anchored" data-anchor-id="final-reflections">3. Final Reflections</h2>
+<section id="modeling-challenges-and-trade-offs" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-challenges-and-trade-offs">3.1 Modeling Challenges and Trade-offs</h3>
+</section>
+<section id="potential-extensions" class="level3">
+<h3 class="anchored" data-anchor-id="potential-extensions">3.2 Potential Extensions</h3>
+<p>This post implements a few measure of variable importance, interpreted as a key drivers analysis, for certain aspects of a payment card on customer satisfaction with that payment card.</p>
+<p><em>todo: replicate the table on slide 19 of the session 4 slides. This involves calculating pearson correlations, standardized regression coefficients, “usefulness”, Shapley values for a linear regression, Johnson’s relative weights, and the mean decrease in the gini coefficient from a random forest. You may use packages built into R or Python.</em></p>
+<p><em>If you want a challenge, either (1) implement one or more of the measures yourself. “Usefulness” is rather easy to program up. Shapley values for linear regression are a bit more work. Or (2) add additional measures to the table such as the importance scores from XGBoost.</em></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

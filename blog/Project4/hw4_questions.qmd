@@ -1,0 +1,390 @@
+---
+title: "Key Drivers Analysis"
+author: "Lulu Ling"
+date: today
+---
+## 1. Unsupervised Learning
+### 1.1 K-means Clustering
+#### Method Explanation
+K-means is an unsupervised learning algorithm that aims to divide samples into K groups based on feature similarity. Its goal is to minimize the Within-Cluster Sum of Squares (WCSS), that is, to minimize the distance between each sample point and the center of the group to which it belongs.
+
+$$\min_{\{C_k\}{k=1}^K} \sum{k=1}^{K} \sum_{x_i \in C_k} \|x_i - \mu_k\|^2$$
+
+- $C_k$: sample set of the kth group
+- $\mu_k$: centroid of the kth group
+
+The K-means algorithm includes the following steps:
+
+1. Randomly initialize K group centers
+2. Assign each sample to the nearest group center
+3. Update the center of each group to the average of all its member points
+4. Repeat steps 2~3 until the group center is stable or the iteration limit is reached
+
+#### Implementation
+
+In this K-means clustering implementation, we analyze the price variables in the yogurt data to explore potential customer preference patterns. We first selected four columns related to brand prices (p1, p2, p3, p4) as the basis for clustering. In order to avoid the bias of the clustering results due to the different magnitudes of the variables, we used StandardScaler for standardization and converted each variable into a standard normal distribution with a mean of 0 and a standard deviation of 1. Then, we used the KMeans model in scikit-learn for clustering analysis, and preset the number of clusters to 3 (k=3), which was set according to the position of the bend observed in the previous section of the Elbow Plot. After completing the model training, we attached the clustering labels corresponding to each data item back to the original data, and calculated the average of each group in the four brand prices as the basis for describing the group characteristics, providing a basis for subsequent visualization and interpretation. This implementation process allows us to further understand whether there are identifiable consumer types and price sensitivity differences in the market.
+```{python}
+# | code-fold: true
+# | code-summary: "yogurt_data overview"
+import pandas as pd
+yogurt=pd.read_csv("/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project4/yogurt_data.csv")
+yogurt.head()
+```
+1. Select features: extract variables p1, p2, p3, p4 (prices of different brands)
+```{python}
+# | code-fold: true
+# | code-summary: "Feature Selection"
+features = ["p1", "p2", "p3", "p4"]
+X = yogurt[features].copy()
+X.head()
+```
+2. Standardized data: Since different variables may have different magnitudes, StandardScaler is used to convert the variables into a standard distribution with a mean of 0 and a standard deviation of 1.
+```{python}
+# | code-fold: true
+# | code-summary: "Data Standardization"
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+X_scaled_df = pd.DataFrame(X_scaled, columns=features)
+
+X_scaled_df.head()
+```
+3. Execute K-means: Use the KMeans model in scikit-learn to apply clustering and specify the number of clusters K=3
+```{python}
+# | code-fold: true
+# | code-summary: "K-means Execution"
+from sklearn.cluster import KMeans
+
+kmeans_model = KMeans(n_clusters=3, random_state=42, n_init=10)
+yogurt["cluster"] = kmeans_model.fit_predict(X_scaled_df)
+yogurt[["p1", "p2", "p3", "p4", "cluster"]].head()
+```
+3. Results and Visualization
+
+Visualization of K-means clustering after reducing the four price variables to two principal components using PCA
+
+- Different colors represent three potential consumer groups identified by the algorithm (Cluster 0, 1, 2)
+- The figure shows that the distribution and clustering of data in the principal component space are clearly separated by boundaries
+- Indicates that the algorithm successfully divides the data into representative types based on the price structure
+
+```{python}
+cluster_summary = yogurt.groupby("cluster")[["p1", "p2", "p3", "p4"]].mean().round(2)
+cluster_summary["count"] = yogurt["cluster"].value_counts().sort_index()
+```
+```{python}
+# | code-fold: true
+# | code-summary: "K-means Cluster Price Summary"
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled_df)
+pca_df = pd.DataFrame(X_pca, columns=["PC1", "PC2"])
+pca_df["cluster"] = yogurt["cluster"]
+
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=pca_df, x="PC1", y="PC2", hue="cluster", palette="Set2", s=50)
+plt.title("K-means Clustering Results (PCA Visualization)")
+plt.xlabel("Principal Component 1")
+plt.ylabel("Principal Component 2")
+plt.legend(title="Cluster")
+plt.tight_layout()
+plt.show()
+```
+
+As can be seen from the figure, the boundaries between the three groups are relatively obvious, indicating that the clustering effect is good. The distribution of the groups has a certain degree of differentiation, indicating that the model successfully identifies potential consumer types based on the price structure:
+
+- Cluster 0 has a relatively concentrated data point, which may represent a group with a higher price acceptance.
+- Cluster 1 presents another consumption behavior feature in the principal component space, which may be a group that is sensitive to specific brands.
+- Cluster 2 is relatively dispersed, but clustered in another area, showing an alternative preference profile, or a more price-sensitive consumer.
+
+#### Summary
+Based on the K-means clustering results and the average of price features, we can preliminarily summarize three consumer groups:
+
+- Cluster 0 is the group with the largest number of samples. The average price of each brand is relatively high, which may represent consumers with high price acceptance or brand loyalty.
+- Cluster 1 shows a relatively medium price structure, which is slightly lower in p2 price. It may prefer a certain brand but still have a certain sensitivity to price.
+- Cluster 2 is the group with the smallest number of samples. Its average p1 price is obviously lower. It shows a more sensitive price structure overall. It may be a "price-oriented" customer.
+
+Overall, through the comparison of K-means clustering and price features, we successfully identified three different consumer patterns that may exist in the market, which provides a data-driven basis for subsequent individual marketing strategies or product pricing.
+
+### 1.2 Latent-Class Multinomial Logit (LC-MNL)
+
+#### Method Explanation
+The Latent-Class Multinomial Logit (LC-MNL) model is an unsupervised learning method that combines clustering and choice modeling. It is particularly suitable for choice data with heterogeneity, such as conjoint experiments or real purchase decision data.
+
+The core idea of ​​LC-MNL is that there are different types of consumers in the market, and these types are unobserved latent classes. Each latent class has its own set of utility coefficients, indicating its different preferences for product attributes. The model simultaneously estimates:
+- Utility parameters of each class $\beta_c$
+- Proportion (probability) of each class $\pi_c$
+
+In general, the overall probability of a consumer i choosing option j in a task is:
+$$P_{ij} = \sum_{c=1}^C \pi_c \cdot \frac{e^{x_{ij}^\top \beta_c}}{\sum_{k=1}^J e^{x_{ik}^\top \beta_c}}$$
+
+- $C$: the preset number of potential categories (can be specified manually, such as C=2 or C=3)
+- $\pi_c$: the probability that a consumer belongs to the cth category (satisfying $\sum \pi_c$ = 1)
+- $\beta_c$: the utility coefficient of the cth category
+
+LC-MNL estimation usually uses the EM algorithm (Expectation-Maximization):
+- Step E (Expectation): Calculate the posterior probability of each data item for each category (i.e. the probability of which category the item belongs to)
+- Step M (Maximization): Re-estimate the MNL model parameters and category probability for each category based on these probabilities
+
+This method can capture both "selection behavior" and "potential consumer groups" at the same time, providing companies with more targeted strategic recommendations.
+
+#### Data Simulation
+To verify the effectiveness of the Latent-Class MNL model, we simulate a selection data with latent heterogeneity. Assume that there are two potential consumer categories (C = 2) in the market, and consumers in each category have different preferences for product attributes.
+
+1. Set the utility parameters of two latent classes $\beta_1$, $\beta_2$.Each class has different brand, advertising and price preferences
+```{python}
+# | code-fold: true
+# | code-summary: "Parameters Setting"
+import numpy as np
+np.random.seed(42)
+
+n_respondents = 200
+n_tasks = 8
+n_alternatives = 3
+classes = 2
+
+brands = ["N", "P", "H"]
+ads = ["Yes", "No"]
+prices = np.arange(8, 33, 4)
+profiles = pd.DataFrame([
+    {"brand": b, "ad": a, "price": p}
+    for b in brands for a in ads for p in prices
+])
+profiles.head()
+```
+2. Assign each consumer to a random category.Assign according to category probability $\pi$ = [0.6, 0.4]
+```{python}
+# | code-fold: true
+# | code-summary: "Category Assignment"
+class_probs = [0.6, 0.4]
+betas = {
+    0: np.array([1.0, 0.5, -0.8, -0.1]),
+    1: np.array([0.3, 0.2, -0.4, -0.2])
+}
+
+brand_map = {"N": [1, 0], "P": [0, 1], "H": [0, 0]}
+ad_map = {"Yes": 1, "No": 0}
+```
+3. Simulate multiple choice tasks for each respondent.Provide 3 alternatives in each task and choose according to MNL probability
+```{python}
+# | code-fold: true
+# | code-summary: "Simulation"
+def simulate_lc_respondent(rid):
+    cls = np.random.choice([0, 1], p=class_probs)
+    beta = betas[cls]
+    rows = []
+
+    for t in range(1, n_tasks + 1):
+        alts = profiles.sample(n=n_alternatives).reset_index(drop=True)
+        X = []
+        for _, row in alts.iterrows():
+            x_vec = brand_map[row.brand] + [ad_map[row.ad], row.price]
+            X.append(x_vec)
+        X = np.array(X)
+
+        utilities = X @ beta
+        exp_utilities = np.exp(utilities)
+        probs = exp_utilities / exp_utilities.sum()
+        choice = np.random.choice([0, 1, 2], p=probs)
+
+        for j in range(n_alternatives):
+            rows.append({
+                "resp": rid, "task": t, "alt": j, "class": cls,
+                "brand": alts.loc[j, "brand"], "ad": alts.loc[j, "ad"],
+                "price": alts.loc[j, "price"], "choice": int(j == choice),
+                "x1": X[j, 0], "x2": X[j, 1], "x3": X[j, 2], "x4": X[j, 3]
+            })
+    return pd.DataFrame(rows)
+
+lc_data = pd.concat([simulate_lc_respondent(i) for i in range(1, n_respondents + 1)], ignore_index=True)
+lc_data.head()
+```
+
+This simulated data lc_data contains:
+- The true hidden category of each respondent (class)
+- The design matrix X for each choice
+- The actual choice result (choice)
+
+#### EM Algorithm Implementation
+To estimate the LC-MNL data lc_data simulated in the previous section, we use the Expectation-Maximization (EM) algorithm to learn the utility parameters and market structure of the latent classes. This method can simultaneously infer the latent class to which the consumer belongs from the choice behavior and estimate the independent Multinomial Logit model parameters for each class.
+
+In lc_data, each consumer (resp) completed 8 selection tasks (task), each task had 3 options (alt), and each option had 4 attributes (2 brand dummy, 1 advertisement, and 1 price), stored in variables x1 to x4. We hope to infer the parameter structure of two latent classes (C=2) based on these data.
+
+1. Initialization
+We first retrieve the design matrix and selection results, and initialize the class probabilities π and the utility parameters β for each class.
+```{python}
+# | code-fold: true
+# | code-summary: "Initialization"
+import numpy as np
+from scipy.optimize import minimize
+
+X_cols = ["x1", "x2", "x3", "x4"]
+X = lc_data[X_cols].to_numpy()
+y = lc_data["choice"].to_numpy()
+respondents = lc_data["resp"].unique()
+
+n_classes = 2
+n_alts = 3
+n_tasks = lc_data["task"].nunique()
+n_params = X.shape[1]
+
+pi = np.array([0.5, 0.5])
+betas = np.random.normal(0, 0.1, size=(n_classes, n_params))
+
+X_reshaped = X.reshape(len(respondents), n_tasks, n_alts, n_params)
+y_reshaped = y.reshape(len(respondents), n_tasks, n_alts)
+```
+
+2. E-step
+Calculate the probability of each respondent choosing each category, and calculate the membership probability based on the Bayes Rule.
+```{python}
+def individual_log_likelihood(beta, X_i, y_i):
+    logits = X_i @ beta
+    exp_logits = np.exp(logits)
+    probs = exp_logits / exp_logits.sum(axis=1, keepdims=True)
+    chosen_probs = np.sum(probs * y_i, axis=1)
+    return np.sum(np.log(chosen_probs + 1e-12))
+```
+3. M-step
+Re-estimate β and π for each class using the posterior probability of the E-step as weight.
+```{python}
+def run_em(X, y, betas, pi, n_iter=10):
+    gamma = np.zeros((len(respondents), n_classes))
+    for iteration in range(n_iter):
+        # E-step
+        for i, r in enumerate(respondents):
+            for c in range(n_classes):
+                ll = individual_log_likelihood(betas[c], X_reshaped[i], y_reshaped[i])
+                gamma[i, c] = np.log(pi[c] + 1e-12) + ll
+            gamma[i] = np.exp(gamma[i] - np.max(gamma[i]))
+            gamma[i] /= gamma[i].sum()
+
+        # M-step
+        pi = gamma.mean(axis=0)
+        for c in range(n_classes):
+            def neg_ll(beta_c):
+                return -sum(gamma[i, c] * individual_log_likelihood(beta_c, X_reshaped[i], y_reshaped[i])
+                            for i in range(len(respondents)))
+            res = minimize(neg_ll, betas[c], method="BFGS")
+            betas[c] = res.x
+
+    return betas, pi, gamma
+
+final_betas, final_pi, posterior_gamma = run_em(X, y, betas, pi, n_iter=10)
+```
+4. Results
+```{python}
+# | code-fold: true
+# | code-summary: "Results"
+print("π =", final_pi)
+print("β for class 0 =", final_betas[0])
+print("β for class 1 =", final_betas[1])
+```
+The model successfully converged after 10 iterations, and the estimated results are as follows:
+
+- Category 0's preferences are strongly biased towards brands (especially brand_N) and are highly averse to advertising
+- Category 1's price coefficient is significantly more negative, indicating that this group is more concerned about price changes
+
+```{python}
+# | code-fold: true
+# | code-summary: "Visualization"
+predicted_classes = np.argmax(posterior_gamma, axis=1)
+respondent_df = pd.DataFrame({
+    "resp": respondents,
+    "predicted_class": predicted_classes,
+    "true_class": lc_data.groupby("resp")["class"].first().values
+})
+conf_matrix = pd.crosstab(respondent_df["true_class"], respondent_df["predicted_class"],
+                          rownames=["True Class"], colnames=["Predicted Class"])
+
+plt.figure(figsize=(6, 5))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap="Blues")
+plt.title("Posterior Class Assignment vs. True Class")
+plt.tight_layout()
+plt.show()
+```
+This confusion matrix heat map shows the correspondence between the predicted class (Predicted Class) of each respondent according to the EM algorithm and the true class (True Class) set in the original simulation.
+
+- The numbers on the diagonal of the figure represent the number of "correctly classified" samples (e.g., the true class is 0 and the predicted class is 0)
+- The off-diagonal lines represent the observations that were misassigned
+- This figure shows that the model has good classification ability and can effectively identify latent classes based on choice behavior
+
+This visualization verifies that the LC-MNL model can not only estimate the class structure, but also correctly assign individuals, which strengthens its practicality in market segmentation analysis.
+#### Class Membership and Parameter Estimates
+This section is an in-depth analysis of the results of the EM algorithm, examining and interpreting two core outputs:
+
+- The utility parameter estimates (β) corresponding to each latent class
+- The posterior probability that each respondent belongs to each class (class membership probabilities)
+
+Through this information, we can not only understand the differences in preferences of different types of consumers for product attributes, but also estimate the individual grouping structure, which is crucial for subsequent market segmentation and precision marketing strategies.
+1. The following are two sets of utility parameters estimated after EM converges:
+```{python}
+# | code-fold: true
+# | code-summary: "EM Results"
+summary_table = pd.DataFrame({
+    "Parameter": ["brand_N", "brand_P", "ad_Yes", "price"],
+    "Class 0": ["≈ +1.17", "≈ +0.43", "≈ -0.84", "≈ -0.09"],
+    "Class 1": ["≈ +0.42", "≈ +0.30", "≈ -0.44", "≈ -0.18"],
+})
+summary_table
+```
+2. Posterior Membership Probabilities
+Each respondent is assigned a set of posterior probabilities (derived from the γ value in EM) reflecting the degree of confidence that he or she belongs to each category.
+```{python}
+# | code-fold: true
+# | code-summary: "Posterior Membership Probabilities"
+posterior_df = pd.DataFrame(posterior_gamma, columns=["Prob_Class_0", "Prob_Class_1"])
+posterior_df["resp"] = respondents
+posterior_df["Predicted_Class"] = np.argmax(posterior_gamma, axis=1)
+posterior_df = posterior_df.set_index("resp")
+posterior_df.head(10)
+```
+- If Prob_Class_0 ≈ 0.98 for a person, it means that this person is very likely to belong to class 0
+- If it is close to 0.5 / 0.5, it means that the model is not sure about its classification
+
+#### Summary
+The LC-MNL model not only provides us with the selection logic of each potential group, but also accurately infers the market type to which the individual belongs. In this case, brand preference and price sensitivity constitute the two core difference groups in the market, showing that LC-MNL can effectively capture market heterogeneity and is a more strategic tool than traditional MNL.
+
+---
+
+## 2. Supervised Learning
+### 2.1 Key Drivers Analysis
+#### Method Overview
+#### Variable Importance Measures
+- Pearson Correlation
+- Standardized Coefficients
+- Usefulness
+- Shapley Values
+- Johnson’s Relative Weights
+- Random Forest Gini Decrease
+
+#### Comparison Table
+#### Interpretation and Summary
+
+### 2.2 (Optional) K-Nearest Neighbors (KNN)
+#### Custom Implementation
+#### Accuracy and Evaluation
+#### Visualization and Summary
+
+---
+
+## 3. Final Reflections
+
+### 3.1 Modeling Challenges and Trade-offs
+### 3.2 Potential Extensions
+
+This post implements a few measure of variable importance, interpreted as a key drivers analysis, for certain aspects of a payment card on customer satisfaction with that payment card.
+
+
+_todo: replicate the table on slide 19 of the session 4 slides. This involves calculating pearson correlations, standardized regression coefficients, "usefulness", Shapley values for a linear regression, Johnson's relative weights, and the mean decrease in the gini coefficient from a random forest. You may use packages built into R or Python._
+
+_If you want a challenge, either (1) implement one or more of the measures yourself. "Usefulness" is rather easy to program up. Shapley values for linear regression are a bit more work. Or (2) add additional measures to the table such as the importance scores from XGBoost._
+
+
+
+
+
+
