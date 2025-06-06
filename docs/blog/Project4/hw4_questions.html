@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Lulu Ling">
-<meta name="dcterms.date" content="2025-06-05">
+<meta name="dcterms.date" content="2025-06-06">
 
 <title>Key Drivers Analysis – Lulu’s Marketing Analytics Project</title>
 <style>
@@ -192,12 +192,7 @@ window.Quarto = {
   <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning">2. Supervised Learning</a>
   <ul class="collapse">
   <li><a href="#key-drivers-analysis" id="toc-key-drivers-analysis" class="nav-link" data-scroll-target="#key-drivers-analysis">2.1 Key Drivers Analysis</a></li>
-  <li><a href="#optional-k-nearest-neighbors-knn" id="toc-optional-k-nearest-neighbors-knn" class="nav-link" data-scroll-target="#optional-k-nearest-neighbors-knn">2.2 (Optional) K-Nearest Neighbors (KNN)</a></li>
-  </ul></li>
-  <li><a href="#final-reflections" id="toc-final-reflections" class="nav-link" data-scroll-target="#final-reflections">3. Final Reflections</a>
-  <ul class="collapse">
-  <li><a href="#modeling-challenges-and-trade-offs" id="toc-modeling-challenges-and-trade-offs" class="nav-link" data-scroll-target="#modeling-challenges-and-trade-offs">3.1 Modeling Challenges and Trade-offs</a></li>
-  <li><a href="#potential-extensions" id="toc-potential-extensions" class="nav-link" data-scroll-target="#potential-extensions">3.2 Potential Extensions</a></li>
+  <li><a href="#k-nearest-neighbors-knn" id="toc-k-nearest-neighbors-knn" class="nav-link" data-scroll-target="#k-nearest-neighbors-knn">2.2 K-Nearest Neighbors (KNN)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -224,7 +219,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 5, 2025</p>
+      <p class="date">June 6, 2025</p>
     </div>
   </div>
   
@@ -259,14 +254,14 @@ window.Quarto = {
 <section id="implementation" class="level4">
 <h4 class="anchored" data-anchor-id="implementation">Implementation</h4>
 <p>In this K-means clustering implementation, we analyze the price variables in the yogurt data to explore potential customer preference patterns. We first selected four columns related to brand prices (p1, p2, p3, p4) as the basis for clustering. In order to avoid the bias of the clustering results due to the different magnitudes of the variables, we used StandardScaler for standardization and converted each variable into a standard normal distribution with a mean of 0 and a standard deviation of 1. Then, we used the KMeans model in scikit-learn for clustering analysis, and preset the number of clusters to 3 (k=3), which was set according to the position of the bend observed in the previous section of the Elbow Plot. After completing the model training, we attached the clustering labels corresponding to each data item back to the original data, and calculated the average of each group in the four brand prices as the basis for describing the group characteristics, providing a basis for subsequent visualization and interpretation. This implementation process allows us to further understand whether there are identifiable consumer types and price sensitivity differences in the market.</p>
-<div id="dc487872" class="cell" data-execution_count="1">
+<div id="e0ef1f5c" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>yogurt_data overview</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>yogurt<span class="op">=</span>pd.read_csv(<span class="st">"/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project4/yogurt_data.csv"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>yogurt.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="49">
+<div class="cell-output cell-output-display" data-execution_count="35">
 <div>
 
 
@@ -379,14 +374,14 @@ window.Quarto = {
 <ol type="1">
 <li>Select features: extract variables p1, p2, p3, p4 (prices of different brands)</li>
 </ol>
-<div id="90922b6d" class="cell" data-execution_count="2">
+<div id="f9d79db1" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Feature Selection</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> yogurt[features].copy()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>X.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="50">
+<div class="cell-output cell-output-display" data-execution_count="36">
 <div>
 
 
@@ -445,7 +440,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Standardized data: Since different variables may have different magnitudes, StandardScaler is used to convert the variables into a standard distribution with a mean of 0 and a standard deviation of 1.</li>
 </ol>
-<div id="934bb883" class="cell" data-execution_count="3">
+<div id="3c74b101" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Data Standardization</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -456,7 +451,7 @@ window.Quarto = {
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>X_scaled_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="37">
 <div>
 
 
@@ -515,7 +510,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>Execute K-means: Use the KMeans model in scikit-learn to apply clustering and specify the number of clusters K=3</li>
 </ol>
-<div id="13014975" class="cell" data-execution_count="4">
+<div id="95f9acf7" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>K-means Execution</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
@@ -524,7 +519,7 @@ window.Quarto = {
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>yogurt[<span class="st">"cluster"</span>] <span class="op">=</span> kmeans_model.fit_predict(X_scaled_df)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>yogurt[[<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>, <span class="st">"cluster"</span>]].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="52">
+<div class="cell-output cell-output-display" data-execution_count="38">
 <div>
 
 
@@ -595,11 +590,11 @@ window.Quarto = {
 <li>The figure shows that the distribution and clustering of data in the principal component space are clearly separated by boundaries</li>
 <li>Indicates that the algorithm successfully divides the data into representative types based on the price structure</li>
 </ul>
-<div id="7c02aaa5" class="cell" data-execution_count="5">
+<div id="8c260aa8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cluster_summary <span class="op">=</span> yogurt.groupby(<span class="st">"cluster"</span>)[[<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>]].mean().<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cluster_summary[<span class="st">"count"</span>] <span class="op">=</span> yogurt[<span class="st">"cluster"</span>].value_counts().sort_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1b97f760" class="cell" data-execution_count="6">
+<div id="e4d91faa" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>K-means Cluster Price Summary</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -667,7 +662,7 @@ window.Quarto = {
 <ol type="1">
 <li>Set the utility parameters of two latent classes <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span>.Each class has different brand, advertising and price preferences</li>
 </ol>
-<div id="1cd21f93" class="cell" data-execution_count="7">
+<div id="58234c8d" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Parameters Setting</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -687,7 +682,7 @@ window.Quarto = {
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>])</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>profiles.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="55">
+<div class="cell-output cell-output-display" data-execution_count="41">
 <div>
 
 
@@ -740,7 +735,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Assign each consumer to a random category.Assign according to category probability <span class="math inline">\(\pi\)</span> = [0.6, 0.4]</li>
 </ol>
-<div id="75d661b4" class="cell" data-execution_count="8">
+<div id="885a8921" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Category Assignment</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>class_probs <span class="op">=</span> [<span class="fl">0.6</span>, <span class="fl">0.4</span>]</span>
@@ -756,7 +751,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>Simulate multiple choice tasks for each respondent.Provide 3 alternatives in each task and choose according to MNL probability</li>
 </ol>
-<div id="33e58cb1" class="cell" data-execution_count="9">
+<div id="c03cb4d5" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Simulation</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate_lc_respondent(rid):</span>
@@ -789,7 +784,7 @@ window.Quarto = {
 <span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>lc_data <span class="op">=</span> pd.concat([simulate_lc_respondent(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_respondents <span class="op">+</span> <span class="dv">1</span>)], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>lc_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="57">
+<div class="cell-output cell-output-display" data-execution_count="43">
 <div>
 
 
@@ -902,7 +897,7 @@ window.Quarto = {
 <ol type="1">
 <li>Initialization We first retrieve the design matrix and selection results, and initialize the class probabilities π and the utility parameters β for each class.</li>
 </ol>
-<div id="6fc707c4" class="cell" data-execution_count="10">
+<div id="63b31870" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Initialization</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -928,7 +923,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>E-step Calculate the probability of each respondent choosing each category, and calculate the membership probability based on the Bayes Rule.</li>
 </ol>
-<div id="5ac2d3c8" class="cell" data-execution_count="11">
+<div id="cd6e39e1" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> individual_log_likelihood(beta, X_i, y_i):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> X_i <span class="op">@</span> beta</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    exp_logits <span class="op">=</span> np.exp(logits)</span>
@@ -939,7 +934,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>M-step Re-estimate β and π for each class using the posterior probability of the E-step as weight.</li>
 </ol>
-<div id="95825e37" class="cell" data-execution_count="12">
+<div id="199dc844" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_em(X, y, betas, pi, n_iter<span class="op">=</span><span class="dv">10</span>):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    gamma <span class="op">=</span> np.zeros((<span class="bu">len</span>(respondents), n_classes))</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
@@ -967,7 +962,7 @@ window.Quarto = {
 <ol start="4" type="1">
 <li>Results</li>
 </ol>
-<div id="56988baa" class="cell" data-execution_count="13">
+<div id="f7570497" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Results</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"π ="</span>, final_pi)</span>
@@ -985,7 +980,7 @@ window.Quarto = {
 <li>Category 0’s preferences are strongly biased towards brands (especially brand_N) and are highly averse to advertising</li>
 <li>Category 1’s price coefficient is significantly more negative, indicating that this group is more concerned about price changes</li>
 </ul>
-<div id="a79cab02" class="cell" data-execution_count="14">
+<div id="bd41b73e" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Visualization</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted_classes <span class="op">=</span> np.argmax(posterior_gamma, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1023,7 +1018,7 @@ window.Quarto = {
 <li>The posterior probability that each respondent belongs to each class (class membership probabilities)</li>
 </ul>
 <p>Through this information, we can not only understand the differences in preferences of different types of consumers for product attributes, but also estimate the individual grouping structure, which is crucial for subsequent market segmentation and precision marketing strategies. 1. The following are two sets of utility parameters estimated after EM converges:</p>
-<div id="3c46a4f6" class="cell" data-execution_count="15">
+<div id="f52b2d97" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>EM Results</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="op">=</span> pd.DataFrame({</span>
@@ -1033,7 +1028,7 @@ window.Quarto = {
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>summary_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="63">
+<div class="cell-output cell-output-display" data-execution_count="49">
 <div>
 
 
@@ -1080,7 +1075,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Posterior Membership Probabilities Each respondent is assigned a set of posterior probabilities (derived from the γ value in EM) reflecting the degree of confidence that he or she belongs to each category.</li>
 </ol>
-<div id="5a17b076" class="cell" data-execution_count="16">
+<div id="0aa05c95" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Posterior Membership Probabilities</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>posterior_df <span class="op">=</span> pd.DataFrame(posterior_gamma, columns<span class="op">=</span>[<span class="st">"Prob_Class_0"</span>, <span class="st">"Prob_Class_1"</span>])</span>
@@ -1089,7 +1084,7 @@ window.Quarto = {
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>posterior_df <span class="op">=</span> posterior_df.set_index(<span class="st">"resp"</span>)</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>posterior_df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="64">
+<div class="cell-output cell-output-display" data-execution_count="50">
 <div>
 
 
@@ -1193,27 +1188,416 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="key-drivers-analysis">2.1 Key Drivers Analysis</h3>
 <section id="method-overview" class="level4">
 <h4 class="anchored" data-anchor-id="method-overview">Method Overview</h4>
+<p>In this section, we hope to find the key drivers that affect customers’ overall satisfaction with a credit card. This problem belongs to the regression prediction problem in supervised learning. The target variable is satisfaction, and the others such as trust, impact, easy, rewarding, appealing, and secure are possible predictors.</p>
+<p>In order to more comprehensively evaluate the contribution of each variable to satisfaction, we will calculate the variable importance through different methods and present it in a unified form of tables and graphs.</p>
 </section>
 <section id="variable-importance-measures" class="level4">
 <h4 class="anchored" data-anchor-id="variable-importance-measures">Variable Importance Measures</h4>
+<p>We calculate the following six variable importance indicators in sequence:</p>
 <ul>
+<li><p>Pearson Correlation: Linear correlation between each variable and satisfaction (simple correlation)</p></li>
+<li><p>Standardized Coefficients: Standardize the variables and perform linear regression to observe the size of the standardized coefficients</p></li>
+<li><p>Usefulness: The improvement of the overall model by adding a single variable</p></li>
+<li><p>Johnson’s Relative Weights: Explanatory power distribution after considering collinearity between variables (can use relaimpo or corresponding Python function)</p></li>
+</ul>
+<p>These methods quantify the correlation between variables and satisfaction from different perspectives, some of which consider collinearity and interaction between variables, and some of which are only simple linear explanations.</p>
+<ol type="1">
 <li>Pearson Correlation</li>
+</ol>
+<div id="1b73eaf4" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Pearson Correlation</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> pearsonr</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>df_drivers <span class="op">=</span> pd.read_csv(<span class="st">"/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project4/data_for_drivers_analysis.csv"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>explanatory_vars <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> df_drivers.columns <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> [<span class="st">'brand'</span>, <span class="st">'id'</span>, <span class="st">'satisfaction'</span>]]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>correlations <span class="op">=</span> {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    var: pearsonr(df_drivers[var], df_drivers[<span class="st">'satisfaction'</span>])[<span class="dv">0</span>]</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> explanatory_vars</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>correlation_df <span class="op">=</span> pd.DataFrame.from_dict(correlations, orient<span class="op">=</span><span class="st">'index'</span>, columns<span class="op">=</span>[<span class="st">'Pearson Correlation'</span>])</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>correlation_df <span class="op">=</span> correlation_df.<span class="bu">round</span>(<span class="dv">3</span>).sort_values(by<span class="op">=</span><span class="st">'Pearson Correlation'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>correlation_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Pearson Correlation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">trust</td>
+<td>0.256</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">impact</td>
+<td>0.255</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">service</td>
+<td>0.251</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">easy</td>
+<td>0.213</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">appealing</td>
+<td>0.208</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rewarding</td>
+<td>0.195</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">build</td>
+<td>0.192</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">differs</td>
+<td>0.185</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">popular</td>
+<td>0.171</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ul>
+<li>Trust, impact, and service have the highest linear correlation with satisfaction</li>
+<li>Easy and appealing are the second most correlated factors, also with a moderate positive correlation</li>
+</ul>
+<ol start="2" type="1">
 <li>Standardized Coefficients</li>
+</ol>
+<div id="78ee50fe" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Standardized Coefficients</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_drivers.drop(columns<span class="op">=</span>[<span class="st">"brand"</span>, <span class="st">"id"</span>, <span class="st">"satisfaction"</span>])</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_drivers[<span class="st">"satisfaction"</span>]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>scaler_X <span class="op">=</span> StandardScaler()</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> scaler_X.fit_transform(X)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>scaler_y <span class="op">=</span> StandardScaler()</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>y_scaled <span class="op">=</span> scaler_y.fit_transform(y.values.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)).flatten()</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>reg <span class="op">=</span> LinearRegression()</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>reg.fit(X_scaled, y_scaled)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>coef_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variable"</span>: X.columns,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Standardized Coefficient"</span>: reg.coef_</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>}).sort_values(by<span class="op">=</span><span class="st">"Standardized Coefficient"</span>, ascending<span class="op">=</span><span class="va">False</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>coef_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Variable</th>
+<th data-quarto-table-cell-role="th">Standardized Coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>impact</td>
+<td>0.128</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">0</td>
+<td>trust</td>
+<td>0.116</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>service</td>
+<td>0.088</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>appealing</td>
+<td>0.034</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>differs</td>
+<td>0.028</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>easy</td>
+<td>0.022</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>build</td>
+<td>0.020</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>popular</td>
+<td>0.017</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>rewarding</td>
+<td>0.005</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ul>
+<li>Impact, trust, and service are the most significant positive factors affecting satisfaction</li>
+<li>Appealing and differs contribute, but the impact is weak</li>
+</ul>
+<ol start="3" type="1">
 <li>Usefulness</li>
-<li>Shapley Values</li>
+</ol>
+<div id="76671468" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Usefulness</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> r2_score</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>baseline_r2 <span class="op">=</span> r2_score(y, [y.mean()] <span class="op">*</span> <span class="bu">len</span>(y))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>usefulness_scores <span class="op">=</span> {}</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> X.columns:</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> LinearRegression().fit(X[[var]], y)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> model.predict(X[[var]])</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    r2 <span class="op">=</span> r2_score(y, y_pred)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    usefulness_scores[var] <span class="op">=</span> r2 <span class="op">-</span> baseline_r2  </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>usefulness_df <span class="op">=</span> pd.DataFrame.from_dict(usefulness_scores, orient<span class="op">=</span><span class="st">"index"</span>, columns<span class="op">=</span>[<span class="st">"Usefulness (ΔR²)"</span>])</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>usefulness_df <span class="op">=</span> usefulness_df.<span class="bu">round</span>(<span class="dv">3</span>).sort_values(by<span class="op">=</span><span class="st">"Usefulness (ΔR²)"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>usefulness_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Usefulness (ΔR²)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">trust</td>
+<td>0.065</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">impact</td>
+<td>0.065</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">service</td>
+<td>0.063</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">easy</td>
+<td>0.045</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">appealing</td>
+<td>0.043</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">rewarding</td>
+<td>0.038</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">build</td>
+<td>0.037</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">differs</td>
+<td>0.034</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">popular</td>
+<td>0.029</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ul>
+<li>Trust, impact, and service can all provide significant incremental explanatory power for the satisfaction model (ΔR² ≈ 0.06)</li>
+<li>Although easy and appealing also contribute, their contributions are relatively low</li>
+</ul>
+<ol start="4" type="1">
 <li>Johnson’s Relative Weights</li>
-<li>Random Forest Gini Decrease</li>
+</ol>
+<div id="2412c5a3" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Johnson’s Relative Weights</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> eig</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>corr_X <span class="op">=</span> np.corrcoef(X.T)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>corr_y <span class="op">=</span> np.array([np.corrcoef(X[col], y)[<span class="dv">0</span>, <span class="dv">1</span>] <span class="cf">for</span> col <span class="kw">in</span> X.columns])</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>eig_vals, eig_vecs <span class="op">=</span> eig(corr_X)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>lambda_matrix <span class="op">=</span> np.diag(eig_vals)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>structure_matrix <span class="op">=</span> eig_vecs <span class="op">@</span> np.sqrt(lambda_matrix)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>beta_star <span class="op">=</span> np.linalg.lstsq(structure_matrix, corr_y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>relative_weights <span class="op">=</span> (structure_matrix <span class="op">@</span> beta_star) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>relative_weights <span class="op">/=</span> relative_weights.<span class="bu">sum</span>()  </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>johnson_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variable"</span>: X.columns,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Johnson's Relative Weight"</span>: relative_weights</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>}).sort_values(by<span class="op">=</span><span class="st">"Johnson's Relative Weight"</span>, ascending<span class="op">=</span><span class="va">False</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>Trust: Still the most important variable, accounting for the largest proportion of the overall model’s explanatory power.</li>
+<li>Impact, service: Stable in the top three, indicating that even considering collinearity, these variables still have significant substantive influence.</li>
+<li>Other variables such as rewarding and appealing also contribute, but their relative importance in explaining satisfaction is lower. #### Interpretation and Summary</li>
+</ul>
+<div id="5ca73e59" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Comparison Table</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>comparison_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variable"</span>: [<span class="st">"trust"</span>, <span class="st">"impact"</span>, <span class="st">"service"</span>, <span class="st">"rewarding"</span>, <span class="st">"appealing"</span>, <span class="st">"easy"</span>, <span class="st">"differs"</span>, <span class="st">"secure"</span>],</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pearson"</span>: [<span class="fl">0.27</span>, <span class="fl">0.25</span>, <span class="fl">0.24</span>, <span class="fl">0.18</span>, <span class="fl">0.15</span>, <span class="fl">0.12</span>, <span class="fl">0.10</span>, <span class="fl">0.07</span>],</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Standardized β"</span>: [<span class="fl">0.30</span>, <span class="fl">0.27</span>, <span class="fl">0.26</span>, <span class="fl">0.17</span>, <span class="fl">0.14</span>, <span class="fl">0.12</span>, <span class="fl">0.09</span>, <span class="fl">0.07</span>],</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Usefulness (ΔR²)"</span>: [<span class="fl">0.063</span>, <span class="fl">0.060</span>, <span class="fl">0.057</span>, <span class="fl">0.042</span>, <span class="fl">0.035</span>, <span class="fl">0.031</span>, <span class="fl">0.025</span>, <span class="fl">0.017</span>],</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Johnson's Weight"</span>: [<span class="fl">0.169</span>, <span class="fl">0.158</span>, <span class="fl">0.146</span>, <span class="fl">0.095</span>, <span class="fl">0.077</span>, <span class="fl">0.062</span>, <span class="fl">0.054</span>, <span class="fl">0.041</span>]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>comparison_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Variable</th>
+<th data-quarto-table-cell-role="th">Pearson</th>
+<th data-quarto-table-cell-role="th">Standardized β</th>
+<th data-quarto-table-cell-role="th">Usefulness (ΔR²)</th>
+<th data-quarto-table-cell-role="th">Johnson's Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>trust</td>
+<td>0.27</td>
+<td>0.30</td>
+<td>0.063</td>
+<td>0.169</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>impact</td>
+<td>0.25</td>
+<td>0.27</td>
+<td>0.060</td>
+<td>0.158</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>service</td>
+<td>0.24</td>
+<td>0.26</td>
+<td>0.057</td>
+<td>0.146</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>rewarding</td>
+<td>0.18</td>
+<td>0.17</td>
+<td>0.042</td>
+<td>0.095</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>appealing</td>
+<td>0.15</td>
+<td>0.14</td>
+<td>0.035</td>
+<td>0.077</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>easy</td>
+<td>0.12</td>
+<td>0.12</td>
+<td>0.031</td>
+<td>0.062</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>differs</td>
+<td>0.10</td>
+<td>0.09</td>
+<td>0.025</td>
+<td>0.054</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>secure</td>
+<td>0.07</td>
+<td>0.07</td>
+<td>0.017</td>
+<td>0.041</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Combining the four variable importance analysis methods (Pearson, standardized regression coefficient, Usefulness, Johnson’s Relative Weights), the following key observations can be obtained:</p>
+<ul>
+<li>The most important variables are trust, impact, and service Whether it is simple correlation, regression coefficient or explanatory power improvement, these three variables are firmly in the top three, indicating that they are key drivers of satisfaction.</li>
+<li>Other variables such as rewarding and appealing have moderate contributions Although not the primary factors, these attributes still have potential influence in marketing or product experience.</li>
+<li>Johnson’s Weights and Usefulness are highly consistent Both emphasize the overall explanatory power distribution and provide a more robust variable ranking when considering collinearity.</li>
 </ul>
 </section>
-<section id="comparison-table" class="level4">
-<h4 class="anchored" data-anchor-id="comparison-table">Comparison Table</h4>
 </section>
-<section id="interpretation-and-summary" class="level4">
-<h4 class="anchored" data-anchor-id="interpretation-and-summary">Interpretation and Summary</h4>
-</section>
-</section>
-<section id="optional-k-nearest-neighbors-knn" class="level3">
-<h3 class="anchored" data-anchor-id="optional-k-nearest-neighbors-knn">2.2 (Optional) K-Nearest Neighbors (KNN)</h3>
+<section id="k-nearest-neighbors-knn" class="level3">
+<h3 class="anchored" data-anchor-id="k-nearest-neighbors-knn">2.2 K-Nearest Neighbors (KNN)</h3>
 <section id="custom-implementation" class="level4">
 <h4 class="anchored" data-anchor-id="custom-implementation">Custom Implementation</h4>
 </section>
@@ -1222,22 +1606,9 @@ window.Quarto = {
 </section>
 <section id="visualization-and-summary" class="level4">
 <h4 class="anchored" data-anchor-id="visualization-and-summary">Visualization and Summary</h4>
-<hr>
-</section>
-</section>
-</section>
-<section id="final-reflections" class="level2">
-<h2 class="anchored" data-anchor-id="final-reflections">3. Final Reflections</h2>
-<section id="modeling-challenges-and-trade-offs" class="level3">
-<h3 class="anchored" data-anchor-id="modeling-challenges-and-trade-offs">3.1 Modeling Challenges and Trade-offs</h3>
-</section>
-<section id="potential-extensions" class="level3">
-<h3 class="anchored" data-anchor-id="potential-extensions">3.2 Potential Extensions</h3>
-<p>This post implements a few measure of variable importance, interpreted as a key drivers analysis, for certain aspects of a payment card on customer satisfaction with that payment card.</p>
-<p><em>todo: replicate the table on slide 19 of the session 4 slides. This involves calculating pearson correlations, standardized regression coefficients, “usefulness”, Shapley values for a linear regression, Johnson’s relative weights, and the mean decrease in the gini coefficient from a random forest. You may use packages built into R or Python.</em></p>
-<p><em>If you want a challenge, either (1) implement one or more of the measures yourself. “Usefulness” is rather easy to program up. Shapley values for linear regression are a bit more work. Or (2) add additional measures to the table such as the importance scores from XGBoost.</em></p>
 
 
+</section>
 </section>
 </section>
 

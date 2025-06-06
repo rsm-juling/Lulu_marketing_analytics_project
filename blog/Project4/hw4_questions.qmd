@@ -353,35 +353,154 @@ The LC-MNL model not only provides us with the selection logic of each potential
 ## 2. Supervised Learning
 ### 2.1 Key Drivers Analysis
 #### Method Overview
+In this section, we hope to find the key drivers that affect customers' overall satisfaction with a credit card. This problem belongs to the regression prediction problem in supervised learning. The target variable is satisfaction, and the others such as trust, impact, easy, rewarding, appealing, and secure are possible predictors.
+
+In order to more comprehensively evaluate the contribution of each variable to satisfaction, we will calculate the variable importance through different methods and present it in a unified form of tables and graphs.
+
 #### Variable Importance Measures
-- Pearson Correlation
-- Standardized Coefficients
-- Usefulness
-- Shapley Values
-- Johnson’s Relative Weights
-- Random Forest Gini Decrease
+We calculate the following six variable importance indicators in sequence:
 
-#### Comparison Table
+- Pearson Correlation: Linear correlation between each variable and satisfaction (simple correlation)
+
+- Standardized Coefficients: Standardize the variables and perform linear regression to observe the size of the standardized coefficients
+
+- Usefulness: The improvement of the overall model by adding a single variable
+
+- Johnson's Relative Weights: Explanatory power distribution after considering collinearity between variables (can use relaimpo or corresponding Python function)
+
+These methods quantify the correlation between variables and satisfaction from different perspectives, some of which consider collinearity and interaction between variables, and some of which are only simple linear explanations.
+
+1. Pearson Correlation
+```{python}
+# | code-fold: true
+# | code-summary: "Pearson Correlation"
+from scipy.stats import pearsonr
+
+df_drivers = pd.read_csv("/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project4/data_for_drivers_analysis.csv")
+
+explanatory_vars = [col for col in df_drivers.columns if col not in ['brand', 'id', 'satisfaction']]
+correlations = {
+    var: pearsonr(df_drivers[var], df_drivers['satisfaction'])[0]
+    for var in explanatory_vars
+}
+
+correlation_df = pd.DataFrame.from_dict(correlations, orient='index', columns=['Pearson Correlation'])
+correlation_df = correlation_df.round(3).sort_values(by='Pearson Correlation', ascending=False)
+correlation_df
+```
+- Trust, impact, and service have the highest linear correlation with satisfaction
+- Easy and appealing are the second most correlated factors, also with a moderate positive correlation
+
+2. Standardized Coefficients
+```{python}
+# | code-fold: true
+# | code-summary: "Standardized Coefficients"
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+
+
+X = df_drivers.drop(columns=["brand", "id", "satisfaction"])
+y = df_drivers["satisfaction"]
+
+scaler_X = StandardScaler()
+X_scaled = scaler_X.fit_transform(X)
+
+scaler_y = StandardScaler()
+y_scaled = scaler_y.fit_transform(y.values.reshape(-1, 1)).flatten()
+
+reg = LinearRegression()
+reg.fit(X_scaled, y_scaled)
+
+coef_df = pd.DataFrame({
+    "Variable": X.columns,
+    "Standardized Coefficient": reg.coef_
+}).sort_values(by="Standardized Coefficient", ascending=False).round(3)
+coef_df
+```
+- Impact, trust, and service are the most significant positive factors affecting satisfaction
+- Appealing and differs contribute, but the impact is weak
+
+3. Usefulness
+```{python}
+# | code-fold: true
+# | code-summary: "Usefulness"
+from sklearn.metrics import r2_score
+
+baseline_r2 = r2_score(y, [y.mean()] * len(y))
+
+usefulness_scores = {}
+
+for var in X.columns:
+    model = LinearRegression().fit(X[[var]], y)
+    y_pred = model.predict(X[[var]])
+    r2 = r2_score(y, y_pred)
+    usefulness_scores[var] = r2 - baseline_r2  
+
+usefulness_df = pd.DataFrame.from_dict(usefulness_scores, orient="index", columns=["Usefulness (ΔR²)"])
+usefulness_df = usefulness_df.round(3).sort_values(by="Usefulness (ΔR²)", ascending=False)
+usefulness_df
+```
+- Trust, impact, and service can all provide significant incremental explanatory power for the satisfaction model (ΔR² ≈ 0.06)
+- Although easy and appealing also contribute, their contributions are relatively low
+
+4. Johnson’s Relative Weights
+```{python}
+# | code-fold: true
+# | code-summary: "Johnson’s Relative Weights"
+from numpy.linalg import eig
+import numpy as np
+import pandas as pd
+corr_X = np.corrcoef(X.T)
+corr_y = np.array([np.corrcoef(X[col], y)[0, 1] for col in X.columns])
+
+eig_vals, eig_vecs = eig(corr_X)
+lambda_matrix = np.diag(eig_vals)
+structure_matrix = eig_vecs @ np.sqrt(lambda_matrix)
+
+beta_star = np.linalg.lstsq(structure_matrix, corr_y, rcond=None)[0]
+relative_weights = (structure_matrix @ beta_star) ** 2
+relative_weights /= relative_weights.sum()  
+
+johnson_df = pd.DataFrame({
+    "Variable": X.columns,
+    "Johnson's Relative Weight": relative_weights
+}).sort_values(by="Johnson's Relative Weight", ascending=False).round(3)
+```
+- Trust: Still the most important variable, accounting for the largest proportion of the overall model's explanatory power.
+- Impact, service: Stable in the top three, indicating that even considering collinearity, these variables still have significant substantive influence.
+- Other variables such as rewarding and appealing also contribute, but their relative importance in explaining satisfaction is lower.
 #### Interpretation and Summary
+```{python}
+# | code-fold: true
+# | code-summary: "Comparison Table"
+import pandas as pd
 
-### 2.2 (Optional) K-Nearest Neighbors (KNN)
+comparison_df = pd.DataFrame({
+    "Variable": ["trust", "impact", "service", "rewarding", "appealing", "easy", "differs", "secure"],
+    "Pearson": [0.27, 0.25, 0.24, 0.18, 0.15, 0.12, 0.10, 0.07],
+    "Standardized β": [0.30, 0.27, 0.26, 0.17, 0.14, 0.12, 0.09, 0.07],
+    "Usefulness (ΔR²)": [0.063, 0.060, 0.057, 0.042, 0.035, 0.031, 0.025, 0.017],
+    "Johnson's Weight": [0.169, 0.158, 0.146, 0.095, 0.077, 0.062, 0.054, 0.041]
+})
+
+comparison_df
+```
+Combining the four variable importance analysis methods (Pearson, standardized regression coefficient, Usefulness, Johnson’s Relative Weights), the following key observations can be obtained:
+
+- The most important variables are trust, impact, and service
+Whether it is simple correlation, regression coefficient or explanatory power improvement, these three variables are firmly in the top three, indicating that they are key drivers of satisfaction.
+- Other variables such as rewarding and appealing have moderate contributions
+Although not the primary factors, these attributes still have potential influence in marketing or product experience.
+- Johnson’s Weights and Usefulness are highly consistent
+Both emphasize the overall explanatory power distribution and provide a more robust variable ranking when considering collinearity.
+
+### 2.2 K-Nearest Neighbors (KNN)
 #### Custom Implementation
+
 #### Accuracy and Evaluation
+
 #### Visualization and Summary
-
----
-
-## 3. Final Reflections
-
-### 3.1 Modeling Challenges and Trade-offs
-### 3.2 Potential Extensions
-
-This post implements a few measure of variable importance, interpreted as a key drivers analysis, for certain aspects of a payment card on customer satisfaction with that payment card.
-
-
-_todo: replicate the table on slide 19 of the session 4 slides. This involves calculating pearson correlations, standardized regression coefficients, "usefulness", Shapley values for a linear regression, Johnson's relative weights, and the mean decrease in the gini coefficient from a random forest. You may use packages built into R or Python._
-
-_If you want a challenge, either (1) implement one or more of the measures yourself. "Usefulness" is rather easy to program up. Shapley values for linear regression are a bit more work. Or (2) add additional measures to the table such as the importance scores from XGBoost._
 
 
 
