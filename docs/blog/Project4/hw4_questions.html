@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Lulu Ling">
-<meta name="dcterms.date" content="2025-06-06">
+<meta name="dcterms.date" content="2025-06-08">
 
 <title>Key Drivers Analysis – Lulu’s Marketing Analytics Project</title>
 <style>
@@ -219,7 +219,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 6, 2025</p>
+      <p class="date">June 8, 2025</p>
     </div>
   </div>
   
@@ -254,14 +254,14 @@ window.Quarto = {
 <section id="implementation" class="level4">
 <h4 class="anchored" data-anchor-id="implementation">Implementation</h4>
 <p>In this K-means clustering implementation, we analyze the price variables in the yogurt data to explore potential customer preference patterns. We first selected four columns related to brand prices (p1, p2, p3, p4) as the basis for clustering. In order to avoid the bias of the clustering results due to the different magnitudes of the variables, we used StandardScaler for standardization and converted each variable into a standard normal distribution with a mean of 0 and a standard deviation of 1. Then, we used the KMeans model in scikit-learn for clustering analysis, and preset the number of clusters to 3 (k=3), which was set according to the position of the bend observed in the previous section of the Elbow Plot. After completing the model training, we attached the clustering labels corresponding to each data item back to the original data, and calculated the average of each group in the four brand prices as the basis for describing the group characteristics, providing a basis for subsequent visualization and interpretation. This implementation process allows us to further understand whether there are identifiable consumer types and price sensitivity differences in the market.</p>
-<div id="e0ef1f5c" class="cell" data-execution_count="1">
+<div id="76f4800b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>yogurt_data overview</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>yogurt<span class="op">=</span>pd.read_csv(<span class="st">"/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project4/yogurt_data.csv"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>yogurt.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="35">
+<div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
 
@@ -374,14 +374,14 @@ window.Quarto = {
 <ol type="1">
 <li>Select features: extract variables p1, p2, p3, p4 (prices of different brands)</li>
 </ol>
-<div id="f9d79db1" class="cell" data-execution_count="2">
+<div id="04c14c08" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Feature Selection</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> yogurt[features].copy()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>X.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="36">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -440,7 +440,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Standardized data: Since different variables may have different magnitudes, StandardScaler is used to convert the variables into a standard distribution with a mean of 0 and a standard deviation of 1.</li>
 </ol>
-<div id="3c74b101" class="cell" data-execution_count="3">
+<div id="5c6becc2" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Data Standardization</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -451,7 +451,7 @@ window.Quarto = {
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>X_scaled_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="37">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -510,7 +510,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>Execute K-means: Use the KMeans model in scikit-learn to apply clustering and specify the number of clusters K=3</li>
 </ol>
-<div id="95f9acf7" class="cell" data-execution_count="4">
+<div id="d034cc05" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>K-means Execution</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
@@ -519,7 +519,7 @@ window.Quarto = {
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>yogurt[<span class="st">"cluster"</span>] <span class="op">=</span> kmeans_model.fit_predict(X_scaled_df)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>yogurt[[<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>, <span class="st">"cluster"</span>]].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -590,11 +590,11 @@ window.Quarto = {
 <li>The figure shows that the distribution and clustering of data in the principal component space are clearly separated by boundaries</li>
 <li>Indicates that the algorithm successfully divides the data into representative types based on the price structure</li>
 </ul>
-<div id="8c260aa8" class="cell" data-execution_count="5">
+<div id="894ad909" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cluster_summary <span class="op">=</span> yogurt.groupby(<span class="st">"cluster"</span>)[[<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>, <span class="st">"p4"</span>]].mean().<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cluster_summary[<span class="st">"count"</span>] <span class="op">=</span> yogurt[<span class="st">"cluster"</span>].value_counts().sort_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e4d91faa" class="cell" data-execution_count="6">
+<div id="36c35c7b" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>K-means Cluster Price Summary</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -662,7 +662,7 @@ window.Quarto = {
 <ol type="1">
 <li>Set the utility parameters of two latent classes <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span>.Each class has different brand, advertising and price preferences</li>
 </ol>
-<div id="58234c8d" class="cell" data-execution_count="7">
+<div id="e278c164" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Parameters Setting</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -682,7 +682,7 @@ window.Quarto = {
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>])</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>profiles.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="41">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -735,7 +735,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Assign each consumer to a random category.Assign according to category probability <span class="math inline">\(\pi\)</span> = [0.6, 0.4]</li>
 </ol>
-<div id="885a8921" class="cell" data-execution_count="8">
+<div id="5584edec" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Category Assignment</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>class_probs <span class="op">=</span> [<span class="fl">0.6</span>, <span class="fl">0.4</span>]</span>
@@ -751,7 +751,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>Simulate multiple choice tasks for each respondent.Provide 3 alternatives in each task and choose according to MNL probability</li>
 </ol>
-<div id="c03cb4d5" class="cell" data-execution_count="9">
+<div id="c0d5d090" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Simulation</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate_lc_respondent(rid):</span>
@@ -784,7 +784,7 @@ window.Quarto = {
 <span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>lc_data <span class="op">=</span> pd.concat([simulate_lc_respondent(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_respondents <span class="op">+</span> <span class="dv">1</span>)], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>lc_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="43">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -897,7 +897,7 @@ window.Quarto = {
 <ol type="1">
 <li>Initialization We first retrieve the design matrix and selection results, and initialize the class probabilities π and the utility parameters β for each class.</li>
 </ol>
-<div id="63b31870" class="cell" data-execution_count="10">
+<div id="49cfb245" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Initialization</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -923,7 +923,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>E-step Calculate the probability of each respondent choosing each category, and calculate the membership probability based on the Bayes Rule.</li>
 </ol>
-<div id="cd6e39e1" class="cell" data-execution_count="11">
+<div id="935cc65e" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> individual_log_likelihood(beta, X_i, y_i):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> X_i <span class="op">@</span> beta</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    exp_logits <span class="op">=</span> np.exp(logits)</span>
@@ -934,7 +934,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>M-step Re-estimate β and π for each class using the posterior probability of the E-step as weight.</li>
 </ol>
-<div id="199dc844" class="cell" data-execution_count="12">
+<div id="fe4843a6" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_em(X, y, betas, pi, n_iter<span class="op">=</span><span class="dv">10</span>):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    gamma <span class="op">=</span> np.zeros((<span class="bu">len</span>(respondents), n_classes))</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
@@ -962,7 +962,7 @@ window.Quarto = {
 <ol start="4" type="1">
 <li>Results</li>
 </ol>
-<div id="f7570497" class="cell" data-execution_count="13">
+<div id="d43938bd" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Results</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"π ="</span>, final_pi)</span>
@@ -980,7 +980,7 @@ window.Quarto = {
 <li>Category 0’s preferences are strongly biased towards brands (especially brand_N) and are highly averse to advertising</li>
 <li>Category 1’s price coefficient is significantly more negative, indicating that this group is more concerned about price changes</li>
 </ul>
-<div id="bd41b73e" class="cell" data-execution_count="14">
+<div id="4a5423e9" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Visualization</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted_classes <span class="op">=</span> np.argmax(posterior_gamma, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1018,7 +1018,7 @@ window.Quarto = {
 <li>The posterior probability that each respondent belongs to each class (class membership probabilities)</li>
 </ul>
 <p>Through this information, we can not only understand the differences in preferences of different types of consumers for product attributes, but also estimate the individual grouping structure, which is crucial for subsequent market segmentation and precision marketing strategies. 1. The following are two sets of utility parameters estimated after EM converges:</p>
-<div id="f52b2d97" class="cell" data-execution_count="15">
+<div id="259b93c4" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>EM Results</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="op">=</span> pd.DataFrame({</span>
@@ -1028,7 +1028,7 @@ window.Quarto = {
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>summary_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="49">
+<div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
 
@@ -1075,7 +1075,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Posterior Membership Probabilities Each respondent is assigned a set of posterior probabilities (derived from the γ value in EM) reflecting the degree of confidence that he or she belongs to each category.</li>
 </ol>
-<div id="0aa05c95" class="cell" data-execution_count="16">
+<div id="1bb63685" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Posterior Membership Probabilities</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>posterior_df <span class="op">=</span> pd.DataFrame(posterior_gamma, columns<span class="op">=</span>[<span class="st">"Prob_Class_0"</span>, <span class="st">"Prob_Class_1"</span>])</span>
@@ -1084,7 +1084,7 @@ window.Quarto = {
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>posterior_df <span class="op">=</span> posterior_df.set_index(<span class="st">"resp"</span>)</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>posterior_df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="50">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -1204,7 +1204,7 @@ window.Quarto = {
 <ol type="1">
 <li>Pearson Correlation</li>
 </ol>
-<div id="1b73eaf4" class="cell" data-execution_count="17">
+<div id="7af91afc" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Pearson Correlation</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> pearsonr</span>
@@ -1221,7 +1221,7 @@ window.Quarto = {
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>correlation_df <span class="op">=</span> correlation_df.<span class="bu">round</span>(<span class="dv">3</span>).sort_values(by<span class="op">=</span><span class="st">'Pearson Correlation'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>correlation_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
 
@@ -1282,7 +1282,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Standardized Coefficients</li>
 </ol>
-<div id="78ee50fe" class="cell" data-execution_count="18">
+<div id="7ecb9805" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Standardized Coefficients</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1308,7 +1308,7 @@ window.Quarto = {
 <span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>}).sort_values(by<span class="op">=</span><span class="st">"Standardized Coefficient"</span>, ascending<span class="op">=</span><span class="va">False</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>coef_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="52">
+<div class="cell-output cell-output-display" data-execution_count="18">
 <div>
 
 
@@ -1379,7 +1379,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>Usefulness</li>
 </ol>
-<div id="76671468" class="cell" data-execution_count="19">
+<div id="5dfcbaff" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Usefulness</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> r2_score</span>
@@ -1398,7 +1398,7 @@ window.Quarto = {
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>usefulness_df <span class="op">=</span> usefulness_df.<span class="bu">round</span>(<span class="dv">3</span>).sort_values(by<span class="op">=</span><span class="st">"Usefulness (ΔR²)"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>usefulness_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="53">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 
 
@@ -1459,7 +1459,7 @@ window.Quarto = {
 <ol start="4" type="1">
 <li>Johnson’s Relative Weights</li>
 </ol>
-<div id="2412c5a3" class="cell" data-execution_count="20">
+<div id="b3327cca" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Johnson’s Relative Weights</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> eig</span>
@@ -1487,7 +1487,7 @@ window.Quarto = {
 <li>Impact, service: Stable in the top three, indicating that even considering collinearity, these variables still have significant substantive influence.</li>
 <li>Other variables such as rewarding and appealing also contribute, but their relative importance in explaining satisfaction is lower. #### Interpretation and Summary</li>
 </ul>
-<div id="5ca73e59" class="cell" data-execution_count="21">
+<div id="2e90479e" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Comparison Table</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1502,7 +1502,7 @@ window.Quarto = {
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>comparison_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="55">
+<div class="cell-output cell-output-display" data-execution_count="21">
 <div>
 
 
