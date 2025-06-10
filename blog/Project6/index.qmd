@@ -519,13 +519,251 @@ The horizontal axis of the chart is the number of neighbors k, and the vertical 
 - When k > 20, the accuracy is mostly stable at around 86% ~ 88%
 
 ## 2b. Key Drivers Analysis
+Use a variety of variable importance methods to analyze which variables in a set of data have the greatest impact on the target variable (usually a continuous value). Each method represents a "different model assumption and explanation framework", which can be integrated together to provide a more comprehensive and robust variable screening and insight foundation.
 
-_todo: replicate the table on slide 75 of the session 5 slides. Specifically, using the dataset provided in the file data_for_drivers_analysis.csv, calculate: pearson correlations, standardized regression coefficients, "usefulness", Shapley values for a linear regression, Johnson's relative weights, and the mean decrease in the gini coefficient from a random forest. You may use packages built into R or Python; you do not need to perform these calculations "by hand."_
+### Data Exploring
+```{python}
+# | code-fold: true
+# | code-summary: "Data"
+import pandas as pd
 
-_If you want a challenge, add additional measures to the table such as the importance scores from XGBoost, from a Neural Network, or from any additional method that measures the importance of variables._
+driver = pd.read_csv("/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project4/data_for_drivers_analysis.csv")
 
+df_head = pd.DataFrame(driver.head())
+df_head
+```
+```{python}
+# | code-fold: true
+# | code-summary: "Data"
+df_desc = pd.DataFrame(driver.describe())
+df_desc
+```
+- satisfaction: is the dependent variable (y), with a value range of 1 to 5, indicating customer satisfaction
+- Other columns such as trust, easy, rewarding, etc. are explanatory variables (X), most of which are binary variables of 0/1
+- brand, id: used to identify samples, can be used as a basis for grouping or group variables (can be ignored in analysis)
 
+### Calculate basic variable importance indicators (Pearson, standardized coefficient, Usefulness)
+The purpose of this step is to calculate three common and powerful variable importance indicators from the perspective of linear correlation and linear model, which will help us to have a preliminary understanding of the influence of each variable on satisfaction.
 
+| Metric Name                     | Description                                                                 |
+|----------------------------------|------------------------------------------------------------------------------|
+| **Pearson Correlation**          | Measures the linear relationship between each variable and `satisfaction` (ignores other variables) |
+| **Standardized Coefficient (β)** | Regression coefficients from a standardized linear model, allowing comparison across variables |
+| **Usefulness (R² Drop)**         | Drop in model R² when each variable is removed, reflecting its contribution to explanatory power |
 
+```{python}
+# | code-fold: true
+# | code-summary: "Variable Importance Indicators"
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+import pandas as pd
 
+X = driver.drop(columns=["brand", "id", "satisfaction"])
+y = driver["satisfaction"]
 
+correlations = X.corrwith(y)
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+reg = LinearRegression().fit(X_scaled, y)
+standardized_betas = pd.Series(reg.coef_, index=X.columns)
+
+base_r2 = reg.score(X_scaled, y)
+usefulness_scores = {}
+for col in X.columns:
+    cols = [c for c in X.columns if c != col]
+    X_subset = X[cols]
+    X_subset_scaled = scaler.fit_transform(X_subset)
+    r2 = LinearRegression().fit(X_subset_scaled, y).score(X_subset_scaled, y)
+    usefulness_scores[col] = base_r2 - r2
+usefulness_series = pd.Series(usefulness_scores)
+
+step2_df = pd.DataFrame({
+    "Pearson_Correlation": correlations,
+    "Standardized_Beta": standardized_betas,
+    "Usefulness_R2_Drop": usefulness_series
+}).sort_values(by="Usefulness_R2_Drop", ascending=False).round(4)
+
+step2_df
+```
+1.	Top Contributors:
+- Impact, trust, and service consistently rank highest across all three importance metrics.
+- These variables have strong linear relationships with satisfaction and contribute meaningfully in the regression model.
+2.	Pearson Correlation:
+- trust, impact, and service show the strongest correlations with satisfaction (around 0.25).
+3.	Standardized Coefficients (β):
+- impact (0.15) and trust (0.14) are the most influential variables after accounting for all others.
+4.	Usefulness (R² Drop):
+- Removing impact, trust, or service causes the largest drop in model R², indicating their key role in explaining satisfaction.
+- Variables like rewarding, popular, and build show very low importance across all measures.
+
+Across all three importance measures, impact, trust, and service are the most valuable drivers of satisfaction. These should be prioritized in managerial focus and communication strategies. The remaining variables may still contribute indirectly or interactively but offer limited individual explanatory power in this linear framework.
+
+### Advanced variable importance index analysis (Permutation, Gini, Johnson)
+In the previous step, we evaluated the relationship between variables and satisfaction from the perspective of linear models. However, in practice, there may be nonlinear relationships and interactions between variables. For this reason, we introduce the following three more advanced and flexible methods:
+
+| Metric Name                   | Description                                                                 |
+|------------------------------|-----------------------------------------------------------------------------|
+| **Permutation Importance**   | Measures the impact on model performance when a variable is randomly shuffled, reflecting its "replaceability" |
+| **Gini Importance**          | Based on random forests; sums the decrease in impurity caused by each variable during tree splits |
+| **Johnson’s Relative Weights** | Uses standardized regression coefficients squared to estimate each variable's relative contribution to explained variance |
+
+```{python}
+# | code-fold: true
+# | code-summary: "Comparison Table"
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.inspection import permutation_importance
+import pandas as pd
+
+X = driver.drop(columns=["brand", "id", "satisfaction"])
+y = driver["satisfaction"]
+
+lr = LinearRegression().fit(X, y)
+perm_importance = permutation_importance(lr, X, y, n_repeats=10, random_state=42)
+perm_importance_series = pd.Series(perm_importance.importances_mean, index=X.columns)
+
+rf = RandomForestRegressor(random_state=42)
+rf.fit(X, y)
+gini_importance = pd.Series(rf.feature_importances_, index=X.columns)
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+lr_std = LinearRegression().fit(X_scaled, y)
+johnson_weights = pd.Series(lr_std.coef_ ** 2, index=X.columns)
+johnson_weights /= johnson_weights.sum()
+
+step3_df = pd.DataFrame({
+    "Permutation_Importance": perm_importance_series,
+    "Gini_Importance": gini_importance,
+    "Johnson_Weights": johnson_weights
+}).sort_values(by="Permutation_Importance", ascending=False).round(4)
+
+step3_df.reset_index(inplace=True)
+step3_df.rename(columns={"index": "Variable"}, inplace=True)
+```
+- Impact, trust, and service are stable drivers that rank at the top in all indicators.
+- Impact has the highest Johnson Weights (40.4%) and also performs well in permutation and Gini.
+- Trust ranks highest in Gini importance, indicating that it is particularly critical in the tree model.
+- Low-impact variables such as rewarding, popular, and build perform weakly in all three indicators.
+
+```{python}
+# | code-fold: true
+# | code-summary: "Comparison Table"
+# Re-import required libraries after reset
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.inspection import permutation_importance
+
+# Load data
+driver = pd.read_csv("/home/jovyan/Desktop/UCSD/Spring/MGTA495/lulu_marketing_analytics/blog/Project4/data_for_drivers_analysis.csv")
+X = driver.drop(columns=["brand", "id", "satisfaction"])
+y = driver["satisfaction"]
+
+# Step 2 metrics
+# Pearson
+correlations = X.corrwith(y)
+
+# Standardized beta
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+reg = LinearRegression().fit(X_scaled, y)
+standardized_betas = pd.Series(reg.coef_, index=X.columns)
+
+# Usefulness
+base_r2 = reg.score(X_scaled, y)
+usefulness_scores = {}
+for col in X.columns:
+    cols = [c for c in X.columns if c != col]
+    X_subset_scaled = scaler.fit_transform(X[cols])
+    r2 = LinearRegression().fit(X_subset_scaled, y).score(X_subset_scaled, y)
+    usefulness_scores[col] = base_r2 - r2
+usefulness_series = pd.Series(usefulness_scores)
+
+step2_df = pd.DataFrame({
+    "Pearson_Correlation": correlations,
+    "Standardized_Beta": standardized_betas,
+    "Usefulness_R2_Drop": usefulness_series
+}).round(4).reset_index().rename(columns={"index": "Variable"})
+
+# Step 3 metrics
+# Permutation Importance
+lr = LinearRegression().fit(X, y)
+perm_importance = permutation_importance(lr, X, y, n_repeats=10, random_state=42)
+perm_series = pd.Series(perm_importance.importances_mean, index=X.columns)
+
+# Gini Importance
+rf = RandomForestRegressor(random_state=42)
+rf.fit(X, y)
+gini_series = pd.Series(rf.feature_importances_, index=X.columns)
+
+# Johnson Weights
+X_scaled = scaler.fit_transform(X)
+lr_std = LinearRegression().fit(X_scaled, y)
+johnson_weights = pd.Series(lr_std.coef_ ** 2, index=X.columns)
+johnson_weights /= johnson_weights.sum()
+
+step3_df = pd.DataFrame({
+    "Permutation_Importance": perm_series,
+    "Gini_Importance": gini_series,
+    "Johnson_Weights": johnson_weights
+}).round(4).reset_index().rename(columns={"index": "Variable"})
+
+# Merge Step 2 and Step 3
+final_df = pd.merge(step2_df, step3_df, on="Variable").sort_values(by="Permutation_Importance", ascending=False).reset_index(drop=True)
+final_df
+```
+
+```{python}
+# | code-fold: true
+# | code-summary: "Comparison Plot"
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_style("whitegrid") 
+
+# Prepare data for plotting
+plot_df = final_df.set_index("Variable")[[
+    "Permutation_Importance", "Gini_Importance", "Johnson_Weights"
+]]
+
+# Plot the importance scores as a grouped horizontal bar chart
+plot_df.plot(kind="barh", figsize=(10, 6), width=0.8)
+plt.title("Comparison of Variable Importance Metrics")
+plt.xlabel("Importance Score")
+plt.ylabel("Variable")
+plt.legend(title="Metric")
+plt.tight_layout()
+plt.gca().invert_yaxis()  # Show most important variables on top
+plt.show()
+```
+Based on the consolidated table and comparative visualization, the top three variables—impact, trust, and service—consistently emerge as the most important drivers of customer satisfaction across all evaluation methods. These variables not only show the strongest Pearson correlations and standardized regression coefficients but also yield the highest scores in permutation importance, Gini index from random forest, and Johnson’s relative weights.
+
+- Impact stands out as the most influential variable, with the highest Johnson weight (over 40%) and top-ranked permutation importance.
+- Trust ranks second overall, especially dominant in tree-based models (highest Gini importance).
+- Service maintains a strong and stable position across all linear and nonlinear measures.
+
+On the other hand, variables like rewarding, popular, and build consistently appear at the bottom, indicating relatively low predictive value in explaining satisfaction in this context.
+
+Recommendation: Strategic efforts should prioritize reinforcing the perceived impact, trustworthiness, and quality of service associated with the brand, as these are most likely to drive meaningful improvements in customer satisfaction.
+
+### Managerial Implications
+1. Top Priority Drivers
+- impact、trust、service consistently appear as top drivers across all methods.
+- These dimensions should be the core focus of marketing communication, product messaging, and customer engagement efforts.
+
+2. Low-Impact Factors
+- Variables like rewarding, popular, and build show minimal influence across models.
+- These may be de-prioritized or reframed, unless they serve niche segments or non-satisfaction outcomes.
+
+3. Strategic Recommendations
+- Invest in initiatives that reinforce customer trust, such as transparency, testimonials, and ethical branding.
+- Emphasize service quality through employee training, faster response times, and better omnichannel support.
+- Highlight perceived impact by showing measurable results and customer transformations.
+
+4. Measurement Plan
+- Future campaigns should track these top drivers as KPIs alongside satisfaction.
+- Consider A/B testing improvements in these variables to validate causal impact.
